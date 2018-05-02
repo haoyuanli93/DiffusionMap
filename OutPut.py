@@ -34,15 +34,16 @@ def save_distances(data_source, distance_patch, patch_position):
     np.save(name, distance_patch)
 
 
-def assemble(data_source, folder_address):
+def assemble(data_source):
     """
     Assemble different patches of distance matrices into a single distance matrix
     :param data_source: An instance of data_source class.
-    :param folder_address: The folder where the patches are stored.
     :return: The 2D distance matrix. Notice that this matrix is up-triangular.
     """
 
-    batch_num = data_source.batch_num
+    folder_address = data_source.output_path + '/distances'
+
+    batch_num = data_source.batch_number
     total_num = data_source.pattern_number_total
 
     # First check if the address is a folder
@@ -54,8 +55,8 @@ def assemble(data_source, folder_address):
     # Second check whether all the patches are present in the folder
     flag = True  # True if all the patches exist.
     for l in range(batch_num):
-        for m in range(batch_num):
-            patch_file = folder_address + "/distance_{}_{}.npy".format(l, m)
+        for m in range(l, batch_num):
+            patch_file = folder_address + "/patch_{}_{}.npy".format(l, m)
             if not os.path.isfile(patch_file):
                 flag *= False
 
@@ -63,7 +64,7 @@ def assemble(data_source, folder_address):
         raise Exception("The patches are not complete. \n" +
                         "Please check if you have obtained " +
                         "all {} patterns required to get a complete distance matrix.".format(
-                            batch_num * (batch_num - 1) // 2))
+                            batch_num * (batch_num + 1) // 2))
 
     """
     If we have all the files, we can assemble the distance matrix.
@@ -71,23 +72,34 @@ def assemble(data_source, folder_address):
     start_dim_1 record the starting point of the patch along axis 1.
     """
     holder = np.zeros((total_num, total_num))
+
     start_dim_0 = 0
-    start_dim_1 = 0
     for l in range(batch_num):
-        for m in range(batch_num):
-            patch_file = folder_address + "/distance_{}_{}.npy".format(l, m)
+        # Notice that the first dimension increases slower.
+        end_dim_0 = start_dim_0 + data_source.batch_size_list[l]
+
+        start_dim_1 = start_dim_0
+        for m in range(l, batch_num):
+
+            patch_file = folder_address + "/patch_{}_{}.npy".format(l, m)
+
             # load patch
             patch_holder = np.load(patch_file)
             # Check if the dimension is correct
             if patch_holder.shape[0] != data_source.batch_size_list[l] or patch_holder.shape[1] != \
                     data_source.batch_size_list[m]:
-                raise Exception("The size of the ({},{}) patch does not match that in the record.\n" +
-                                "Please check if the distance patch is correct.")
+
+                print(patch_holder.shape, data_source.batch_size_list[l], data_source.batch_size_list[m])
+                raise Exception("The size of the ({},{}) patch does not match that in the record.\n"
+                                "Please check if the distance patch is correct.".format(l, m))
             else:
-                shape = patch_holder.shape
-                holder[start_dim_0:start_dim_0 + shape[0], start_dim_1:start_dim_1 + shape[1]] = patch_holder
-                start_dim_1 += shape[1]
-                start_dim_0 += shape[0]
+
+                end_dim_1 = start_dim_1 + data_source.batch_size_list[m]
+                holder[start_dim_0:end_dim_0, start_dim_1:end_dim_1] = patch_holder
+                start_dim_1 = end_dim_1
+
+        # update the starting position of the outer loop.
+        start_dim_0 = end_dim_0
 
     return holder
 
