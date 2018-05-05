@@ -5,7 +5,7 @@ import argparse
 # Load other modules
 import DataSource as DS
 import OutPut as OP
-import KernalAndNorm as KN
+import Graph as KN
 import time
 
 # Parse the parameters
