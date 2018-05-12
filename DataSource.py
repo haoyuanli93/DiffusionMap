@@ -1,34 +1,112 @@
 """
-Use classes in this scripts to control the data source for diffusion map.
-Currently the only available methods is h5py. The target format is
 
-(In a single h5py file. There are several data sets.)
-"0"  (500,128,128)
-"1"  (500,128,128)
-...
+This module contains classes as interfaces to collect dataset.
 
-Each data set is a stack of patterns. The first two dimensions are for spatial
-dimensions. The last dimensions record how many patterns are there in this
-file.
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       %%                                        %%
+       %%   ATTENTION! ATTENTION! ATTENTION!     %%
+       %%                                        %%
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       %%                                        %%
+       %%  There is not dependence between any   %%
+       %%  two classes below. When you modify    %%
+       %%  one of them, there is no need to      %%
+       %%  worry the others.                     %%
+       %%                                        %%
+       %%  However, they all share several       %%
+       %%  essential interfaces for the other    %%
+       %%  modules. You should keep those        %%
+       %%  interfaces to unchanged.              %%
+       %%                                        %%
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The task completed by this file is
-1. Give a unique index for each pattern.
-2. Record the status of each pattern.
-3. Deliver the correct pattern to the correct thread.
+Interfaces:
+a. interface to select different data source. This is the function create_data_source.
 
-Attention!
-This solution is only a temporal solution for development and demo.
-At present, I assume that all the data are saved in a single h5 file.
-The original data source, the h5 file, only contains patterns. All the
-later on data are saved in a new h5 file, usually called, output.h5.
+b. interface of different kinds of data source
+    Input: This is different for different data sources
+    Output: This should be the same for all kind of data sources.
+
+Tips:
+      1. type checking is a good idea to make sure things are working properly.
+
 """
 
 import h5py as h5
 import numpy as np
 
 
-class DataSource:
-    """Interface to extract data for calculation"""
+def create_data_source(source_type="DataSourceV1", param={}):
+    """
+    Because one can have very different data source, I have a difficult time creating a universal
+    datasource class. Therefore, I use this function as a selector. One specifies the corresponding
+    type of datasource to use with parameter source_type. Then one specifies the required
+    parameters for that source with parameter param, which is dictionary.
+
+    Later, I will modify the other classes to make this model work more smooth.
+
+    :param source_type: "DataSourceV1", "DataSourceV2", ...
+    :param param: The parameters required for the corresponding data source
+    :return: a DataSource instance with the corresponding type.
+    """
+
+    if source_type == "DataSourceV1":
+        return DataSourceV1(param)
+    elif source_type == "DataSourceV2":
+        return DataSourceV2(param)
+
+
+class DataSourceV2:
+    """
+
+    A newer version of DataSource object. Several things are to be changed in this version.
+
+    1. Add support to several h5 file. One use a txt file to specify which h5 file to read
+       and which dataset in that file is to read.
+    2. The interfaces for coordinator will be more standard. Compatible with readme.
+    3. This class is compatible with dask, i.e. dask can use this program to retrieve the patterns for calculation
+       (Hard, may take a while to realize.)
+       Temporally, this class may return a list for and then dask will use that list to manage the calculation.
+
+    """
+
+    def __init__(self, source_list):
+        if source_list == {}:
+            pass
+        else:
+            pass
+
+
+
+class DataSourceV1:
+    """
+    This is the first version, not compatible with the readme.
+
+    Interface to extract data for calculation
+
+    This class controls the data source for diffusion map. The only available source is a single h5py file.
+    The target format is
+
+    (In a single h5py file. There are several data sets.)
+    "0"  (500,128,128)
+    "1"  (500,128,128)
+    ...
+
+    Each data set is a stack of patterns. The last two dimensions are for spatial
+    dimensions. The first dimensions record how many patterns are there in this
+    file.
+
+    The task completed by this file is
+    1. Give a unique index for each pattern.
+    2. Record the status of each pattern.
+    3. Deliver the correct pattern to the correct thread.
+
+    Attention!
+    This solution is only a temporal solution for development and demo.
+    At present, I assume that all the data are saved in a single h5 file.
+    The original data source, the h5 file, only contains patterns. All the
+    later on data are saved in a new h5 file, usually called, output.h5.
+    """
 
     def __init__(self, source, output_path, mode="test"):
         """

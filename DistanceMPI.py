@@ -3,20 +3,26 @@ import numpy as np
 import argparse
 
 # Load other modules
-import DataSource as DS
-import OutPut as OP
-import Graph as KN
+import DataSource
+import OutPut
+import Graph
 import time
 
 # Parse the parameters
 parser = argparse.ArgumentParser()
 parser.add_argument('param', type=int, help="batch number")
 parser.add_argument('mode', type=str, help="Specify whether param refers to batch_num or batch_size.")
+parser.add_argument('address_output', type=str, help="Specify the folder to put the calculated data.")
+parser.add_argument("address_input", type=str, help="Specify the input h5 file.")
+parser.add_argument("input_mode", type=str, help="Specify the input mode.")
 
 # Parse
 args = parser.parse_args()
 param = args.param
 mode = args.mode
+address_input = args.address_input
+address_output = args.address_output
+input_mode = args.input_mode
 
 # Initialize the MPI
 comm = MPI.COMM_WORLD
@@ -26,7 +32,7 @@ comm_size = comm.Get_size()
 """
 Step One: Create the DataSource class.
 """
-data_source = DS.DataSource(source='./test/raw_2.h5', output_path='./test/', mode="test")
+data_source = DataSource.DataSource(source=address_input, output_path=address_output, mode=input_mode)
 data_source.make_indexes(param=param, mode=mode)
 comm.Barrier()  # Synchronize
 
@@ -92,16 +98,16 @@ else:
         pattern_batch_r = data_source.load_data_batch_from_stacks(patch_index[1])
         pattern_num_r = pattern_batch_r.shape[0]
         # Calculate variance
-        distance = KN.inner_product_batch(pattern_batch_l, pattern_num_l, pattern_batch_r, pattern_num_r)
+        distance = Graph.inner_product_batch(pattern_batch_l, pattern_num_l, pattern_batch_r, pattern_num_r)
         # Save variance
-        OP.save_distances(data_source, distance, patch_index)
+        OutPut.save_distances(data_source, distance, patch_index)
     toc = time.time()
     print("It takes {} seconds for process {} to calculate distance patches".format(toc - tic, comm_rank))
 
 comm.Barrier()  # Synchronize
 
 """
-Step Three: Finish the calculation
+Step Three: Finish the calculation of the distance
 """
 if comm_rank == 0:
     # Starting calculating the time
@@ -109,10 +115,14 @@ if comm_rank == 0:
     print("Total time for this calculation is {} seconds".format(toc_0 - tic_0))
 
     # Assemble the distance matrix
-    tot_matrix = OP.assemble(data_source)
+    tot_matrix = OutPut.assemble(data_source)
     # Symmetrize matrix
     sym = np.transpose(np.triu(tot_matrix)) + np.triu(tot_matrix) - np.diag(np.diag(tot_matrix))
-    print("Finish assembling the distance matrix")
+    print("Finish assembling the inner product matrix")
+
+    # Calculate the distance matrix
+    distance_matrix = Graph.inner_product_to_normalized_L2_square(sym)
 
     # Save the matrix
-    np.save(data_source.output_path + "/distance_matrix.npy", tot_matrix)
+    np.save(data_source.output_path + "/distance_matrix.npy", distance_matrix)
+    print("Save the complete distance matrix")
