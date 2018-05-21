@@ -34,6 +34,7 @@ Tips:
 
 import h5py as h5
 import numpy as np
+import util
 
 
 def create_data_source(source_type="DataSourceV1", param={}):
@@ -70,12 +71,197 @@ class DataSourceV2:
 
     """
 
-    def __init__(self, source_list):
-        if source_list == {}:
-            pass
-        else:
-            pass
+    def __init__(self, source_list_file=None, file_type="h5"):
+        """
+        Initialize the instance with a text file containing files to process.
 
+        :param source_list_file: The text file containing the list of files to process
+        :param file_type: the file_type to process
+        """
+
+        if source_list_file is None:
+            print("No text file containing the source list has been specified." +
+                  "Please initialize the this DataSource instance manually.")
+        else:
+            self.source_dict = util.parse_data_list(source_list_file, file_type=file_type)
+
+            # Get essentials keys of the dict
+            self.file_list = self.source_dict["Files"]
+            # Get useful statistics
+            self.file_num = len(self.file_list)
+            self.dataset_num_total = 0
+            self.dataset_num_per_file = []  # Use this to trace down the corresponding dataset index
+            self.data_num_total = 0
+            self.data_num_per_dataset = []
+            self.data_num_per_file = []
+
+            for file_address in self.file_list:
+                tmp = self.source_dict[file_address]["data_num"]
+                self.dataset_num_per_file.append(len(tmp))
+                self.data_num_per_file.append(np.sum(tmp))
+                self.data_num_per_dataset.append(tmp)
+
+            self.data_num_total = np.sum(self.data_num_per_file)
+            self.dataset_num_total = np.sum(self.dataset_num_per_file)
+
+            self.batch_ends_local = []
+            self.batch_number_list = []
+
+    def initialize(self, source_list_file=None, file_type="h5"):
+        """
+        Initialize the instance with a text file containing files to process.
+
+        :param source_list_file: The text file containing the list of files to process
+        :param file_type: the file_type to process
+        """
+        self.source_dict = util.parse_data_list(source_list_file, file_type=file_type)
+
+        # Get essentials keys of the dict
+        self.file_list = self.source_dict["Files"]
+        # Get useful statistics
+        self.file_num = len(self.file_list)
+        self.dataset_num_total = 0
+        self.dataset_num_per_file = []  # Use this to trace down the corresponding dataset index
+        self.data_num_total = 0
+        self.data_num_per_dataset = []
+        self.data_num_per_file = []
+
+        for file_address in self.file_list:
+            tmp = self.source_dict[file_address]["data_num"]
+            self.dataset_num_per_file.append(len(tmp))
+            self.data_num_per_file.append(np.sum(tmp))
+            self.data_num_per_dataset.append(tmp)
+
+        self.data_num_total = np.sum(self.data_num_per_file)
+        self.dataset_num_total = np.sum(self.dataset_num_per_file)
+
+        self.batch_ends_local = []
+        self.batch_number_list = []
+
+    def make_batches(self, batch_number):
+        """
+        Get the info to extract the nth batch.The size of the batch is decided by the coordinator.
+        This function only collect some essential info.
+
+        :param batch_number: the number of batches we would like to have.
+        :return: A list containing the necessary info.
+        """
+
+        ####################################################
+        #
+        #       Detailed explanation
+        #
+        ####################################################
+        """
+        To use this function, one has assumed that each node has almost the same memory available.
+        It is not obvious, but the small patches does not necessarily have the same shape.
+        The calculation model in my mind is the following:
+            
+                    --------------------------
+                    | 11 | 00 | 11 | 00 | 11 |    
+                    --------------------------
+                    | 11 | 11 | 00 | 11 | 00 | 
+                    --------------------------
+                    | 00 | 11 | 11 | 00 | 11 | 
+                    --------------------------
+                    | 11 | 00 | 11 | 11 | 00 | 
+                    -------------------------- 
+                    | 00 | 11 | 00 | 11 | 11 | 
+                    -------------------------- 
+        """
+
+        redundant_num = np.mod(self.data_num_total, batch_number)
+        if redundant_num != 0:
+            number_per_batch = self.data_num_total // batch_number
+            self.batch_number_list = [number_per_batch + 1, ] * redundant_num
+            self.batch_number_list += [number_per_batch, ] * (batch_number - redundant_num)
+
+        else:
+            number_per_batch = self.data_num_total // batch_number
+            self.batch_number_list = [number_per_batch + 1, ] * batch_number
+
+        ######################################################################################
+        #    Create a huge numpy array to calculate global index and local index
+        ######################################################################################
+        """
+        Create a huge list containing every index.
+        This is not an efficient and elegant way. However, I can not figure out a better way.
+        """
+        holder = np.zeros((3, self.data_num_total), dtype=np.int64)
+        # Starting point of the global index for different files
+        global_idx_file_start = 0
+        for file_idx in range(self.file_num):
+            # End point of the global index for different files
+            global_idx_file_end = global_idx_file_start + self.data_num_per_file[0]
+            # Assign file index
+            holder[0, global_idx_file_start: global_idx_file_end] = file_idx
+            """
+            Postpone the update of the starting point until the end of the loop.
+            """
+
+            # Process the dataset index
+            # Starting point of the global index for different dataset
+            global_idx_dataset_start = global_idx_file_start
+            for dataset_idx in range(self.dataset_num_per_file[file_idx]):
+                # End point of the global index for different dataset
+                global_idx_dataset_end = global_idx_dataset_start + self.data_num_per_dataset[file_idx][dataset_idx]
+                # Assign the dataset index
+                holder[1, global_idx_dataset_start: global_idx_dataset_end] = dataset_idx
+                # Assign the local index within each dataset
+                holder[2, global_idx_dataset_start:
+                          global_idx_dataset_end] = np.arange(self.data_num_per_dataset[file_idx][dataset_idx])
+
+            # update the start point for the global index of the file
+            global_idx_file_start = global_idx_file_end
+
+        # The starting global index of this batch
+        global_idx_batch_start = 0
+        for batch_idx in range(batch_number):
+            # The ending global index of this batch
+            global_idx_batch_end = global_idx_batch_start + self.batch_number_list[batch_idx]
+
+            # Create an element for this batch
+            self.batch_ends_local.append([])
+
+            # Find out how many h5 files are covered by this range
+            """
+            Because the way the holder variable is created guarantees that the file index is 
+            increasing, the returned result need not be sorted. Similar reason applies for 
+            the other layers.
+            """
+            file_pos_holder = holder[0, global_idx_batch_start: global_idx_batch_end]
+            dataset_pos_holder = holder[1, global_idx_batch_start: global_idx_batch_end]
+            data_pos_holder = holder[2, global_idx_batch_start: global_idx_batch_end]
+
+            file_range = np.unique(file_pos_holder)
+
+            # Create the entry for the file
+            for file_idx in file_range:
+                # Create only in the element for this batch
+                self.batch_ends_local[-1].append({self.file_list[file_idx]: {"Datasets": [],
+                                                                             "Ends": []}})
+                # Find out which datasets are covered within this file for this batch
+                dataset_range = np.unique(dataset_pos_holder[file_pos_holder == file_idx])
+                for data_idx in dataset_range:
+                    # Attach this dataset name
+                    self.batch_ends_local[-1][self.file_list[file_idx]]["Datasets"].append(
+                        self.source_dict[self.file_list[file_idx]]["Datasets"][data_idx])
+                    # Find out the ends for this dataset
+                    """
+                    Notice that, because later, I will use [start:end] to retrieve the data
+                    from the h5 file. Therefore, the end should be the true end of the python-style
+                    index plus 1.
+                    """
+                    tmp_start = np.min(
+                        data_pos_holder[(file_pos_holder == file_idx) & (data_pos_holder == dataset_idx)])
+                    tmp_end = np.max(
+                        data_pos_holder[(file_pos_holder == file_idx) & (data_pos_holder == dataset_idx)]) + 1
+                    # Attach this dataset range
+                    self.batch_ends_local[-1][self.file_list[file_idx]]["Ends"].append([tmp_start, tmp_end])
+
+        ######################################################################################
+        #    End of this terrible method
+        ######################################################################################
 
 
 class DataSourceV1:

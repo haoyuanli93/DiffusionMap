@@ -28,6 +28,11 @@ for l in search_result:
         content.append(str(absolute_path))
         print(absolute_path)
 
+# Sort the list according to lexicographical order
+content.sort(key=str.lower)
+for line in content:
+    print(line)
+
 # Write content to the txt file
 """
 Notice that these two loops can be composed into one.

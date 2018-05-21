@@ -43,7 +43,25 @@ Laplacian to construct. Later, it will also include the usage of *Elemental* or 
 packages.
 
   
+## TODO
+Things to do
 
+    1. It's possible that sometimes, user will want to specify a pattern list and 
+       only calculate patterns in the list. I might write an interface for that.
+       However, this really depends, because this can greatly increase the complexity
+       and slow down the IO.
+    2. Write documentation for how to generate proper file lists.
+    3. When the quantity of data is really huge, that the whole dataset can not be 
+       put into memory at once. I need a better way to coordinate the jobs. But at 
+       present, I assume that the distributed memory is large enough.
+       
+       
+## Modules
+**DataSource**
+Currently, supported data source is a series of h5 files. There can be an arbitrary 
+number of datasets in each file. User can also specify which datasets in a h5 file 
+to process. But at present, the user can not specify which patterns in a dataset
+ to process.
 
 
 
