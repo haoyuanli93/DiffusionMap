@@ -4,7 +4,54 @@ This module contains functions that I don't know where to put.
 import h5py
 # from numba import jit, int64
 import numpy as np
+import copy
 
+
+##################################################################
+#
+#       Generate job list
+#
+##################################################################
+
+def generate_job_list(param={}, mode="IO_optimized"):
+    """
+    Generate the job list for each worker
+
+    :param param: This contains information necessary for generate the job list. Currently, this argument
+                    receives a dictionary contains
+
+                    {"batch_number":  ,
+                     "patch_index": }
+
+                    The patch index is a list which contains the patch index for each patch.
+    :param mode: The mode for calculation. Different mode may requires different param value. Currently
+                 the only supported mode is "IO_optimized".
+    :return: A list containing the jobs for each workder
+            [[job1 ,job2, job3,...],
+             [job1 ,job2, job3,...],
+             [job1 ,job2, job3,...],
+              ...                  ]
+    """
+    if mode == "IO_optimized":
+        batch_number = param["batch_number"]
+        jobs_list = copy.deepcopy(param["patch_index"])
+
+        # When there is only one batch, do not change anything. Sine everything will be done at once.
+        if batch_number == 1:
+            return jobs_list
+
+        # Move the diagonal patch to the first position.
+        for worker_idx in range(1, batch_number):
+            jobs_list[worker_idx][0], jobs_list[worker_idx][worker_idx] = jobs_list[worker_idx][worker_idx], \
+                                                                          jobs_list[worker_idx][0]
+        return jobs_list
+
+
+##################################################################
+#
+#       Generate patch index
+#
+##################################################################
 
 def generate_patch_index_list(batch_number, mode="IO_optimized"):
     """
@@ -250,25 +297,8 @@ def _parse_h5_data_list(txt_file):
 #
 ##################################################################
 
-def mpi_config_parser(txt_file,mode="MPI+Dask"):
-
-    if mode == "MPI":
-        raise Exception("Pure MPI parser is under construction."
-                        "Please use MPI+Dask rather than MPI.")
-    elif mode == "MPI+Dask":
-        with open(txt_file, 'r') as txtFile:
-            lines = txtFile.readlines()
-        # Remove redundant "/n" symbol and blank spaces
-        lines = [x.strip('\n') for x in lines]
-        lines = [x.strip() for x in lines]
-
-        param = {}
-        for l in lines:
-            # Check for
-            if
-
-    else:
-        raise Exception("The only available mode now is the MPI+Dask mode.")
+def mpi_config_parser(txt_file, mode="MPI+Dask"):
+    pass
 
 ##################################################################
 #

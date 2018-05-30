@@ -307,12 +307,3 @@ def solve_for_eigenvectors(matrix, num, mode="general"):
     if mode == "symmetric":
         return linalg.eigsh(matrix, num)
 
-
-def construct_sparse_matrix(matrix):
-    """
-    Construct a sparse matrix to calculate the eigenvalues
-
-    :param matrix: The original dense matrix.
-    :return: a sparse matrix
-    """
-    return sparse.csr_matrix(matrix)

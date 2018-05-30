@@ -52,7 +52,7 @@ def create_data_source(source_type="DataSourceV1", param={}):
     """
 
     if source_type == "DataSourceV1":
-        return DataSourceV1(param)
+        return DataSourceV1()
     elif source_type == "DataSourceV2":
         return DataSourceV2(param)
 
@@ -71,7 +71,7 @@ class DataSourceV2:
 
     """
 
-    def __init__(self, source_list_file=None, file_type="h5"):
+    def __init__(self, param={}):
         """
         Initialize the instance with a text file containing files to process.
 
@@ -79,10 +79,14 @@ class DataSourceV2:
         :param file_type: the file_type to process
         """
 
-        if source_list_file is None:
+        if not param:
             print("No text file containing the source list has been specified." +
                   "Please initialize the this DataSource instance manually.")
         else:
+
+            source_list_file = param['source_list_file']
+            file_type = param['h5']
+
             self.source_dict = util.parse_data_list(source_list_file, file_type=file_type)
 
             # Get essentials keys of the dict
@@ -107,13 +111,17 @@ class DataSourceV2:
             self.batch_ends_local = []
             self.batch_number_list = []
 
-    def initialize(self, source_list_file=None, file_type="h5"):
+    def initialize(self, param={}):
         """
         Initialize the instance with a text file containing files to process.
 
         :param source_list_file: The text file containing the list of files to process
         :param file_type: the file_type to process
         """
+
+        source_list_file = param['source_list_file']
+        file_type = param['h5']
+
         self.source_dict = util.parse_data_list(source_list_file, file_type=file_type)
 
         # Get essentials keys of the dict
@@ -135,6 +143,33 @@ class DataSourceV2:
         self.data_num_total = np.sum(self.data_num_per_file)
         self.dataset_num_total = np.sum(self.dataset_num_per_file)
 
+        """
+        The self.batch_ends_local is the most crucial variable for data retrieval. The structure of such a 
+        variable is 
+        
+        The first layer is a list ----->   [                                                          
+                                        " This is for the first batch"    
+        The second layer is a dic ----->     {file name 1:
+        The third layer is a dic  ----->                    {Dataset name: 
+        The forth layer is a list ----->                     [A list of the dataset names],
+                                                             
+                                                             Ends:
+                                                             [A list of the ends in the dataset. Each is a
+                                                              small list: [start,end]]}
+                                                             ,
+                                              file name 2:
+        The third layer is a dic  ----->                    {Dataset name: 
+        The forth layer is a list ----->                     [A list of the dataset names],
+                                                             
+                                                             Ends:
+                                                             [A list of the ends in the dataset. Each is a
+                                                              small list: [start,end]]}
+                                                             , ... }
+                                        
+                                         " This is for the second batch"
+                                         ...         
+                                            ]
+        """
         self.batch_ends_local = []
         self.batch_number_list = []
 

@@ -10,7 +10,7 @@ import argparse
 # Set up the parser
 parser = argparse.ArgumentParser()
 parser.add_argument('source_folder', type=int, help="batch number")
-parser.add_argument('file_list', type=str, help="Specify whether param refers to batch_num or batch_size.")
+parser.add_argument('file_list', type=str, help="The output txt file for this list.")
 
 # Parse
 args = parser.parse_args()

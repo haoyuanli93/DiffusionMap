@@ -1,13 +1,16 @@
+# Standard modules
 from mpi4py import MPI
 import numpy as np
 import argparse
+import time
+from dask.distributed import Client, LocalCluster
+import h5py
 
-# Load other modules
+# project modules
 import DataSource
 import OutPut
 import Graph
-import time
-from dask.distributed import Client, LocalCluster
+import util
 
 # Parse the parameters
 parser = argparse.ArgumentParser()
@@ -17,7 +20,6 @@ parser.add_argument('address_output', type=str, help="Specify the folder to put 
 parser.add_argument("address_input", type=str, help="Specify the input h5 file.")
 parser.add_argument("input_mode", type=str, help="Specify the input mode.")
 parser.add_argument("source_type", type=str, help="Specify the datasource type.")
-
 
 # Parse
 args = parser.parse_args()
@@ -33,82 +35,73 @@ comm_rank = comm.Get_rank()
 comm_size = comm.Get_size()
 
 """
+TODO: Need to replace the direct usage of comm_size with batch_number
+"""
+batch_number = comm_size - 1
+
+"""
 Step One: Create the DataSource class.
 """
-data_source = DataSource.create_data_source(source_type="DataSourceV1", param={})
-data_source.make_indexes(param=param, mode=mode)
+if comm_rank == 0:
+    data_source = DataSource.create_data_source(source_type="DataSourceV2",
+                                                param={"source_list_file": address_input,
+                                                       "file_type": input_mode})
+    """
+    TODO: Need to replace the direct usage of comm_size with batch_number
+    """
+    data_source.make_batches(batch_number=batch_number)
+else:
+    data_source = None
+
+data_source = comm.bcast(obj=data_source, root=0)
 comm.Barrier()  # Synchronize
 
 """
 Step Two: Setup dask client
 """
-cluster = LocalCluster()
-client = Client(cluster, processes=False)
-
-# The master node generates the patch list for each slave node
+# The coordinator node generates the patch list for each worker node
 if comm_rank == 0:
 
     # Starting calculating the time
     tic_0 = time.time()
 
     # Jobs for each slave
-    job_list = []
-    job_num_tot = data_source.batch_number * (data_source.batch_number + 1) // 2
-
-    # Generate a total list of different patches.
-    patch_indexes = []
-    for l in range(data_source.batch_number):
-        for m in range(l, data_source.batch_number):
-            patch_indexes.append([l, m])
-
-    # Calculate the job number for each slave
-    # When the number of slaves is a factor of the batch number, the situation is clean
-    if np.mod(job_num_tot, comm_size - 1) == 0:
-        job_num_each = job_num_tot // (comm_size - 1)
-        for l in range(comm_size - 1):
-            job_list.append(patch_indexes[l * job_num_each: (l + 1) * job_num_each])
-    else:
-        # Extra jobs that should be shared among nodes
-        extra = np.mod(job_num_tot, comm_size - 1)
-        job_num_each = job_num_tot // (comm_size - 1)
-
-        # The first several slaves share the extra batches
-        for l in range(extra):
-            job_list.append(patch_indexes[l * (job_num_each + 1): (l + 1) * (job_num_each + 1)])
-
-        for l in range(comm_size - 1 - extra):
-            start = extra * (job_num_each + 1) + l * job_num_each
-            end = start + job_num_each
-            job_list.append(patch_indexes[start: end])
-
-    # Send jobs to each slave
-    for l in range(1, comm_size):
-        destination_process = l
-        comm.send(job_list[l - 1], dest=destination_process, tag=1)
-        print("sending job instruction to process {}".format(destination_process))
-
-# The slaves receive the job instruction
+    patch_index = util.generate_patch_index_list(batch_number=batch_number, mode=mode)
+    job_list = util.generate_job_list(param={"batch_number": batch_number,
+                                             "patch_index": patch_index}, mode=mode)
 else:
-    job = comm.recv(source=0, tag=1)
-    print("Process {} receives the job instruction."
-          "There are totally {} jobs for this process.".format(comm_rank, len(job)))
-    """
-    Begin calculation
-    """
-    tic = time.time()
-    for patch_index in job:
-        # Load data, pattern_batch_l refers to pattern indexes along vertical direction.
-        # pattern_batch_r refers to pattern indexes along horizontal direction
-        pattern_batch_l = data_source.load_data_batch_from_stacks(patch_index[0])
-        pattern_num_l = pattern_batch_l.shape[0]
-        pattern_batch_r = data_source.load_data_batch_from_stacks(patch_index[1])
-        pattern_num_r = pattern_batch_r.shape[0]
-        # Calculate variance
-        distance = Graph.inner_product_batch(pattern_batch_l, pattern_num_l, pattern_batch_r, pattern_num_r)
-        # Save variance
-        OutPut.save_distances(data_source, distance, patch_index)
-    toc = time.time()
-    print("It takes {} seconds for process {} to calculate distance patches".format(toc - tic, comm_rank))
+    cluster = LocalCluster()
+    client = Client(cluster, processes=False)
+
+    patch_index = None
+    job_list = None
+
+# The worker receives the job instruction
+patch_index = comm.bcast(obj=patch_index, root=0)
+job_list = comm.bcast(obj=job_list, root=0)
+comm.Barrier()  # Synchronize
+
+print("Process {} receives the job instruction."
+      "There are totally {} jobs for this process.".format(comm_rank, len(job_list[comm_rank - 1])))
+print("The job list is:")
+print(job_list[comm_rank - 1])
+
+"""
+Step Three: Calculate the diagonal patch
+"""
+tic = time.time()
+if comm_rank != 0:
+    # Construct the data for diagonal patch
+    row_info_holder = data_source.batch_ends_local[comm_rank - 1]
+
+    # Open the files to do calculation
+    # Remember to close them in the end
+    h5file_holder = {}
+    dataset_holder = {}
+    for file_name in row_info_holder.keys():
+        h5file_holder.update({file_name: h5py.File(file_name, 'r')})
+        for data_name in row_info_holder[file_name][""]
+    pass
 
 comm.Barrier()  # Synchronize
 
