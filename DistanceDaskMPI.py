@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 import time
 from dask.distributed import Client, LocalCluster
+import dask.array as da
 import h5py
 
 # project modules
@@ -97,16 +98,86 @@ if comm_rank != 0:
     # Open the files to do calculation
     # Remember to close them in the end
     h5file_holder = {}
-    dataset_holder = {}
+    dataset_holder = []
     for file_name in row_info_holder.keys():
         h5file_holder.update({file_name: h5py.File(file_name, 'r')})
-        for data_name in row_info_holder[file_name][""]
-    pass
+
+        data_name_list = row_info_holder[file_name]["Datasets"]
+        data_ends_list = row_info_holder[file_name]["Ends"]
+        for data_idx in range(len(data_name_list)):
+            data_name = data_name_list[data_idx]
+
+            tmp_data_holder = h5file_holder[file_name][data_name]
+            tmp_dask_data_holder = da.from_array(tmp_data_holder[data_ends_list[data_idx][0]:
+                                                                 data_ends_list[data_idx][1]]
+                                                 , chunks='auto')
+            dataset_holder.append(tmp_dask_data_holder)
+
+    # Create dask arrays based on these h5 files
+    dataset = da.concatenate(dataset_holder, axis=0)
+
+    # Calculate the correlation matrix.
+    num_dim = len(dataset.shape)
+    inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
+
+    # Save the distance patch
+    name_to_save = address_output + "/distances/patch_{}_{}.npy".format(comm_rank - 1, comm_rank - 1)
+    da.to_npy_stack(name_to_save, inner_prod_matrix)
+
+    # comm.Barrier()  # There is no need to synchronize here
+
+    """
+    Step Four: Calculate the off-diagonal patch
+    """
+    # Construct the data for off-diagonal patch
+    patch_number = len(job_list[comm_rank - 1]) - 1
+
+    for _local_idx in range(1, patch_number):  # The first patch calculated for each row is the diagonal patch.
+
+        # Get to know which patch is to process
+        job_idx = job_list[comm_rank - 1][_local_idx]
+        col_info_holder = data_source.batch_ends_local[job_idx[1]]  # For different horizontal patches
+
+        # Open the files to do calculation
+        # Remember to close them in the end
+        col_h5file_holder = {}
+        col_dataset_holder = []
+        for file_name in col_info_holder.keys():
+            col_h5file_holder.update({file_name: h5py.File(file_name, 'r')})
+
+            col_data_name_list = col_info_holder[file_name]["Datasets"]
+            col_data_ends_list = col_info_holder[file_name]["Ends"]
+            for data_idx in range(len(col_data_name_list)):
+                col_data_name = col_data_ends_list[data_idx]
+
+                tmp_data_holder = col_h5file_holder[file_name][col_data_name]
+                tmp_dask_data_holder = da.from_array(tmp_data_holder[col_data_ends_list[data_idx][0]:
+                                                                     col_data_ends_list[data_idx][1]]
+                                                     , chunks='auto')
+                col_dataset_holder.append(tmp_dask_data_holder)
+
+        # Create dask arrays based on these h5 files
+        col_dataset = da.concatenate(col_dataset_holder, axis=0)
+
+        # Calculate the correlation matrix.
+        inner_prod_matrix = da.tensordot(dataset, col_dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
+
+        # Save the distance patch
+        name_to_save = address_output + "/distances/patch_{}_{}.npy".format(job_idx[0], job_idx[1])
+        da.to_npy_stack(name_to_save, inner_prod_matrix)
+
+        # Close all h5 file opened for the column dataset
+        for file_name in col_info_holder.keys():
+            col_h5file_holder[file_name].close()
+
+    # Close all h5 files opened for the row dataset
+    for file_name in row_info_holder.keys():
+        h5file_holder[file_name].close()
 
 comm.Barrier()  # Synchronize
 
 """
-Step Three: Finish the calculation of the distance
+Step Five: Collect all the patches and assemble them.
 """
 if comm_rank == 0:
     # Starting calculating the time

@@ -8,11 +8,11 @@ import os
 import h5py as h5
 
 
-def save_distances(data_source, distance_patch, patch_position):
+def save_distances(output_path, distance_patch, patch_position):
     """
     Save the distance patch to a numpy array.
 
-    :param data_source: data_source class for the calculation
+    :param output_path: The folder to save the distance patch
     :param patch_position: the position of the patch in the large matrix. eg
                 patch (0,0) | patch (0,1)
                 --------------------------
@@ -24,7 +24,7 @@ def save_distances(data_source, distance_patch, patch_position):
     """
 
     # load the data_source address
-    address = data_source.output_path
+    address = output_path
 
     # check if the folder exist
     if not os.path.isdir(address + '/distances'):
