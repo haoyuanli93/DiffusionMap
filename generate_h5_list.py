@@ -9,8 +9,8 @@ import argparse
 
 # Set up the parser
 parser = argparse.ArgumentParser()
-parser.add_argument('source_folder', type=int, help="batch number")
-parser.add_argument('file_list', type=str, help="The output txt file for this list.")
+parser.add_argument('--source_folder', default="./", type=str, help="The folder containing all the ")
+parser.add_argument('--file_list', default="./file_list.txt", type=str, help="The output txt file for this list.")
 
 # Parse
 args = parser.parse_args()
@@ -26,7 +26,6 @@ for l in search_result:
     if l[-3:] == ".h5":
         absolute_path = os.path.abspath(source_folder + "/" + l)
         content.append(str(absolute_path))
-        print(absolute_path)
 
 # Sort the list according to lexicographical order
 content.sort(key=str.lower)

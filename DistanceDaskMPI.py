@@ -15,16 +15,15 @@ import util
 
 # Parse the parameters
 parser = argparse.ArgumentParser()
-parser.add_argument('param', type=int, help="batch number")
+parser.add_argument('batch_number', type=int, help="batch number")
 parser.add_argument('mode', type=str, help="Specify whether param refers to batch_num or batch_size.")
 parser.add_argument('address_output', type=str, help="Specify the folder to put the calculated data.")
-parser.add_argument("address_input", type=str, help="Specify the input h5 file.")
-parser.add_argument("input_mode", type=str, help="Specify the input mode.")
-parser.add_argument("source_type", type=str, help="Specify the datasource type.")
+parser.add_argument("address_input", type=str, help="Specify the text file for the input file list.")
+parser.add_argument("input_mode", type=str, help="Specify the input file type.")
 
 # Parse
 args = parser.parse_args()
-param = args.param
+batch_number = args.batch_number
 mode = args.mode
 address_input = args.address_input
 address_output = args.address_output
@@ -34,11 +33,6 @@ input_mode = args.input_mode
 comm = MPI.COMM_WORLD
 comm_rank = comm.Get_rank()
 comm_size = comm.Get_size()
-
-"""
-TODO: Need to replace the direct usage of comm_size with batch_number
-"""
-batch_number = comm_size - 1
 
 """
 Step One: Create the DataSource class.

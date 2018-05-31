@@ -85,7 +85,7 @@ class DataSourceV2:
         else:
 
             source_list_file = param['source_list_file']
-            file_type = param['h5']
+            file_type = param['file_type']
 
             self.source_dict = util.parse_data_list(source_list_file, file_type=file_type)
 
@@ -120,7 +120,7 @@ class DataSourceV2:
         """
 
         source_list_file = param['source_list_file']
-        file_type = param['h5']
+        file_type = param['file_type']
 
         self.source_dict = util.parse_data_list(source_list_file, file_type=file_type)
 
