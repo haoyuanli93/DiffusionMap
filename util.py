@@ -255,7 +255,6 @@ def _parse_h5_data_list(txt_file):
             with h5py.File(file_list[file_idx], 'r') as h5file:
                 keys = list(h5file.keys())
                 # Make sure the keys are in lexicographical order
-                keys = keys.sort(key=str.lower)
                 dict_holder[file_list[file_idx]]["Datasets"].append(keys)
 
     """
@@ -273,7 +272,7 @@ def _parse_h5_data_list(txt_file):
         with h5py.File(file_address, 'r') as h5file:
             for key in dict_holder[file_address]["Datasets"]:
                 data_set = h5file[key]
-                dict_holder[file_address]["Datasets"].append(data_set.shape[0])
+                dict_holder[file_address]["data_num"].append(data_set.shape[0])
                 # Check if the data size is correct
                 if dict_holder["shape"] != data_set.shape[1:]:
                     raise Exception("The shape of the dataset {}".format(key) +
