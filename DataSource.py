@@ -227,7 +227,7 @@ class DataSourceV2:
         global_idx_file_start = 0
         for file_idx in range(self.file_num):
             # End point of the global index for different files
-            global_idx_file_end = global_idx_file_start + self.data_num_per_file[0]
+            global_idx_file_end = global_idx_file_start + self.data_num_per_file[file_idx]
             # Assign file index
             holder[0, global_idx_file_start: global_idx_file_end] = file_idx
             """
@@ -246,6 +246,9 @@ class DataSourceV2:
                 holder[2, global_idx_dataset_start:
                           global_idx_dataset_end] = np.arange(self.data_num_per_dataset[file_idx][dataset_idx])
 
+                # Update the starting global index of the dataset
+                global_idx_dataset_start = global_idx_dataset_end
+
             # update the start point for the global index of the file
             global_idx_file_start = global_idx_file_end
 
@@ -256,7 +259,7 @@ class DataSourceV2:
             global_idx_batch_end = global_idx_batch_start + self.batch_number_list[batch_idx]
 
             # Create an element for this batch
-            self.batch_ends_local.append([])
+            self.batch_ends_local.append({})
 
             # Find out how many h5 files are covered by this range
             """
@@ -273,14 +276,14 @@ class DataSourceV2:
             # Create the entry for the file
             for file_idx in file_range:
                 # Create only in the element for this batch
-                self.batch_ends_local[-1].append({self.file_list[file_idx]: {"Datasets": [],
+                self.batch_ends_local[-1].update({self.file_list[file_idx]: {"Datasets": [],
                                                                              "Ends": []}})
                 # Find out which datasets are covered within this file for this batch
                 dataset_range = np.unique(dataset_pos_holder[file_pos_holder == file_idx])
-                for data_idx in dataset_range:
+                for dataset_idx in dataset_range:
                     # Attach this dataset name
                     self.batch_ends_local[-1][self.file_list[file_idx]]["Datasets"].append(
-                        self.source_dict[self.file_list[file_idx]]["Datasets"][data_idx])
+                        self.source_dict[self.file_list[file_idx]]["Datasets"][dataset_idx])
                     # Find out the ends for this dataset
                     """
                     Notice that, because later, I will use [start:end] to retrieve the data
@@ -288,9 +291,9 @@ class DataSourceV2:
                     index plus 1.
                     """
                     tmp_start = np.min(
-                        data_pos_holder[(file_pos_holder == file_idx) & (data_pos_holder == dataset_idx)])
+                        data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)])
                     tmp_end = np.max(
-                        data_pos_holder[(file_pos_holder == file_idx) & (data_pos_holder == dataset_idx)]) + 1
+                        data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]) + 1
                     # Attach this dataset range
                     self.batch_ends_local[-1][self.file_list[file_idx]]["Ends"].append([tmp_start, tmp_end])
 

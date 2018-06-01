@@ -41,10 +41,11 @@ def generate_job_list(param={}, mode="IO_optimized"):
             return jobs_list
 
         # Move the diagonal patch to the first position.
-        for worker_idx in range(1, batch_number):
-            jobs_list[worker_idx][0], jobs_list[worker_idx][worker_idx] = jobs_list[worker_idx][worker_idx], \
-                                                                          jobs_list[worker_idx][0]
-        return jobs_list
+        for worker_idx in range(batch_number):
+            tmp = jobs_list[worker_idx][int((worker_idx + 1) // 2)]
+            jobs_list[worker_idx][0], tmp = tmp, jobs_list[worker_idx][0]
+
+    return jobs_list
 
 
 ##################################################################
