@@ -2,7 +2,7 @@
 This module contains functions that I don't know where to put.
 """
 import h5py
-# from numba import jit, int64
+from numba import jit, int64
 import numpy as np
 import copy
 
@@ -300,52 +300,233 @@ def _parse_h5_data_list(txt_file):
 def mpi_config_parser(txt_file, mode="MPI+Dask"):
     pass
 
+
 ##################################################################
 #
-#       Get indexes info
+#       Get batch number list
 #
 ##################################################################
-# @jit(int64[:](int64, int64[:], int64, int64[:], int64[:]), nopython=True)
-# def global_idx_to_file_dataset_local_idx(global_idx, data_number_file_accumulate, file_num,
-#                                          data_number_dataset_accumulate, dataset_number_file_accumulate):
-#     """
-#     Get the file index, the dataset index and the local index in that dataset for a global index.
+
+def get_batch_num_list(total_num, batch_num):
+    """
+    Generate a list containing the data number per batch.
+    The idea is that the difference between each batches is at most one pattern.
+
+    :param total_num: The total number of patterns.
+    :param batch_num: The number of batches to build.
+    :return: A list containing the data number in each batch.
+    """
+
+    redundant_num = np.mod(total_num, batch_num)
+    if redundant_num != 0:
+        number_per_batch = total_num // batch_num
+        batch_num_list = [number_per_batch + 1, ] * redundant_num
+        batch_num_list += [number_per_batch, ] * (batch_num - redundant_num)
+    else:
+        number_per_batch = total_num // batch_num
+        batch_num_list = [number_per_batch, ] * batch_num
+
+    return batch_num_list
+
+
+##################################################################
 #
-#     :param global_idx: the global index
-#     :param data_number_file_accumulate: The accumulated sum of the number of data point in all files.
-#                                         The first value is 0. The length is file_num + 1.
-#     :param file_num: The number of h5 files.
-#     :param data_number_dataset_accumulate: The accumulated sum of the number of data point in datasets. It does not
-#                                             start from zero.
-#     :param dataset_number_file_accumulate: The accumulated sum of the number of datasets in all files. Start from 0.
-#     :return: a numpy array. [The file index, the dataset index, the local index in that dataset]
-#     """
+#       Get global index map
 #
-#     holder = np.zeros(3)
+##################################################################
+
+def get_global_index_map(data_num_total,
+                         file_num,
+                         data_num_per_file,
+                         dataset_num_per_file,
+                         data_num_per_dataset):
+    """
+    Return an array containing the map from the global index to file index, dataset index and the local
+    index for the specific pattern.
+
+    :param data_num_total: The total number of data points.
+    :param file_num: The number of files.
+    :param data_num_per_file: The data point number in each file
+    :param dataset_num_per_file: The dataset number in each file
+    :param data_num_per_dataset: The data point number in each dataset.
+    :return: A numpy array containing the map
+                           [
+     global index -->       [file index, dataset index, local index]],
+                            [file index, dataset index, local index]],
+                            [file index, dataset index, local index]],
+                                    ....
+                           ]
+
+    """
+    holder = np.zeros((3, data_num_total), dtype=np.int64)
+    # Starting point of the global index for different files
+    global_idx_file_start = 0
+    for file_idx in range(file_num):
+        # End point of the global index for different files
+        global_idx_file_end = global_idx_file_start + data_num_per_file[file_idx]
+        # Assign file index
+        holder[0, global_idx_file_start: global_idx_file_end] = file_idx
+        """
+        Postpone the update of the starting point until the end of the loop.
+        """
+
+        # Process the dataset index
+        # Starting point of the global index for different dataset
+        global_idx_dataset_start = global_idx_file_start
+        for dataset_idx in range(dataset_num_per_file[file_idx]):
+            # End point of the global index for different dataset
+            global_idx_dataset_end = global_idx_dataset_start + data_num_per_dataset[file_idx][dataset_idx]
+            # Assign the dataset index
+            holder[1, global_idx_dataset_start: global_idx_dataset_end] = dataset_idx
+            # Assign the local index within each dataset
+            holder[2, global_idx_dataset_start:global_idx_dataset_end] = np.arange(
+                data_num_per_dataset[file_idx][dataset_idx])
+
+            # Update the starting global index of the dataset
+            global_idx_dataset_start = global_idx_dataset_end
+
+        # update the start point for the global index of the file
+        global_idx_file_start = global_idx_file_end
+
+    return holder
+
+
+##################################################################
 #
-#     for file_idx in range(file_num):
+#       Get batch ends
 #
-#         # Find the file where the global index lives
-#         """
-#         The file_idx here is the python-style index of the file. Because
-#         the data_number_file_accumulate begins with 0. One has to compare
-#         with data_number_file_accumulate[file_idx + 1]. However, because
-#         file_idx is the python-style index of the file, later on, one directly
-#         use file_idx to find the correct value in the data_number_per_dataset and the
-#         other variables.
-#         """
-#         if global_idx < data_number_file_accumulate[file_idx + 1]:
-#             holder[0] = file_idx
+##################################################################
+
+def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
+    """
+    Generate the batch ends for each batch given all information.
+
+    :param index_map: The map between global index and (file index, dataset index, local index)
+    :param global_index_range_list: A numpy array containing the starting and ending global
+                                    index of the corresponding batch
+                [
+       batch 0 -->  [starting global index, ending global index],
+       batch 1 -->  [starting global index, ending global index],
+       batch 2 -->  [starting global index, ending global index],
+                        ...
+                ]
+    :param file_list: The list containing the file names.
+    :param source_dict: The information of the source.
+    :return: A list containing information for dask to retrieve the data in this batch.
+             The structure of this variable is
+
+        The first layer is a list ----->   [
+                                        " This is for the first batch"
+        The second layer is a dic ----->     {file name 1:
+        The third layer is a dic  ----->                    {Dataset name:
+        The forth layer is a list ----->                     [A list of the dataset names],
+
+                                                             Ends:
+                                                             [A list of the ends in the dataset. Each is a
+                                                              small list: [start,end]]}
+                                                             ,
+                                              file name 2:
+        The third layer is a dic  ----->                    {Dataset name:
+        The forth layer is a list ----->                     [A list of the dataset names],
+
+                                                             Ends:
+                                                             [A list of the ends in the dataset. Each is a
+                                                              small list: [start,end]]}
+                                                             , ... }
+
+                                         " This is for the second batch"
+                                         ...
+                                            ]
+    """
+
+    batch_number = global_index_range_list.shape[0]
+    # Create a variable to hold batch ends.
+    batch_ends_local = []
+
+    for batch_idx in range(batch_number):
+
+        global_idx_batch_start = global_index_range_list[batch_idx, 0]
+        global_idx_batch_end = global_index_range_list[batch_idx, 1]
+
+        # Create an element for this batch
+        batch_ends_local.append({})
+
+        # Find out how many h5 files are covered by this range
+        """
+        Because the way the map variable is created guarantees that the file index is 
+        increasing, the returned result need not be sorted. Similar reason applies for 
+        the other layers.
+        """
+        file_pos_holder = index_map[0, global_idx_batch_start: global_idx_batch_end]
+        dataset_pos_holder = index_map[1, global_idx_batch_start: global_idx_batch_end]
+        data_pos_holder = index_map[2, global_idx_batch_start: global_idx_batch_end]
+
+        file_range = np.unique(file_pos_holder)
+
+        # Create the entry for the file
+        for file_idx in file_range:
+            # Create only in the element for this batch
+            batch_ends_local[-1].update({file_list[file_idx]: {"Datasets": [],
+                                                               "Ends": []}})
+            # Find out which datasets are covered within this file for this batch
+            dataset_range = np.unique(dataset_pos_holder[file_pos_holder == file_idx])
+            for dataset_idx in dataset_range:
+                # Attach this dataset name
+                batch_ends_local[-1][file_list[file_idx]]["Datasets"].append(
+                    source_dict[file_list[file_idx]]["Datasets"][dataset_idx])
+                # Find out the ends for this dataset
+                """
+                Notice that, because later, I will use [start:end] to retrieve the data
+                from the h5 file. Therefore, the end should be the true end of the python-style
+                index plus 1.
+                """
+                tmp_start = np.min(
+                    data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)])
+                tmp_end = np.max(
+                    data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]) + 1
+                # Attach this dataset range
+                batch_ends_local[-1][file_list[file_idx]]["Ends"].append([tmp_start, tmp_end])
+
+    return batch_ends_local
+
+
+##################################################################
 #
-#             # Find the dataset where the global index lives
-#             """
-#             The dataset_idx here is the python-style global dataset index of the corresponding dataset in a h5 file.
-#             Because it is shifted to right by 1, (the initial value)
-#             """
-#             for dataset_idx in range(dataset_number_file_accumulate[file_idx],
-#                                      dataset_number_file_accumulate[file_idx + 1]):
-#                 if global_idx < (data_number_file_accumulate[file_idx] +
-#                                  data_number_dataset_accumulate[file_idx, dataset_idx + 1]):
-#                     holder[1] = dataset_idx
-#                     holder[2] = global_idx - (data_number_file_accumulate[file_idx] +
-#                                               data_number_dataset_accumulate[file_idx, dataset_idx])
+#       Provide batch index list to merge
+#
+##################################################################
+@jit(int64[:, :](int64))
+def get_batch_idx_per_list(batch_num):
+    """
+                        --------------------------
+                        | 00 | 11 | 11 | 00 | 00 |
+                        --------------------------
+                        | 00 | 00 | 11 | 11 | 00 |
+                        --------------------------
+                        | 00 | 00 | 00 | 11 | 11 |
+                        --------------------------
+                        | 11 | 00 | 00 | 00 | 11 |
+                        --------------------------
+                        | 11 | 11 | 00 | 00 | 00 |
+                        --------------------------
+
+    I want the index along each line for each 11 element.
+
+    :param batch_num: The number of batches along each line.
+    :return: A numpy array containing the dim1 idx of the 11 element in this matrix.
+    """
+    batch_num_per_line = (batch_num + 1) // 2
+    holder = np.zeros((batch_num, batch_num_per_line), dtype=np.int)
+
+    # Deal with the first batch_num_per_line + 1 lines
+    for l in range(batch_num_per_line + 1):
+        holder[l] = np.arange(l + 1, l + 1 + batch_num_per_line, dtype=np.int)
+    # Deal with the lower region except the last line.
+    for l in range(batch_num_per_line - 1):
+        line_idx = batch_num_per_line + 1 + l
+        holder[line_idx, :l + 1] = np.arange(l + 1, dtype=np.int)
+        holder[line_idx, l + 1:] = np.arange(batch_num_per_line + 2 + l, batch_num, dtype=np.int)
+    # Deal with the last line
+    holder[batch_num - 1] = np.arange(batch_num_per_line, dtype=np.int)
+
+    return holder

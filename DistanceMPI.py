@@ -3,7 +3,7 @@ import numpy as np
 import argparse
 
 # Load other modules
-import DataSource
+import DataSourceBK
 import OutPut
 import Graph
 import time
@@ -32,7 +32,7 @@ comm_size = comm.Get_size()
 """
 Step One: Create the DataSource class.
 """
-data_source = DataSource.DataSource(source=address_input, output_path=address_output, mode=input_mode)
+data_source = DataSourceBK.DataSource(source=address_input, output_path=address_output, mode=input_mode)
 data_source.make_indexes(param=param, mode=mode)
 comm.Barrier()  # Synchronize
 

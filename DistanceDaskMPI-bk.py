@@ -3,12 +3,11 @@ from mpi4py import MPI
 import numpy as np
 import argparse
 import time
-from dask.distributed import Client, LocalCluster
 import dask.array as da
 import h5py
 
 # project modules
-import DataSource
+import DataSourceBK
 import OutPut
 import Graph
 import util
@@ -38,8 +37,8 @@ comm_size = comm.Get_size()
 Step One: Create the DataSource class.
 """
 if comm_rank == 0:
-    data_source = DataSource.create_data_source(source_type="DataSourceV2",
-                                                param={"source_list_file": address_input,
+    data_source = DataSourceBK.create_data_source(source_type="DataSourceV2",
+                                                  param={"source_list_file": address_input,
                                                        "file_type": input_mode})
     """
     TODO: Need to replace the direct usage of comm_size with batch_number
@@ -65,9 +64,6 @@ if comm_rank == 0:
     job_list = util.generate_job_list(param={"batch_number": batch_number,
                                              "patch_index": patch_index}, mode=mode)
 else:
-    cluster = LocalCluster()
-    client = Client(cluster, processes=False)
-
     patch_index = None
     job_list = None
 
@@ -116,9 +112,7 @@ if comm_rank != 0:
 
     # Save the distance patch
     name_to_save = address_output + "/distances/patch_{}_{}.npy".format(comm_rank - 1, comm_rank - 1)
-    da.to_npy_stack(name_to_save, inner_prod_matrix)
-
-    # comm.Barrier()  # There is no need to synchronize here
+    da.to_hdf5(name_to_save, '/inner_prod_matrix', inner_prod_matrix)
 
     """
     Step Four: Calculate the off-diagonal patch
@@ -158,7 +152,7 @@ if comm_rank != 0:
 
         # Save the distance patch
         name_to_save = address_output + "/distances/patch_{}_{}.npy".format(job_idx[0], job_idx[1])
-        da.to_npy_stack(name_to_save, inner_prod_matrix)
+        da.to_hdf5(name_to_save, '/inner_prod_matrix', inner_prod_matrix)
 
         # Close all h5 file opened for the column dataset
         for file_name in col_info_holder.keys():
