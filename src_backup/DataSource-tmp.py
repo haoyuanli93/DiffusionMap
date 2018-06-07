@@ -152,22 +152,31 @@ class DataSourceFromH5pyList:
         scheme requires that each worker is in charge of one line. Therefore, when we have excessive workers, one might 
         want to divide the matrix finer along dimension 0 and less finer on dimension 1. Along each batch in dimension 
         0, we can bin the batch along dimension 0 a little bit. Detailed explanation is in the function 
-        self.make_indexes. Therefore, each line will contains several different batches. 
-        
-        Then there comes another problem, I don't want to re find all the batches. So instead of finding new batches
-        I group together the batches along dimension 0. This is the reason I use the following structure.
+        self.make_indexes. Therefore, each line will contains several batches. Therefore, the structure is designed to
+        be
         
         The zeroth layer is a list ---->  [
                                         "This is for the first line"
                 The first layer is a list ----->   [                                                          
-                                                " This is for the first batch along this line"    
-                The second layer is a list ----->     [
-                                                        The 1st batch along dimension 0 that is in this batch,
-                                                        The 2nd batch along dimension 0 that is in this batch,
-                                                        ...
-                                                      ]
+                                                " This is for the first batch"    
+                The second layer is a dic ----->     {file name 1:
+                The third layer is a dic  ----->                    {Dataset name: 
+                The forth layer is a list ----->                     [A list of the dataset names],
+                                                                     
+                                                                     Ends:
+                                                                     [A list of the ends in the dataset. Each is a
+                                                                      small list: [start,end]]}
+                                                                     ,
+                                                      file name 2:
+                The third layer is a dic  ----->                    {Dataset name: 
+                The forth layer is a list ----->                     [A list of the dataset names],
+                                                                     
+                                                                     Ends:
+                                                                     [A list of the ends in the dataset. Each is a
+                                                                      small list: [start,end]]}
+                                                                     , ... }
                                                 
-                                                 " This is for the second batch along this line"
+                                                 " This is for the second batch"
                                                  ...         
                                                     ]
                                          "This is for the second line"
@@ -294,23 +303,34 @@ class DataSourceFromH5pyList:
         """
         This number is used to specify the range of batches inside a specific bin
         """
-        bin_ends = np.cumsum([0, ] + batch_num_per_bin)
+        batch_num_bin_ends = np.cumsum([0, ] + batch_num_per_bin)
         # batch index along each line
         batch_idx_per_line = util.get_batch_idx_per_list(batch_num=batch_num_dim0)
-
+        # This variable is only for test. batch idx to merge together per line per bin.
+        # batch_idx_per_bin_per_line = []
         for line_idx in range(batch_num_dim0):
-
+            # Create a holder for batch bins in this line
+            # batch_idx_per_bin_per_line.append([])
             # The second layer of list is for different batches in this line.
             # Create a holder for batch bins in this line
             self.batch_ends_local_dim1.append([])
 
             for bin_idx in range(batch_num_dim1):
-                # Get the batch indexes to merge
-                idx_list = batch_idx_per_line[line_idx, bin_ends[bin_idx]:bin_ends[bin_idx + 1]]
+                # batch_idx_per_bin_per_line[-1].append(batch_idx_per_line[line_idx,
+                #                                      batch_num_bin_ends[bin_idx]:
+                #                                      batch_num_bin_ends[bin_idx + 1]]
+                #                                      )
 
-                # The third layer of list is for this batch in this line.
-                tmp = [self.batch_ends_local_dim0[x] for x in idx_list]
-                self.batch_ends_local_dim1[-1].append(tmp)
+                batch_idx_list = batch_idx_per_line[line_idx,
+                                 batch_num_bin_ends[bin_idx]:batch_num_bin_ends[bin_idx + 1]]
+
+                # The third layer of dic is for this batch in this line.
+                # Attach the first batch along dimension 0 that belongs to this dimension 1 batch.
+                batch_holder = self.batch_ends_local_dim0[batch_idx_list[0]]
+                self.batch_ends_local_dim1[-1].append(batch_holder)
+                # Merge the other different batches along dimension 0
+                for batch_idx in batch_idx_list[1:]:
+                    batch_holder = self.batch_ends_local_dim0[]
 
 
 class DataSourceV2:
