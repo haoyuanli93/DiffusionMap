@@ -7,7 +7,7 @@ import dask.array as da
 import h5py
 
 # project modules
-import DataSourceBK
+import DataSource
 import OutPut
 import Graph
 import util
@@ -18,7 +18,6 @@ parser.add_argument('--batch_number', type=int, help="batch number")
 parser.add_argument('--calculation_mode', type=str, help="Specify how to partition the matrix.")
 parser.add_argument('--address_output', type=str, help="Specify the folder to put the calculated data.")
 parser.add_argument("--address_input", type=str, help="Specify the text file for the input file list.")
-parser.add_argument("--input_mode", type=str, help="Specify the input file type.")
 parser.add_argument("--neighbor_number", type=str, help="Specify the number of neighbors.")
 
 # Parse
@@ -27,7 +26,6 @@ batch_number = args.batch_number
 calculation_mode = args.calculation_mode
 address_input = args.address_input
 address_output = args.address_output
-input_mode = args.input_mode
 """
 Because in diffusion map, one would not include the the diagonal terms,
 when one sort the distances, ideally, one should remove the diagonal terms.
@@ -46,9 +44,7 @@ comm_size = comm.Get_size()
 Step One: Initialization
 """
 if comm_rank == 0:
-    data_source = DataSourceBK.create_data_source(source_type="DataSourceV2",
-                                                  param={"source_list_file": address_input,
-                                                       "file_type": input_mode})
+    data_source = DataSource.DataSourceFromH5pyList(source_list_file= address_input)
     # Build the batches
     data_source.make_batches(batch_number=batch_number)
     batch_ends = np.cumsum(np.array([0, ] + data_source.batch_number_list))  # Starting global index for each batch.

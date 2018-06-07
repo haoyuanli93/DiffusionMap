@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataSource.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSource.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataSourceBK.py" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/DataSourceBK.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DistanceDaskMPI-bk.py" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GenerateSamples.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test/src/GenerateSamples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GenerateSamples_1D.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test/src/GenerateSamples_1D.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Parser.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/generate_h5_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test/src/generate_h5_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DistanceDaskMPI-dev.py" beforeDir="false" afterPath="$PROJECT_DIR$/DistanceDaskMPI.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,12 +20,24 @@
       <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DataSource.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2803">
-              <caret line="308" column="55" selection-start-line="308" selection-start-column="55" selection-end-line="308" selection-end-column="55" />
+            <state relative-caret-position="427">
+              <caret line="200" column="46" lean-forward="true" selection-start-line="200" selection-start-column="46" selection-end-line="200" selection-end-column="46" />
               <folding>
                 <element signature="e#1316#1333#0" expanded="true" />
                 <element signature="e#16479#28753#0" />
                 <element signature="e#28780#39147#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DistanceDaskMPI.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-3753">
+              <caret line="59" column="22" lean-forward="true" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
+              <folding>
+                <element signature="e#19#41#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,11 +108,11 @@
         <option value="$PROJECT_DIR$/KernalAndNorm.py" />
         <option value="$PROJECT_DIR$/Graph.py" />
         <option value="$PROJECT_DIR$/debug.ipynb" />
-        <option value="$PROJECT_DIR$/DistanceDaskMPI.py" />
         <option value="$PROJECT_DIR$/DistanceDaskMPI-dev.py" />
         <option value="$PROJECT_DIR$/DataSourceBK.py" />
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/DataSource.py" />
+        <option value="$PROJECT_DIR$/DistanceDaskMPI.py" />
       </list>
     </option>
   </component>
@@ -150,13 +156,15 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\Test\Samples" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
+      <recent name="$PROJECT_DIR$/test" />
+      <recent name="$PROJECT_DIR$/obsolete" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
       <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/test" />
-      <recent name="$PROJECT_DIR$/obsolete" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -554,13 +562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceDaskMPI-dev.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1069">
-          <caret line="185" selection-start-line="185" selection-end-line="185" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3776">
@@ -592,10 +593,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3753">
+          <caret line="59" column="22" lean-forward="true" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
+          <folding>
+            <element signature="e#19#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DataSource.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2803">
-          <caret line="308" column="55" selection-start-line="308" selection-start-column="55" selection-end-line="308" selection-end-column="55" />
+        <state relative-caret-position="427">
+          <caret line="200" column="46" lean-forward="true" selection-start-line="200" selection-start-column="46" selection-end-line="200" selection-end-column="46" />
           <folding>
             <element signature="e#1316#1333#0" expanded="true" />
             <element signature="e#16479#28753#0" />
