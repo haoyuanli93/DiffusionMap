@@ -530,3 +530,27 @@ def get_batch_idx_per_list(batch_num):
     holder[batch_num - 1] = np.arange(batch_num_per_line, dtype=np.int)
 
     return holder
+
+
+##################################################################
+#
+#       Value Extraction
+#
+##################################################################
+
+@jit(int64[:, :](int64[:, :], int64[:, :], int64[:, :], int64[2]), nopython=True, parallel=True)
+def get_values(source, indexes, holder, holder_size):
+    """
+    Use this function to update the indexes along dimension 1.
+
+    :param source: The constructed index holder: aux_dim1_index
+    :param indexes: The local index find by da.argtopk
+    :param holder: The holder variable: row_idx_to_keep
+    :param holder_size: The shape of row_idx_to_keep
+    :return: The updated holder
+    """
+    for l in range(holder_size[0]):
+        for m in range(holder_size[1]):
+            holder[l, m] = source[l, indexes[l, m]]
+
+    return holder

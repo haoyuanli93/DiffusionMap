@@ -1,4 +1,6 @@
 # Standard modules
+from typing import Tuple
+
 from mpi4py import MPI
 import numpy as np
 import argparse
@@ -8,6 +10,8 @@ import h5py
 
 # project modules
 import DataSource
+import OutPut
+import Graph
 import util
 
 # Parse the parameters
@@ -109,9 +113,15 @@ if comm_rank != 0:
     # Calculate the correlation matrix.
     num_dim = len(data_shape)
     inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
+    inner_prod_matrix.compute(scheduler='threads')
 
     # Get the diagonal values
     inv_norm = 1. / (da.sqrt(da.diag(inner_prod_matrix)))
+    inv_norm.compute(scheduler='threads')
+
+    # Save the diagonal values
+    # name_to_save = output_folder + "/distances/inv_norm_{}.h5".format(comm_rank - 1)
+    # da.to_hdf5(name_to_save, '/inv_norm', inv_norm)
 
     # Normalize the inner product matrix
     inner_prod_matrix = da.tensordot(lhs=da.tensordot(lhs=inv_norm,
@@ -120,8 +130,6 @@ if comm_rank != 0:
                                      rhs=inv_norm,
                                      axes=([0, ], [1, ]))
 
-    inv_norm = np.array(inv_norm)
-
     # sort and create holders for the largest values along each row
     """
     Notice that, finally, when we calculate the eigenvectors for the whole matrix,
@@ -129,8 +137,8 @@ if comm_rank != 0:
     keep the global index.
     """
     batch_ends = data_source.batch_global_idx_range_dim0[comm_rank, 0]
+    row_idx_to_keep = da.argtopk(a=inner_prod_matrix, k=neighbor_number, axis=1) + batch_ends[comm_rank - 1]
     row_val_to_keep = da.topk(a=inner_prod_matrix, k=neighbor_number, axis=1)
-    row_val_to_keep.compute(scheduler='threads')
 
     # There is no need to save these values at present.
     """
@@ -138,41 +146,17 @@ if comm_rank != 0:
     manipulations on the values but I did not have a better way to find the correct global index
     other than going back to a numpy array and perform some complicated index manipulations.
     """
-    row_idx_pre = da.argtopk(a=inner_prod_matrix, k=neighbor_number, axis=1) + batch_ends[comm_rank - 1]
-    row_idx_to_keep = np.array(row_idx_pre)
-    holder_size = row_idx_to_keep.shape
+    row_val_to_keep.compute()
+    row_idx_pre = np.array(row_idx_to_keep)
 
-    # Create a holder for all norms
-    inv_norm_all = None
-else:
-    # Create several holders in the master node. These values have no meaning.
-    # They only keep the communication robust.
-    inv_norm = None
-    chunk_size = None
-    dataset = None
-    num_dim = None
-    row_val_to_keep = None
-    row_idx_to_keep = None
-    holder_size = None
-    row_info_holder = None
-    row_h5file_holder = None
-    # Create a holder for the norms in the master node.
-    inv_norm_all = None
-
-# Let the master node to gather and assemble all the norms.
-recv_data = comm.gather(inv_norm, root=0)
+    # Construct an auxiliary numpy array to extract useful information
+    aux_dim0_index = np.outer(np.arange(row_idx_pre.shape[0], dtype=np.int),
+                              np.ones(row_idx_pre.shape[1], dtype=np.int))
+    aux_dim1_index = np.outer(np.ones(row_idx_pre.shape[0], dtype=np.int),
+                              np.arange(row_idx_pre.shape[1], dtype=np.int))
 
 """
-Step Three: The master node receive and organize all the norms
-"""
-if comm_rank == 0:
-    # The first element in the recev_data variable is the None value from the
-    # master node. Therefore, one should remove that element.
-    inv_norm_all = np.stack(recv_data[1:])
-    np.save(output_folder + "/inverse_norms.npy", inv_norm_all)
-
-"""
-One needs to synchronize here because I try to use the following strategy.
+One needs to synchronize here because to avoid excessive io, I would try to use the following strategy.
 
 During the first stage, one calculate the diagonal patches and therefore get the norm for each pattern.
 If we only have 10**6 patterns, then this is only of a size of a 1024*1024 diffraction pattern.
@@ -184,94 +168,57 @@ When the worker moves to the next patch, it will first load the norms for patter
 calculate the inner product and normalize and compare with the previous 50 values. In the end, the worker 
 will save the largest 50 values along dimension 1.
 
-During this process, each worker need the norm of all the patterns, therefore I have to synchronize here.
+During this process, one does not need sparse matrix since I feel it is easier to manipulate the index 
+manually.  
 """
-inv_norm_all = comm.Bcast(inv_norm_all, root=0)
 comm.Barrier()  # Synchronize
+
+"""
+Step Three: The master node receive and organize all the norms
+"""
 
 """
 Step Four: Calculate the off-diagonal patch
 """
 if comm_rank != 0:
-    # Get the batch bin info along this line.
-    bin_list_dim1 = data_source.batch_ends_local_dim1[comm_rank - 1]
-    bin_number = len(bin_list_dim1)
+    # Construct the data for off-diagonal patch
+    patch_number = len(job_list[comm_rank - 1]) - 1
 
-    # Loop through bins along this line
-    """
-    Notice that, during this process, there are two things to do.
-    First, extract all the data contained in this bin and build a dask array for them.
-    Second, construct a numpy array containing the corresponding index and norm to later process.
-    """
-    for bin_idx in range(bin_number):
+    for _local_idx in range(1, patch_number):  # The first patch calculated for each row is the diagonal patch.
 
-        # Loop through batches in this bins.
-        # Remember the first element is the batches, the second element is the corresponding index along dim0
-        batches_in_bin = bin_list_dim1[bin_idx][0]
-        batch_idx_on_dim0 = bin_list_dim1[bin_idx][0]
+        # Get to know which patch is to process
+        job_idx = job_list[comm_rank - 1][_local_idx]
+        col_info_holder = data_source.batch_ends_local[job_idx[1]]  # For different horizontal patches
 
-        # Construct holder arrays for the indexes and norms.
-        tmp_num_list = np.array([0, ] + [data_source.batch_num_list_dim0[x] for x in batch_idx_on_dim0], dtype=np.int)
-        tmp_end_list = np.cumsum(tmp_num_list)
-
-        data_num_row = np.sum(tmp_num_list)
-        """
-        The reason that col_idx is longer than the right_inv_norm is that when I use da.argtopk, the returned 
-        value is the index in the synthetic array rather than the global index. Therefore, I need an array to 
-        keep track of the global index. 
-        
-        Further more, when I do the sorting, I also need to include the previously selected nearest neighbors,
-        therefore, the container should be large enough to include these data. 
-        """
-        col_idx = np.zeros(data_num_row + neighbor_number, dtype=np.int)
-        right_inv_norm = np.zeros(data_num_row, dtype=np.int)
-
-        # Open the files to do calculation. Remember to close them in the end
+        # Open the files to do calculation
+        # Remember to close them in the end
         col_h5file_holder = {}
         col_dataset_holder = []
+        for file_name in col_info_holder.keys():
+            col_h5file_holder.update({file_name: h5py.File(file_name, 'r')})
 
-        for batch_local_idx in range(len(batches_in_bin)):
+            col_data_name_list = col_info_holder[file_name]["Datasets"]
+            col_data_ends_list = col_info_holder[file_name]["Ends"]
+            for data_idx in range(len(col_data_name_list)):
+                col_data_name = col_data_ends_list[data_idx]
 
-            # Define auxiliary variables
-            batch_idx = batch_idx_on_dim0[batch_local_idx]
-            _tmp_start = data_source.batch_global_idx_range_dim0[batch_idx, 0]
-            _tmp_end = data_source.batch_global_idx_range_dim0[batch_idx, 1]
-
-            # Assign index value and norm values to corresponding variables.
-            # The col_idx is shifted according to the previously listed reason
-            col_idx[tmp_end_list[batch_idx] + neighbor_number:
-                    tmp_end_list[batch_idx + 1] + neighbor_number] = np.arange(_tmp_start, _tmp_end)
-
-            right_inv_norm[tmp_end_list[batch_idx]:tmp_end_list[batch_idx + 1]] = inv_norm_all[_tmp_start:_tmp_end]
-
-            # Extract the batch info
-            col_info_holder = batches_in_bin[batch_idx]  # For different horizontal patches
-
-            for file_name in col_info_holder.keys():
-                col_h5file_holder.update({file_name: h5py.File(file_name, 'r')})
-
-                col_data_name_list = col_info_holder[file_name]["Datasets"]
-                col_data_ends_list = col_info_holder[file_name]["Ends"]
-                for data_idx in range(len(col_data_name_list)):
-                    col_data_name = col_data_ends_list[data_idx]
-
-                    tmp_data_holder = col_h5file_holder[file_name][col_data_name]
-                    tmp_dask_data_holder = da.from_array(tmp_data_holder[col_data_ends_list[data_idx][0]:
-                                                                         col_data_ends_list[data_idx][1]],
-                                                         chunks=chunk_size)
-                    col_dataset_holder.append(tmp_dask_data_holder)
-
-        # Create auxiliary variable to update index along dimension 1
-        aux_dim1_index = np.outer(np.ones(data_source.batch_num_list_dim0[comm_rank - 1], dtype=np.int), col_idx)
-        # Assign corresponding values to the first neighbor_number elements along dimension 1
-        aux_dim1_index[:, :neighbor_number] = row_idx_to_keep
+                tmp_data_holder = col_h5file_holder[file_name][col_data_name]
+                tmp_dask_data_holder = da.from_array(tmp_data_holder[col_data_ends_list[data_idx][0]:
+                                                                     col_data_ends_list[data_idx][1]]
+                                                     , chunks=(10, 128, 128))
+                col_dataset_holder.append(tmp_dask_data_holder)
 
         # Create dask arrays based on these h5 files
         col_dataset = da.concatenate(col_dataset_holder, axis=0)
 
         # Calculate the correlation matrix.
-        inner_prod_matrix = da.tensordot(dataset, col_dataset,
-                                         axes=(list(range(1, num_dim)), list(range(1, num_dim))))
+        inner_prod_matrix = da.tensordot(dataset, col_dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
+
+        # Load the norm for the off-diagonal patch
+        """Open the file, remember to close it after this iteration."""
+        right_inv_norm_holder = h5py.File(output_folder + "/distances/inv_norm_{}.h5".format(job_idx[1]))
+        right_inv_norm = da.from_array(right_inv_norm_holder['inv_norm']
+                                       , chunks=(data_source.batch_number_list[job_idx[1]],))
 
         # Normalize the inner product matrix
         inner_prod_matrix = da.tensordot(lhs=da.tensordot(lhs=inv_norm,
@@ -287,16 +234,28 @@ if comm_rank != 0:
         row_val_to_keep = da.topk(a=inner_prod_matrix, k=neighbor_number, axis=1)
         row_val_to_keep.compute()
 
-        # Notice that this is not the global index of the corresponding data point
-        row_idx_pre = np.array(da.argtopk(a=inner_prod_matrix, k=neighbor_number, axis=1))
+        # Notice that this is a new variable.
+        row_idx_to_keep = np.array(da.argtopk(a=inner_prod_matrix, k=neighbor_number, axis=1))
 
-        row_idx_to_keep = util.get_values(source=aux_dim1_index,
-                                          indexes=row_idx_pre,
-                                          holder=row_idx_to_keep,
-                                          holder_size=holder_size)
+        """
+        Notice that here, the row_val_to_keep contains values from different patches. Therefore, the 
+        index should reflect this fact.
+        
+        Index larger than the neighborhood number belong to newer patch. Index smaller than the neighborhood
+        number belong to the previous patches. The value should be that in the row_idx_pre with the same
+        row index and column index.
+        """
+        row_idx_to_keep[row_idx_to_keep >= neighbor_number] += (batch_ends[job_idx[1]] - neighbor_number)
+
+        # Row index for values from row_idx_pre
+        tmp_row_idx_for_pre = row_idx_to_keep[row_idx_to_keep < neighbor_number]
+        # Indexes to replace in row_idx_to_keep
+        tmp_row_idx = aux_dim1_index[row_idx_to_keep < neighbor_number]
+        tmp_col_idx = aux_dim0_index[row_idx_to_keep < neighbor_number]
+        row_idx_to_keep[tmp_col_idx, tmp_row_idx] = row_idx_pre[tmp_col_idx, tmp_row_idx_for_pre]
 
         # Close all h5 file opened for the column dataset
-        for file_name in col_h5file_holder.keys():
+        for file_name in col_info_holder.keys():
             col_h5file_holder[file_name].close()
 
     # Close all h5 files opened for the row dataset
@@ -313,8 +272,5 @@ comm.Barrier()  # Synchronize
 Step Five: Collect all the patches and assemble them.
 """
 if comm_rank == 0:
-
-    toc_0 = time.time()
     print("Finishes all calculation.")
-    print("Total calculation time is {}".format(tic_0 - toc_0))
     pass

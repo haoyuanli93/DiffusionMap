@@ -88,7 +88,7 @@ class DataSourceFromH5pyList:
 
             self.batch_ends_local_dim1 = []
             self.batch_num_list_dim1 = []
-            self.batch_global_idx_range_dim1 = None
+            # self.batch_global_idx_range_dim1 = None
 
     def initialize(self, source_list_file=None):
         """
@@ -161,11 +161,18 @@ class DataSourceFromH5pyList:
                                         "This is for the first line"
                 The first layer is a list ----->   [                                                          
                                                 " This is for the first batch along this line"    
-                The second layer is a list ----->     [
+                The second layer is a list ----->    [ 
+                                                        "The first element is the batches"
+                The third layer is a list ----->     [
                                                         The 1st batch along dimension 0 that is in this batch,
                                                         The 2nd batch along dimension 0 that is in this batch,
                                                         ...
-                                                      ]
+                                                      ],
+                                                        " The second element is batches index of batches
+                                                        along dimension 0 in this bin."
+                                                      [ 1,2,3,4 ..]
+            
+                                                      ],
                                                 
                                                  " This is for the second batch along this line"
                                                  ...         
@@ -181,7 +188,7 @@ class DataSourceFromH5pyList:
 
         self.batch_ends_local_dim1 = []
         self.batch_num_list_dim1 = []
-        self.batch_global_idx_range_dim1 = None
+        # self.batch_global_idx_range_dim1 = None
 
     def make_batches(self, batch_num_dim0, batch_num_dim1):
         """
@@ -309,7 +316,9 @@ class DataSourceFromH5pyList:
                 idx_list = batch_idx_per_line[line_idx, bin_ends[bin_idx]:bin_ends[bin_idx + 1]]
 
                 # The third layer of list is for this batch in this line.
-                tmp = [self.batch_ends_local_dim0[x] for x in idx_list]
+                tmp = [[self.batch_ends_local_dim0[x] for x in idx_list],
+                       idx_list]
+
                 self.batch_ends_local_dim1[-1].append(tmp)
 
 
