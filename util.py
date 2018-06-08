@@ -244,11 +244,12 @@ def _parse_h5_data_list(txt_file):
         """
         default_flag = 1
         for line_idx in range(file_pos[file_idx], file_pos[file_idx + 1]):
-            default_flag = 0  # If user specifies data sets, set this flag to zero to disable the default behavior.
 
             line = lines[line_idx]
             # Check if this line begins with "Dataset:"
             if line[:8] == "Dataset:":
+                # If user specifies data sets, set this flag to zero to disable the default behavior.
+                default_flag = 0
                 dict_holder[file_list[file_idx]]["Datasets"].append(line[8:])
 
         # If it's to use default behavior.
@@ -256,7 +257,7 @@ def _parse_h5_data_list(txt_file):
             with h5py.File(file_list[file_idx], 'r') as h5file:
                 keys = list(h5file.keys())
                 # Make sure the keys are in lexicographical order
-                dict_holder[file_list[file_idx]]["Datasets"].append(keys)
+                dict_holder[file_list[file_idx]]["Datasets"] = keys
 
     """
     Third loop, check for data number and data shape
@@ -515,12 +516,12 @@ def get_batch_idx_per_list(batch_num):
     :param batch_num: The number of batches along each line.
     :return: A numpy array containing the dim1 idx of the 11 element in this matrix.
     """
-    batch_num_per_line = (batch_num + 1) // 2
+    batch_num_per_line = int((batch_num - 1) // 2)
     holder = np.zeros((batch_num, batch_num_per_line), dtype=np.int)
 
     # Deal with the first batch_num_per_line + 1 lines
     for l in range(batch_num_per_line + 1):
-        holder[l] = np.arange(l + 1, l + 1 + batch_num_per_line, dtype=np.int)
+        holder[l, :] = np.arange(l + 1, l + 1 + batch_num_per_line, dtype=np.int)
     # Deal with the lower region except the last line.
     for l in range(batch_num_per_line - 1):
         line_idx = batch_num_per_line + 1 + l

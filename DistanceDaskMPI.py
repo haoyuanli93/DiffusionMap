@@ -9,6 +9,7 @@ import scipy.sparse
 
 # project modules
 import DataSource
+import Graph
 import util
 
 # Parse the parameters
@@ -20,7 +21,7 @@ parser.add_argument('--batch_number_dim1', type=int, help="batch number along di
                                                           "can be arbitrary.")
 parser.add_argument('--output_folder', type=str, help="Specify the folder to put the calculated data.")
 parser.add_argument("--input_file_list", type=str, help="Specify the text file for the input file list.")
-parser.add_argument("--neighbor_number", type=str, help="Specify the number of neighbors.")
+parser.add_argument("--neighbor_number", type=int, help="Specify the number of neighbors.")
 parser.add_argument("--keep_diagonal", type=bool, help="Specify the number of neighbors.")
 
 # Parse
@@ -104,38 +105,32 @@ if comm_rank != 0:
     # Calculate the correlation matrix.
     num_dim = len(data_shape)
     inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
+    inner_prod_matrix.compute(scheduler='threads')
 
     # Get the diagonal values
-    inv_norm = 1. / (da.sqrt(da.diag(inner_prod_matrix)))
+    inv_norm = 1. / (np.sqrt(np.diag(inner_prod_matrix)))
 
     # Normalize the inner product matrix
     # Remove the diagonal values. Currently, I don't know how to do it efficiently.
-    inner_prod_matrix = da.tensordot(lhs=da.tensordot(lhs=inv_norm,
-                                                      rhs=inner_prod_matrix,
-                                                      axes=([0, ], [0, ])),
-                                     rhs=inv_norm,
-                                     axes=([0, ], [1, ])) - da.eye(N=data_num, chunks=data_num)
+    inner_prod_matrix = Graph.normalization(matrix=inner_prod_matrix,
+                                            scaling_dim0=inv_norm,
+                                            scaling_dim1=inv_norm,
+                                            matrix_shape=np.array([data_num, data_num])) - np.eye(N=data_num,
+                                                                                                  dtype=np.float)
 
-    inv_norm = np.array(inv_norm)
-
-    # sort and create holders for the largest values along each row
+    # sort get the index of the largest value
     """
     Notice that, finally, when we calculate the eigenvectors for the whole matrix,
     one needs the global index rather than the local index. Therefore, one should 
     keep the global index.
     """
     batch_ends = data_source.batch_global_idx_range_dim0[comm_rank, 0]
-    row_val_to_keep = da.topk(a=inner_prod_matrix, k=neighbor_number, axis=1)
-    row_val_to_keep.compute(scheduler='threads')
+    row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-neighbor_number:-1]
 
-    # There is no need to save these values at present.
-    """
-    The reason to treat these two variables differently is that I don't need to do complicated 
-    manipulations on the values but I did not have a better way to find the correct global index
-    other than going back to a numpy array and perform some complicated index manipulations.
-    """
-    row_idx_pre = da.argtopk(a=inner_prod_matrix, k=neighbor_number, axis=1) + batch_ends[comm_rank - 1]
-    row_idx_to_keep = np.array(row_idx_pre)
+    row_val_to_keep = np.zeros_like(row_idx_pre)
+    row_val_to_keep = util.get_values(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
+                                      holder_size=(data_num, neighbor_number))
+    row_idx_to_keep = row_idx_pre + batch_ends[comm_rank - 1]
     holder_size = row_idx_to_keep.shape
 
     # Create a holder for all norms
@@ -146,6 +141,7 @@ else:
     inv_norm = None
     chunk_size = None
     dataset = None
+    data_num = None
     num_dim = None
     row_val_to_keep = None
     row_idx_to_keep = None
@@ -268,20 +264,20 @@ if comm_rank != 0:
         # Calculate the correlation matrix.
         inner_prod_matrix = da.tensordot(dataset, col_dataset,
                                          axes=(list(range(1, num_dim)), list(range(1, num_dim))))
+        inner_prod_matrix.compute(scheduler='threads')
 
         # Normalize the inner product matrix
-        inner_prod_matrix = da.tensordot(lhs=da.tensordot(lhs=inv_norm,
-                                                          rhs=inner_prod_matrix,
-                                                          axes=([0, ], [0, ])),
-                                         rhs=right_inv_norm,
-                                         axes=([0, ], [1, ]))
+        inner_prod_matrix = Graph.normalization(matrix=inner_prod_matrix,
+                                                scaling_dim0=inv_norm,
+                                                scaling_dim1=right_inv_norm,
+                                                matrix_shape=np.array([data_num, data_num_row]))
 
         # Put previously selected values together with the new value and do the sort
-        inner_prod_matrix = da.concatenate([row_val_to_keep, inner_prod_matrix], axis=1)
+        inner_prod_matrix = np.concatenate((row_val_to_keep, inner_prod_matrix), axis=1)
 
         # Calculate the largest values
         row_val_to_keep = da.topk(a=inner_prod_matrix, k=neighbor_number, axis=1)
-        row_val_to_keep.compute()
+        row_val_to_keep.compute(scheduler='threads')
 
         # Notice that this is not the global index of the corresponding data point
         row_idx_pre = np.array(da.argtopk(a=inner_prod_matrix, k=neighbor_number, axis=1))

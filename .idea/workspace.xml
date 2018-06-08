@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DistanceDaskMPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/DistanceDaskMPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +21,8 @@
       <file leaf-file-name="DistanceDaskMPI.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="15" column="40" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="40" />
+            <state relative-caret-position="368">
+              <caret line="131" column="78" lean-forward="true" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
               <folding>
                 <element signature="e#19#41#0" expanded="true" />
               </folding>
@@ -28,10 +30,40 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="DistanceDaskMPI-bk2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="115" column="50" lean-forward="true" selection-start-line="115" selection-start-column="29" selection-end-line="115" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="752">
+              <caret line="556" column="17" lean-forward="true" selection-start-line="541" selection-end-line="556" selection-end-column="17" />
+              <folding>
+                <element signature="e#71#82#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Graph.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graph.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="290">
+              <caret line="308" lean-forward="true" selection-start-line="308" selection-end-line="308" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataSource.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4048">
+            <state relative-caret-position="528">
               <caret line="186" column="40" selection-start-line="186" selection-start-column="13" selection-end-line="186" selection-end-column="40" />
               <folding>
                 <element signature="e#1316#1333#0" expanded="true" />
@@ -68,6 +100,8 @@
       <find>batch_ends_local</find>
       <find>mode</find>
       <find>batch_number_list</find>
+      <find>calculation_mode</find>
+      <find>norm</find>
     </findStrings>
     <replaceStrings>
       <replace>map</replace>
@@ -93,12 +127,12 @@
         <option value="$PROJECT_DIR$/Parser.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/KernalAndNorm.py" />
-        <option value="$PROJECT_DIR$/Graph.py" />
         <option value="$PROJECT_DIR$/debug.ipynb" />
         <option value="$PROJECT_DIR$/DistanceDaskMPI-dev.py" />
         <option value="$PROJECT_DIR$/DataSourceBK.py" />
         <option value="$PROJECT_DIR$/DataSource.py" />
         <option value="$PROJECT_DIR$/util.py" />
+        <option value="$PROJECT_DIR$/Graph.py" />
         <option value="$PROJECT_DIR$/DistanceDaskMPI.py" />
       </list>
     </option>
@@ -128,6 +162,11 @@
             <path>
               <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
               <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
+              <item name="src_backup" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -209,7 +248,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -504,34 +542,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="115" column="50" lean-forward="true" selection-start-line="115" selection-start-column="29" selection-end-line="115" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DistanceMPI.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6710">
-          <caret line="308" selection-start-line="308" selection-end-line="308" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12122">
-          <caret line="554" selection-start-line="554" selection-end-line="554" />
-          <folding>
-            <element signature="e#71#82#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -552,9 +566,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="308" lean-forward="true" selection-start-line="308" selection-end-line="308" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DataSource.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4048">
+        <state relative-caret-position="528">
           <caret line="186" column="40" selection-start-line="186" selection-start-column="13" selection-end-line="186" selection-end-column="40" />
           <folding>
             <element signature="e#1316#1333#0" expanded="true" />
@@ -562,10 +583,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="752">
+          <caret line="556" column="17" lean-forward="true" selection-start-line="541" selection-end-line="556" selection-end-column="17" />
+          <folding>
+            <element signature="e#71#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="115" column="50" lean-forward="true" selection-start-line="115" selection-start-column="29" selection-end-line="115" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="15" column="40" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="40" />
+        <state relative-caret-position="368">
+          <caret line="131" column="78" lean-forward="true" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
           <folding>
             <element signature="e#19#41#0" expanded="true" />
           </folding>
