@@ -5,6 +5,7 @@ import argparse
 import time
 import dask.array as da
 import h5py
+import scipy.sparse
 
 # project modules
 import DataSource
@@ -21,6 +22,7 @@ parser.add_argument('--calculation_mode', type=str, help="Specify how to partiti
 parser.add_argument('--output_folder', type=str, help="Specify the folder to put the calculated data.")
 parser.add_argument("--input_file_list", type=str, help="Specify the text file for the input file list.")
 parser.add_argument("--neighbor_number", type=str, help="Specify the number of neighbors.")
+parser.add_argument("--keep_diagonal", type=bool, help="Specify the number of neighbors.")
 
 # Parse
 args = parser.parse_args()
@@ -29,14 +31,8 @@ batch_num_dim1 = args.batch_number_dim1
 calculation_mode = args.calculation_mode
 input_file_list = args.input_file_list
 output_folder = args.output_folder
-"""
-Because in diffusion map, one would not include the the diagonal terms,
-when one sort the distances, ideally, one should remove the diagonal terms.
-However, I don't know how to achieve that efficiently. Therefore
-instead, I keep one more terms when sorting the sequence and then remove the 
-diagonal line in total. 
-"""
-neighbor_number = args.neighbor_number + 1
+neighbor_number = args.neighbor_number
+keep_diagonal = args.keep_diagonal
 
 # Initialize the MPI
 comm = MPI.COMM_WORLD
@@ -57,7 +53,7 @@ if comm_rank == 0:
     print("It takes {} seconds to construct the batches.".format(toc - tic))
 
     # Starting calculating the time
-    tic_0 = time.time()
+    tic_0 = MPI.Wtime()
 
 else:
     data_source = None
@@ -79,6 +75,7 @@ if comm_rank != 0:
     # Get the correct chunk size
     data_shape = data_source.source_dict["shape"]
     chunk_size = tuple([100, ] + list(data_shape))
+    data_num = data_source.batch_num_list_dim0[comm_rank - 1]
 
     # Construct the data for diagonal patch
     row_info_holder = data_source.batch_ends_local_dim0[comm_rank - 1]
@@ -114,11 +111,12 @@ if comm_rank != 0:
     inv_norm = 1. / (da.sqrt(da.diag(inner_prod_matrix)))
 
     # Normalize the inner product matrix
+    # Remove the diagonal values. Currently, I don't know how to do it efficiently.
     inner_prod_matrix = da.tensordot(lhs=da.tensordot(lhs=inv_norm,
                                                       rhs=inner_prod_matrix,
                                                       axes=([0, ], [0, ])),
                                      rhs=inv_norm,
-                                     axes=([0, ], [1, ]))
+                                     axes=([0, ], [1, ])) - da.eye(N=data_num, chunks=data_num)
 
     inv_norm = np.array(inv_norm)
 
@@ -313,8 +311,37 @@ comm.Barrier()  # Synchronize
 Step Five: Collect all the patches and assemble them.
 """
 if comm_rank == 0:
+    holder_size = (data_source.data_num_total, neighbor_number)
+    # Load all the patches and assemble them as a sparse matrix
+    idx_dim1 = np.zeros(holder_size, dtype=np.int)
+    idx_dim0 = np.zeros(holder_size, dtype=np.int)
+    values = np.zeros(holder_size, dtype=np.int)
 
-    toc_0 = time.time()
+    # Fill the variables with desired values
+    for idx in range(batch_num_dim0):
+        _tmp_start = data_source.batch_global_idx_range_dim0[0]
+        _tmp_end = data_source.batch_global_idx_range_dim0[1]
+        with h5py.File(output_folder + "/distances/distance_batch_{}.h5".format(idx)) as h5file:
+            idx_dim0[_tmp_start:_tmp_end] = np.outer(np.arange(_tmp_start, _tmp_end, dtype=np.int),
+                                                     np.ones(neighbor_number, dtype=np.int))
+
+            idx_dim1[_tmp_start:_tmp_end] = np.array(h5file['/row_index'])
+            values[_tmp_start:_tmp_end] = np.array(h5file['row_values'])
+
+    # Construct a sparse matrix
+    coo_matrix = scipy.sparse.coo_matrix((values[:], (idx_dim0[:], idx_dim1[:])),
+                                         shape=(data_source.data_num_total, data_source.data_num_total))
+    del values
+    del idx_dim0
+    del idx_dim1
+
+    # Convert to compressed sparse row matrix
+    csr_matrix = coo_matrix.tocsr()
+
+    # Save the matrix
+    scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=csr_matrix, compressed=True)
+
+    # Finishes the calculation.
+    toc_0 = MPI.Wtime()
     print("Finishes all calculation.")
     print("Total calculation time is {}".format(tic_0 - toc_0))
-    pass
