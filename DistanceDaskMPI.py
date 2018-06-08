@@ -18,7 +18,6 @@ parser.add_argument('--batch_number_dim0', type=int, help="batch number along di
                                                           "number is the total node number -1.")
 parser.add_argument('--batch_number_dim1', type=int, help="batch number along dimension 1. This value "
                                                           "can be arbitrary.")
-parser.add_argument('--calculation_mode', type=str, help="Specify how to partition the matrix.")
 parser.add_argument('--output_folder', type=str, help="Specify the folder to put the calculated data.")
 parser.add_argument("--input_file_list", type=str, help="Specify the text file for the input file list.")
 parser.add_argument("--neighbor_number", type=str, help="Specify the number of neighbors.")
@@ -28,7 +27,6 @@ parser.add_argument("--keep_diagonal", type=bool, help="Specify the number of ne
 args = parser.parse_args()
 batch_num_dim0 = args.batch_number_dim0
 batch_num_dim1 = args.batch_number_dim1
-calculation_mode = args.calculation_mode
 input_file_list = args.input_file_list
 output_folder = args.output_folder
 neighbor_number = args.neighbor_number
