@@ -275,17 +275,18 @@ if comm_rank != 0:
         # Put previously selected values together with the new value and do the sort
         inner_prod_matrix = np.concatenate((row_val_to_keep, inner_prod_matrix), axis=1)
 
-        # Calculate the largest values
-        row_val_to_keep = da.topk(a=inner_prod_matrix, k=neighbor_number, axis=1)
-        row_val_to_keep.compute(scheduler='threads')
+        # Find the local index of the largest values
+        row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-neighbor_number:-1]
 
-        # Notice that this is not the global index of the corresponding data point
-        row_idx_pre = np.array(da.argtopk(a=inner_prod_matrix, k=neighbor_number, axis=1))
-
+        # Turn the local index into global index
         row_idx_to_keep = util.get_values(source=aux_dim1_index,
                                           indexes=row_idx_pre,
                                           holder=row_idx_to_keep,
                                           holder_size=holder_size)
+
+        # Calculate the largest values
+        row_val_to_keep = util.get_values(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
+                                          holder_size=(data_num, neighbor_number))
 
         # Close all h5 file opened for the column dataset
         for file_name in col_h5file_holder.keys():
