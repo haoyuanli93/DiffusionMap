@@ -101,14 +101,14 @@ if comm_rank != 0:
 
     # Create dask arrays based on these h5 files
     dataset = da.concatenate(row_dataset_holder, axis=0)
-    
+
     print("Finishes loading data.")
-    
+
     # Calculate the correlation matrix.
     num_dim = len(data_shape) + 1
     inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
     inner_prod_matrix.compute(scheduler='threads')
-    
+
     print("Finishes calculating the matrix.")
     # Get the diagonal values
     inv_norm = 1. / (np.sqrt(np.diag(inner_prod_matrix)))
@@ -130,17 +130,17 @@ if comm_rank != 0:
     batch_ends = data_source.batch_global_idx_range_dim0[comm_rank, 0]
     row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-neighbor_number:-1]
 
-    row_val_to_keep = np.zeros_like(row_idx_pre)
-    row_val_to_keep = util.get_values(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
-                                      holder_size=(data_num, neighbor_number))
+    row_val_to_keep = np.zeros_like(row_idx_pre, dtype=np.float64)
+    row_val_to_keep = util.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
+                                            holder_size=(data_num, neighbor_number))
     row_idx_to_keep = row_idx_pre + batch_ends[comm_rank - 1]
     holder_size = row_idx_to_keep.shape
-    
+
     # Create a holder for all norms
     inv_norm_all = None
-    
+
     print("Finishes the first stage.")
-    
+
 else:
     # Create several holders in the master node. These values have no meaning.
     # They only keep the communication robust.
@@ -258,9 +258,9 @@ if comm_rank != 0:
                                                                          col_data_ends_list[data_idx][1]],
                                                          chunks=chunk_size)
                     col_dataset_holder.append(tmp_dask_data_holder)
-        
+
         print("Finishes loading data.")
-        
+
         # Create auxiliary variable to update index along dimension 1
         aux_dim1_index = np.outer(np.ones(data_source.batch_num_list_dim0[comm_rank - 1], dtype=np.int), col_idx)
         # Assign corresponding values to the first neighbor_number elements along dimension 1
@@ -287,14 +287,16 @@ if comm_rank != 0:
         row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-neighbor_number:-1]
 
         # Turn the local index into global index
-        row_idx_to_keep = util.get_values(source=aux_dim1_index,
-                                          indexes=row_idx_pre,
-                                          holder=row_idx_to_keep,
-                                          holder_size=holder_size)
+        row_idx_to_keep = util.get_values_int(source=aux_dim1_index,
+                                              indexes=row_idx_pre,
+                                              holder=row_idx_to_keep,
+                                              holder_size=holder_size)
 
         # Calculate the largest values
-        row_val_to_keep = util.get_values(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
-                                          holder_size=(data_num, neighbor_number))
+        row_val_to_keep = util.get_values_float(source=inner_prod_matrix,
+                                                indexes=row_idx_pre,
+                                                holder=row_val_to_keep,
+                                                holder_size=(data_num, neighbor_number))
 
         # Close all h5 file opened for the column dataset
         for file_name in col_h5file_holder.keys():
