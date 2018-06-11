@@ -107,37 +107,41 @@ if comm_rank != 0:
     # Calculate the correlation matrix.
     num_dim = len(data_shape) + 1
     inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
-    inner_prod_matrix.compute(scheduler='threads')
+    inner_prod_matrix = np.array(inner_prod_matrix)
 
     print("Finishes calculating the matrix.")
     # Get the diagonal values
     inv_norm = 1. / (np.sqrt(np.diag(inner_prod_matrix)))
-
+    
     # Normalize the inner product matrix
     # Remove the diagonal values. Currently, I don't know how to do it efficiently.
+    #inner_prod_matrix = ((inner_prod_matrix*inv_norm).T * inv_norm).T - np.eye(data_num,dtype= np.float64)
+
     inner_prod_matrix = Graph.normalization(matrix=inner_prod_matrix,
                                             scaling_dim0=inv_norm,
                                             scaling_dim1=inv_norm,
                                             matrix_shape=np.array([data_num, data_num])) - np.eye(N=data_num,
                                                                                                   dtype=np.float)
-
+    
     # sort get the index of the largest value
     """
     Notice that, finally, when we calculate the eigenvectors for the whole matrix,
     one needs the global index rather than the local index. Therefore, one should 
     keep the global index.
     """
-    batch_ends = data_source.batch_global_idx_range_dim0[comm_rank, 0]
-    row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-neighbor_number:-1]
+    batch_ends = data_source.batch_global_idx_range_dim0[comm_rank-1, 0]
+    row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number+1):-1]
 
+    holder_size = np.array([data_num, neighbor_number], dtype = np.int64)
+    
     row_val_to_keep = np.zeros_like(row_idx_pre, dtype=np.float64)
     row_val_to_keep = util.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
-                                            holder_size=(data_num, neighbor_number))
-    row_idx_to_keep = row_idx_pre + batch_ends[comm_rank - 1]
-    holder_size = row_idx_to_keep.shape
+                                            holder_size=holder_size)
+    
+    row_idx_to_keep = row_idx_pre + batch_ends
 
     # Create a holder for all norms
-    inv_norm_all = None
+    inv_norm_all = np.empty(data_source.data_num_total, dtype = np.float64)
 
     print("Finishes the first stage.")
 
@@ -166,7 +170,7 @@ Step Three: The master node receive and organize all the norms
 if comm_rank == 0:
     # The first element in the recev_data variable is the None value from the
     # master node. Therefore, one should remove that element.
-    inv_norm_all = np.stack(recv_data[1:])
+    inv_norm_all = np.concatenate(recv_data[1:], axis=0)
     np.save(output_folder + "/inverse_norms.npy", inv_norm_all)
 
 """
@@ -184,7 +188,8 @@ will save the largest 50 values along dimension 1.
 
 During this process, each worker need the norm of all the patterns, therefore I have to synchronize here.
 """
-inv_norm_all = comm.Bcast(inv_norm_all, root=0)
+comm.Barrier()  # Synchronize
+comm.Bcast(inv_norm_all, root=0)
 comm.Barrier()  # Synchronize
 
 """
@@ -206,7 +211,7 @@ if comm_rank != 0:
         # Loop through batches in this bins.
         # Remember the first element is the batches, the second element is the corresponding index along dim0
         batches_in_bin = bin_list_dim1[bin_idx][0]
-        batch_idx_on_dim0 = bin_list_dim1[bin_idx][0]
+        batch_idx_on_dim0 = bin_list_dim1[bin_idx][1]
 
         # Construct holder arrays for the indexes and norms.
         tmp_num_list = np.array([0, ] + [data_source.batch_num_list_dim0[x] for x in batch_idx_on_dim0], dtype=np.int)
@@ -237,13 +242,13 @@ if comm_rank != 0:
 
             # Assign index value and norm values to corresponding variables.
             # The col_idx is shifted according to the previously listed reason
-            col_idx[tmp_end_list[batch_idx] + neighbor_number:
-                    tmp_end_list[batch_idx + 1] + neighbor_number] = np.arange(_tmp_start, _tmp_end)
+            col_idx[tmp_end_list[batch_local_idx] + neighbor_number:
+                    tmp_end_list[batch_local_idx + 1] + neighbor_number] = np.arange(_tmp_start, _tmp_end)
 
-            right_inv_norm[tmp_end_list[batch_idx]:tmp_end_list[batch_idx + 1]] = inv_norm_all[_tmp_start:_tmp_end]
+            right_inv_norm[tmp_end_list[batch_local_idx]:tmp_end_list[batch_local_idx + 1]] = inv_norm_all[_tmp_start:_tmp_end]
 
             # Extract the batch info
-            col_info_holder = batches_in_bin[batch_idx]  # For different horizontal patches
+            col_info_holder = batches_in_bin[batch_local_idx]  # For different horizontal patches
 
             for file_name in col_info_holder.keys():
                 col_h5file_holder.update({file_name: h5py.File(file_name, 'r')})
@@ -251,8 +256,8 @@ if comm_rank != 0:
                 col_data_name_list = col_info_holder[file_name]["Datasets"]
                 col_data_ends_list = col_info_holder[file_name]["Ends"]
                 for data_idx in range(len(col_data_name_list)):
-                    col_data_name = col_data_ends_list[data_idx]
-
+                    col_data_name = col_data_name_list[data_idx]
+                    
                     tmp_data_holder = col_h5file_holder[file_name][col_data_name]
                     tmp_dask_data_holder = da.from_array(tmp_data_holder[col_data_ends_list[data_idx][0]:
                                                                          col_data_ends_list[data_idx][1]],
@@ -265,28 +270,30 @@ if comm_rank != 0:
         aux_dim1_index = np.outer(np.ones(data_source.batch_num_list_dim0[comm_rank - 1], dtype=np.int), col_idx)
         # Assign corresponding values to the first neighbor_number elements along dimension 1
         aux_dim1_index[:, :neighbor_number] = row_idx_to_keep
-
+        
         # Create dask arrays based on these h5 files
         col_dataset = da.concatenate(col_dataset_holder, axis=0)
 
         # Calculate the correlation matrix.
         inner_prod_matrix = da.tensordot(dataset, col_dataset,
                                          axes=(list(range(1, num_dim)), list(range(1, num_dim))))
-        inner_prod_matrix.compute(scheduler='threads')
+        inner_prod_matrix = np.array(inner_prod_matrix)
 
         # Normalize the inner product matrix
-        inner_prod_matrix = Graph.normalization(matrix=inner_prod_matrix,
-                                                scaling_dim0=inv_norm,
-                                                scaling_dim1=right_inv_norm,
-                                                matrix_shape=np.array([data_num, data_num_row]))
+        inner_prod_matrix = ((inner_prod_matrix*right_inv_norm).T * inv_norm).T 
 
         # Put previously selected values together with the new value and do the sort
         inner_prod_matrix = np.concatenate((row_val_to_keep, inner_prod_matrix), axis=1)
 
         # Find the local index of the largest values
-        row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-neighbor_number:-1]
+        row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number+1):-1]
 
         # Turn the local index into global index
+        print(type(row_idx_pre))
+        print(type(row_idx_to_keep))
+        print(type(row_idx_pre))
+        print(type(holder_size))
+
         row_idx_to_keep = util.get_values_int(source=aux_dim1_index,
                                               indexes=row_idx_pre,
                                               holder=row_idx_to_keep,
@@ -296,7 +303,7 @@ if comm_rank != 0:
         row_val_to_keep = util.get_values_float(source=inner_prod_matrix,
                                                 indexes=row_idx_pre,
                                                 holder=row_val_to_keep,
-                                                holder_size=(data_num, neighbor_number))
+                                                holder_size=holder_size)
 
         # Close all h5 file opened for the column dataset
         for file_name in col_h5file_holder.keys():
@@ -308,7 +315,9 @@ if comm_rank != 0:
 
     # Save the distance patch
     name_to_save = output_folder + "/distances/distance_batch_{}.h5".format(comm_rank - 1)
-    da.to_hdf5(name_to_save, {'/row_index': row_idx_to_keep, '/row_values': row_val_to_keep})
+    with h5py.File(name_to_save,'w') as _tmp_h5file:
+        _tmp_h5file.create_dataset("/row_index", data=row_idx_to_keep)
+        _tmp_h5file.create_dataset("/row_values", data=row_val_to_keep)
 
 comm.Barrier()  # Synchronize
 
@@ -324,17 +333,19 @@ if comm_rank == 0:
 
     # Fill the variables with desired values
     for idx in range(batch_num_dim0):
-        _tmp_start = data_source.batch_global_idx_range_dim0[0]
-        _tmp_end = data_source.batch_global_idx_range_dim0[1]
         with h5py.File(output_folder + "/distances/distance_batch_{}.h5".format(idx)) as h5file:
-            idx_dim0[_tmp_start:_tmp_end] = np.outer(np.arange(_tmp_start, _tmp_end, dtype=np.int),
-                                                     np.ones(neighbor_number, dtype=np.int))
+            _tmp_start = data_source.batch_global_idx_range_dim0[idx,0]
+            _tmp_end = data_source.batch_global_idx_range_dim0[idx,1]
+
+            idx_dim0[_tmp_start:_tmp_end] = np.outer(np.arange(_tmp_start, _tmp_end, dtype=np.int),np.ones(neighbor_number, dtype=np.int))
 
             idx_dim1[_tmp_start:_tmp_end] = np.array(h5file['/row_index'])
             values[_tmp_start:_tmp_end] = np.array(h5file['row_values'])
 
+    size_num = data_source.data_num_total * neighbor_number
     # Construct a sparse matrix
-    coo_matrix = scipy.sparse.coo_matrix((values[:], (idx_dim0[:], idx_dim1[:])),
+    coo_matrix = scipy.sparse.coo_matrix((values.reshape(size_num),
+                                          (idx_dim0.reshape(size_num), idx_dim1.reshape(size_num))),
                                          shape=(data_source.data_num_total, data_source.data_num_total))
     del values
     del idx_dim0
@@ -349,4 +360,4 @@ if comm_rank == 0:
     # Finishes the calculation.
     toc_0 = MPI.Wtime()
     print("Finishes all calculation.")
-    print("Total calculation time is {}".format(tic_0 - toc_0))
+    print("Total calculation time is {}".format( toc_0 -tic_0 ))

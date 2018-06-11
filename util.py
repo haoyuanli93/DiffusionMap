@@ -539,7 +539,7 @@ def get_batch_idx_per_list(batch_num):
 #
 ##################################################################
 
-@jit(int64[:, :](int64[:, :], int64[:, :], int64[:, :], int64[2]), nopython=True, parallel=True)
+@jit(["int64[:, :](int64[:, :], int64[:, :], int64[:, :], int64[2])"], nopython=True, parallel=True)
 def get_values_int(source, indexes, holder, holder_size):
     """
     Use this function to update the indexes along dimension 1.
@@ -557,7 +557,7 @@ def get_values_int(source, indexes, holder, holder_size):
     return holder
 
 
-@jit(float64[:, :](float64[:, :], int64[:, :], float64[:, :], int64[2]), nopython=True, parallel=True)
+@jit(["float64[:, :](float64[:, :], int64[:, :], float64[:, :], int64[2])"], nopython=True, parallel=True)
 def get_values_float(source, indexes, holder, holder_size):
     """
     Use this function to update the indexes along dimension 1.
