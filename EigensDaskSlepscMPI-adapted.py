@@ -115,7 +115,10 @@ if comm_rank != 0:
     print("Finishes calculating the matrix.")
     # Get the diagonal values
     inv_norm = 1. / (np.sqrt(np.diag(inner_prod_matrix)))
-
+    
+    # Send out the inverse norm
+    comm.Send([data, MPI.INT], dest=1, tag=77)
+    
     # Normalize the inner product matrix
     # Remove the diagonal values. Currently, I don't know how to do it efficiently.
     # inner_prod_matrix = ((inner_prod_matrix*inv_norm).T * inv_norm).T - np.eye(data_num,dtype= np.float64)
