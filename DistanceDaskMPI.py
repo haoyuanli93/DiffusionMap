@@ -78,14 +78,14 @@ if comm_rank != 0:
 
     # Construct the data for diagonal patch
     row_info_holder = data_source.batch_ends_local_dim0[comm_rank - 1]
-    
+
     print("Process {}".format(comm_rank), row_info_holder)
-    
+
     # Open the files to do calculation
     # Remember to close them in the end
     row_h5file_holder = {}
     row_dataset_holder = []
-    for file_name in row_info_holder.keys():
+    for file_name in row_info_holder["files"]:
         row_h5file_holder.update({file_name: h5py.File(file_name, 'r')})
 
         # Get the dataset names and the range in that dataset
@@ -111,26 +111,20 @@ if comm_rank != 0:
     inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
     inner_prod_matrix = np.array(inner_prod_matrix)
 
-    # Debug
-    #dataset = np.array(dataset)
-    #dataset = dataset.reshape(data_num, np.prod(data_shape))
-    #inner_prod_matrix = np.matmul(dataset, dataset.T)
-    
-    
     print("Finishes calculating the matrix.")
     # Get the diagonal values
     inv_norm = 1. / (np.sqrt(np.diag(inner_prod_matrix)))
 
     # Save the result to disk
     np.save(output_folder + "/aux/inv_norm_batch_{}.npy".format(comm_rank - 1), inv_norm)
-        
+
     # Normalize the inner product matrix
     Graph.normalization(matrix=inner_prod_matrix,
-                                            scaling_dim0=inv_norm,
-                                            scaling_dim1=inv_norm,
-                                            matrix_shape=np.array([data_num, data_num]))
-    
-    inner_prod_matrix -= np.eye(N=data_num,dtype=np.float)
+                        scaling_dim0=inv_norm,
+                        scaling_dim1=inv_norm,
+                        matrix_shape=np.array([data_num, data_num]))
+
+    inner_prod_matrix -= np.eye(N=data_num, dtype=np.float)
 
     # sort get the index of the largest value
     """
@@ -145,7 +139,7 @@ if comm_rank != 0:
 
     row_val_to_keep = np.zeros_like(row_idx_pre, dtype=np.float64)
     util.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
-                                            holder_size=holder_size)
+                          holder_size=holder_size)
 
     row_idx_to_keep = row_idx_pre + batch_ends
 
@@ -157,6 +151,7 @@ if comm_rank != 0:
 else:
     # Create several holders in the master node. These values have no meaning.
     # They only keep the communication robust.
+    inv_norm = None
     chunk_size = None
     dataset = None
     data_num = None
@@ -166,20 +161,20 @@ else:
     holder_size = None
     row_info_holder = None
     row_h5file_holder = None
+    # Create a holder for the norms in the master node.
+    inv_norm_all = None
 
+    # Let the master node to gather and assemble all the norms.
+recv_data = comm.gather(inv_norm, root=0)
 comm.Barrier()  # Synchronize
 
 """
 Step Three: The master node receive and organize all the norms
 """
 if comm_rank == 0:
-    
-    # Load all the norms and assemble them
-    holder = []
-    for l in range(comm_size - 1):
-        holder.append(np.load(output_folder + "/aux/inv_norm_batch_{}.npy".format(l)))
-        
-    inv_norm_all = np.concatenate(holder, axis=0)
+
+    inv_norm_all = np.concatenate(recv_data[1:], axis=0)
+    print("This is process {}, the shape of inv_norm_all is {}".format(comm_rank, inv_norm_all.shape))
     np.save(output_folder + "/inverse_norms.npy", inv_norm_all)
 
 """
@@ -259,7 +254,7 @@ if comm_rank != 0:
             # Extract the batch info
             col_info_holder = batches_in_bin[batch_local_idx]  # For different horizontal patches
 
-            for file_name in col_info_holder.keys():
+            for file_name in col_info_holder["files"]:
                 col_h5file_holder.update({file_name: h5py.File(file_name, 'r')})
 
                 col_data_name_list = col_info_holder[file_name]["Datasets"]
@@ -293,7 +288,7 @@ if comm_rank != 0:
                             scaling_dim0=inv_norm,
                             scaling_dim1=right_inv_norm,
                             matrix_shape=np.array([data_num, data_num_row]))
-        
+
         # Put previously selected values together with the new value and do the sort
         inner_prod_matrix = np.concatenate((row_val_to_keep, inner_prod_matrix), axis=1)
 
@@ -302,15 +297,15 @@ if comm_rank != 0:
 
         # Turn the local index into global index
         util.get_values_int(source=aux_dim1_index,
-                                              indexes=row_idx_pre,
-                                              holder=row_idx_to_keep,
-                                              holder_size=holder_size)
+                            indexes=row_idx_pre,
+                            holder=row_idx_to_keep,
+                            holder_size=holder_size)
 
         # Calculate the largest values
         util.get_values_float(source=inner_prod_matrix,
-                                                indexes=row_idx_pre,
-                                                holder=row_val_to_keep,
-                                                holder_size=holder_size)
+                              indexes=row_idx_pre,
+                              holder=row_val_to_keep,
+                              holder_size=holder_size)
 
         # Close all h5 file opened for the column dataset
         for file_name in col_h5file_holder.keys():
@@ -357,8 +352,8 @@ if comm_rank == 0:
     idx_dim1 = idx_dim1.reshape(size_num)
 
     # Construct a sparse matrix
-    matrix = scipy.sparse.coo_matrix((values,(idx_dim0, idx_dim1)),
-                                             shape=(data_source.data_num_total, data_source.data_num_total))
+    matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
+                                     shape=(data_source.data_num_total, data_source.data_num_total))
 
     # Symmetrize this matrix
     matrix += np.transpose(matrix)

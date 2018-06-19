@@ -288,22 +288,6 @@ def _parse_h5_data_list(txt_file):
 
 ##################################################################
 #
-#       Find out the available memory for each node
-#
-##################################################################
-
-##################################################################
-#
-#       MPI configuration parser
-#
-##################################################################
-
-def mpi_config_parser(txt_file, mode="MPI+Dask"):
-    pass
-
-
-##################################################################
-#
 #       Get batch number list
 #
 ##################################################################
@@ -418,7 +402,12 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
 
         The first layer is a list ----->   [
                                         " This is for the first batch"
-        The second layer is a dic ----->     {file name 1:
+        The second layer is a dic ----->     {
+                                              files :[ A list containing the addresses for files in this
+                                                       folder. Notice that this list has the same order
+                                                       as that listed in the input file list.]
+
+                                              file name 1:
         The third layer is a dic  ----->                    {Dataset name:
         The forth layer is a list ----->                     [A list of the dataset names],
 
@@ -451,6 +440,8 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
 
         # Create an element for this batch
         batch_ends_local.append({})
+        # This entry contains the list of files contained in this batch
+        batch_ends_local[-1].update({"files": []})
 
         # Find out how many h5 files are covered by this range
         """
@@ -464,9 +455,13 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
 
         file_range = np.unique(file_pos_holder)
 
-        # Create the entry for the file
+        # Create the entry for the batch
         for file_idx in file_range:
-            # Create only in the element for this batch
+
+            # The file address of this file
+            batch_ends_local[-1]["files"].append(file_list[file_idx])
+
+            # Holder for dataset information for this file in this batch
             batch_ends_local[-1].update({file_list[file_idx]: {"Datasets": [],
                                                                "Ends": []}})
             # Find out which datasets are covered within this file for this batch
