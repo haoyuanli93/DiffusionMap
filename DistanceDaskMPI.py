@@ -353,6 +353,9 @@ if comm_rank == 0:
     del idx_dim0
     del idx_dim1
 
+    # Symmetrize this matrix
+    coo_matrix += np.transpose(coo_matrix)
+
     # Convert to compressed sparse row matrix
     csr_matrix = coo_matrix.tocsr()
 

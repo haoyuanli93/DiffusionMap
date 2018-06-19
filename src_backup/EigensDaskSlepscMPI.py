@@ -63,9 +63,6 @@ else:
 print("Sharing the datasource and job list info.")
 # The worker receives the job instruction
 data_source = comm.bcast(obj=data_source, root=0)
-print("Process {} receives the datasource."
-      "There are totally {} jobs for this process.".format(comm_rank,
-                                                           len(data_source.batch_ends_local_dim1[comm_rank - 1])))
 comm.Barrier()  # Synchronize
 
 """
@@ -73,7 +70,10 @@ Step Two: Calculate the diagonal patch
 """
 tic = time.time()
 if comm_rank != 0:
-
+    
+    print("Process {} receives the datasource."
+          "There are totally {} jobs for this process.".format(comm_rank,
+                                                               len(data_source.batch_ends_local_dim1[comm_rank - 1])))
     # Get the correct chunk size
     data_shape = data_source.source_dict["shape"]
     chunk_size = tuple([100, ] + list(data_shape))
@@ -144,8 +144,8 @@ if comm_rank != 0:
     row_idx_to_keep = row_idx_pre + batch_ends
 
     # Create a holder for all norms
-    inv_norm_all = np.empty(data_source.data_num_total, dtype=np.float64)
-
+    inv_norm_all = np.zeros(data_source.data_num_total, dtype=np.float64)
+    print("This is process {}, the shape of inv_norm_all is {}".format(comm_rank, inv_norm_all.shape))
     print("Finishes the first stage.")
 
 else:
@@ -166,6 +166,7 @@ else:
 
 # Let the master node to gather and assemble all the norms.
 recv_data = comm.gather(inv_norm, root=0)
+comm.Barrier()  # Synchronize
 
 """
 Step Three: The master node receive and organize all the norms
@@ -173,7 +174,14 @@ Step Three: The master node receive and organize all the norms
 if comm_rank == 0:
     # The first element in the recev_data variable is the None value from the
     # master node. Therefore, one should remove that element.
+    for holder in recv_data:
+        try:
+            print(holder.shape)
+        except:
+            print(holder)
+            
     inv_norm_all = np.concatenate(recv_data[1:], axis=0)
+    print("This is process {}, the shape of inv_norm_all is {}".format(comm_rank, inv_norm_all.shape))
     np.save(output_folder + "/inverse_norms.npy", inv_norm_all)
 
 """
@@ -192,7 +200,9 @@ will save the largest 50 values along dimension 1.
 During this process, each worker need the norm of all the patterns, therefore I have to synchronize here.
 """
 comm.Barrier()  # Synchronize
-comm.Bcast(inv_norm_all, root=0)
+#comm.Bcast(inv_norm_all, root=0)
+# Debug
+inv_norm_all = comm.bcast(obj=inv_norm_all, root=0)
 comm.Barrier()  # Synchronize
 
 """
@@ -292,12 +302,6 @@ if comm_rank != 0:
         # Find the local index of the largest values
         row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
 
-        # Turn the local index into global index
-        print(type(row_idx_pre))
-        print(type(row_idx_to_keep))
-        print(type(row_idx_pre))
-        print(type(holder_size))
-
         row_idx_to_keep = util.get_values_int(source=aux_dim1_index,
                                               indexes=row_idx_pre,
                                               holder=row_idx_to_keep,
@@ -365,8 +369,16 @@ if comm_rank == 0:
     # Finishes the calculation.
     toc_0 = MPI.Wtime()
     print("Obtain the sparse matrix.")
-    print("The calculation time is {}".format(toc_0 - tic_0))
+    print("The calculation time till now is {}".format(toc_0 - tic_0))
+    
+else:
+    csr_matrix = None
+
+# Share the matrix
+csr_matrix = comm.bcast(obj=csr_matrix, root=0)
+
 comm.Barrier()  # Synchronize
+
 
 """
 Step Six: Create a petsc4py matrix for linear algebra
@@ -379,16 +391,18 @@ petsc_mat.setSizes(mat_size)
 petsc_mat.setType('aij')  # sparse
 petsc_mat.setPreallocationNNZ(neighbor_number)
 petsc_mat.setUp()
+rstart, rend = petsc_mat.getOwnershipRange()
 
-if comm_rank == 0:
-    # First extract the index and values for initialization
-    p1 = csr_matrix.indptr
-    p2 = csr_matrix.indices
-    p3 = csr_matrix.data
+p1 = csr_matrix.indptr
+p2 = csr_matrix.indices
+p3 = csr_matrix.data
 
-    petsc_mat.createAIJ(size=mat_size,
-                        csr=(p1, p2, p3), comm=PETSc.COMM_WORLD)
-    print("Process {} finishes initialing the matrix.".format(comm_rank))
+petsc_mat.createAIJ(size=csr_matrix.shape,
+                       csr=(p1[rstart:rend+1] - p1[rstart],
+                            p2[p1[rstart]:p1[rend]],
+                            p3[p1[rstart]:p1[rend]]), comm=PETSc.COMM_WORLD)
+
+print("Process {} finishes initialing the matrix.".format(comm_rank))
 petsc_mat.assemble()
 
 """
@@ -437,3 +451,4 @@ if comm_rank == 0:
 
     print("Finishes all the calculation.")
     print("The total calculation time is {}".format(toc_0 - tic_0))
+
