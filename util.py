@@ -539,7 +539,7 @@ def get_batch_idx_per_list(batch_num):
 #
 ##################################################################
 
-@jit(["int64[:, :](int64[:, :], int64[:, :], int64[:, :], int64[2])"], nopython=True, parallel=True)
+@jit(["void(int64[:, :], int64[:, :], int64[:, :], int64[2])"], nopython=True, parallel=True)
 def get_values_int(source, indexes, holder, holder_size):
     """
     Use this function to update the indexes along dimension 1.
@@ -548,16 +548,13 @@ def get_values_int(source, indexes, holder, holder_size):
     :param indexes: The local index find by da.argtopk
     :param holder: The holder variable: row_idx_to_keep
     :param holder_size: The shape of row_idx_to_keep
-    :return: The updated holder
     """
     for l in range(holder_size[0]):
         for m in range(holder_size[1]):
             holder[l, m] = source[l, indexes[l, m]]
 
-    return holder
 
-
-@jit(["float64[:, :](float64[:, :], int64[:, :], float64[:, :], int64[2])"], nopython=True, parallel=True)
+@jit(["void(float64[:, :], int64[:, :], float64[:, :], int64[2])"], nopython=True, parallel=True)
 def get_values_float(source, indexes, holder, holder_size):
     """
     Use this function to update the indexes along dimension 1.
@@ -566,10 +563,7 @@ def get_values_float(source, indexes, holder, holder_size):
     :param indexes: The local index find by da.argtopk
     :param holder: The holder variable: row_val_to_keep
     :param holder_size: The shape of row_val_to_keep
-    :return: The updated holder
     """
     for l in range(holder_size[0]):
         for m in range(holder_size[1]):
             holder[l, m] = source[l, indexes[l, m]]
-
-    return holder

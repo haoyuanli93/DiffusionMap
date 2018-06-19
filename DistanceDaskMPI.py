@@ -78,7 +78,9 @@ if comm_rank != 0:
 
     # Construct the data for diagonal patch
     row_info_holder = data_source.batch_ends_local_dim0[comm_rank - 1]
-
+    
+    print("Process {}".format(comm_rank), row_info_holder)
+    
     # Open the files to do calculation
     # Remember to close them in the end
     row_h5file_holder = {}
@@ -109,19 +111,26 @@ if comm_rank != 0:
     inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
     inner_prod_matrix = np.array(inner_prod_matrix)
 
+    # Debug
+    #dataset = np.array(dataset)
+    #dataset = dataset.reshape(data_num, np.prod(data_shape))
+    #inner_prod_matrix = np.matmul(dataset, dataset.T)
+    
+    
     print("Finishes calculating the matrix.")
     # Get the diagonal values
     inv_norm = 1. / (np.sqrt(np.diag(inner_prod_matrix)))
 
+    # Save the result to disk
+    np.save(output_folder + "/aux/inv_norm_batch_{}.npy".format(comm_rank - 1), inv_norm)
+        
     # Normalize the inner product matrix
-    # Remove the diagonal values. Currently, I don't know how to do it efficiently.
-    # inner_prod_matrix = ((inner_prod_matrix*inv_norm).T * inv_norm).T - np.eye(data_num,dtype= np.float64)
-
-    inner_prod_matrix = Graph.normalization(matrix=inner_prod_matrix,
+    Graph.normalization(matrix=inner_prod_matrix,
                                             scaling_dim0=inv_norm,
                                             scaling_dim1=inv_norm,
-                                            matrix_shape=np.array([data_num, data_num])) - np.eye(N=data_num,
-                                                                                                  dtype=np.float)
+                                            matrix_shape=np.array([data_num, data_num]))
+    
+    inner_prod_matrix -= np.eye(N=data_num,dtype=np.float)
 
     # sort get the index of the largest value
     """
@@ -135,7 +144,7 @@ if comm_rank != 0:
     holder_size = np.array([data_num, neighbor_number], dtype=np.int64)
 
     row_val_to_keep = np.zeros_like(row_idx_pre, dtype=np.float64)
-    row_val_to_keep = util.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
+    util.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
                                             holder_size=holder_size)
 
     row_idx_to_keep = row_idx_pre + batch_ends
@@ -148,7 +157,6 @@ if comm_rank != 0:
 else:
     # Create several holders in the master node. These values have no meaning.
     # They only keep the communication robust.
-    inv_norm = None
     chunk_size = None
     dataset = None
     data_num = None
@@ -158,19 +166,20 @@ else:
     holder_size = None
     row_info_holder = None
     row_h5file_holder = None
-    # Create a holder for the norms in the master node.
-    inv_norm_all = None
 
-# Let the master node to gather and assemble all the norms.
-recv_data = comm.gather(inv_norm, root=0)
+comm.Barrier()  # Synchronize
 
 """
 Step Three: The master node receive and organize all the norms
 """
 if comm_rank == 0:
-    # The first element in the recev_data variable is the None value from the
-    # master node. Therefore, one should remove that element.
-    inv_norm_all = np.concatenate(recv_data[1:], axis=0)
+    
+    # Load all the norms and assemble them
+    holder = []
+    for l in range(comm_size - 1):
+        holder.append(np.load(output_folder + "/aux/inv_norm_batch_{}.npy".format(l)))
+        
+    inv_norm_all = np.concatenate(holder, axis=0)
     np.save(output_folder + "/inverse_norms.npy", inv_norm_all)
 
 """
@@ -188,7 +197,6 @@ will save the largest 50 values along dimension 1.
 
 During this process, each worker need the norm of all the patterns, therefore I have to synchronize here.
 """
-comm.Barrier()  # Synchronize
 comm.Bcast(inv_norm_all, root=0)
 comm.Barrier()  # Synchronize
 
@@ -227,7 +235,7 @@ if comm_rank != 0:
         therefore, the container should be large enough to include these data. 
         """
         col_idx = np.zeros(data_num_row + neighbor_number, dtype=np.int)
-        right_inv_norm = np.zeros(data_num_row, dtype=np.int)
+        right_inv_norm = np.zeros(data_num_row, dtype=np.float)
 
         # Open the files to do calculation. Remember to close them in the end
         col_h5file_holder = {}
@@ -281,8 +289,11 @@ if comm_rank != 0:
         inner_prod_matrix = np.array(inner_prod_matrix)
 
         # Normalize the inner product matrix
-        inner_prod_matrix = ((inner_prod_matrix * right_inv_norm).T * inv_norm).T
-
+        Graph.normalization(matrix=inner_prod_matrix,
+                            scaling_dim0=inv_norm,
+                            scaling_dim1=right_inv_norm,
+                            matrix_shape=np.array([data_num, data_num_row]))
+        
         # Put previously selected values together with the new value and do the sort
         inner_prod_matrix = np.concatenate((row_val_to_keep, inner_prod_matrix), axis=1)
 
@@ -290,18 +301,13 @@ if comm_rank != 0:
         row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
 
         # Turn the local index into global index
-        print(type(row_idx_pre))
-        print(type(row_idx_to_keep))
-        print(type(row_idx_pre))
-        print(type(holder_size))
-
-        row_idx_to_keep = util.get_values_int(source=aux_dim1_index,
+        util.get_values_int(source=aux_dim1_index,
                                               indexes=row_idx_pre,
                                               holder=row_idx_to_keep,
                                               holder_size=holder_size)
 
         # Calculate the largest values
-        row_val_to_keep = util.get_values_float(source=inner_prod_matrix,
+        util.get_values_float(source=inner_prod_matrix,
                                                 indexes=row_idx_pre,
                                                 holder=row_val_to_keep,
                                                 holder_size=holder_size)
@@ -330,7 +336,7 @@ if comm_rank == 0:
     # Load all the patches and assemble them as a sparse matrix
     idx_dim1 = np.zeros(holder_size, dtype=np.int)
     idx_dim0 = np.zeros(holder_size, dtype=np.int)
-    values = np.zeros(holder_size, dtype=np.int)
+    values = np.zeros(holder_size, dtype=np.float)
 
     # Fill the variables with desired values
     for idx in range(batch_num_dim0):
@@ -341,26 +347,27 @@ if comm_rank == 0:
             idx_dim0[_tmp_start:_tmp_end] = np.outer(np.arange(_tmp_start, _tmp_end, dtype=np.int),
                                                      np.ones(neighbor_number, dtype=np.int))
 
-            idx_dim1[_tmp_start:_tmp_end] = np.array(h5file['/row_index'])
+            idx_dim1[_tmp_start:_tmp_end] = np.array(h5file['row_index'])
             values[_tmp_start:_tmp_end] = np.array(h5file['row_values'])
 
     size_num = data_source.data_num_total * neighbor_number
+
+    values = values.reshape(size_num)
+    idx_dim0 = idx_dim0.reshape(size_num)
+    idx_dim1 = idx_dim1.reshape(size_num)
+
     # Construct a sparse matrix
-    coo_matrix = scipy.sparse.coo_matrix((values.reshape(size_num),
-                                          (idx_dim0.reshape(size_num), idx_dim1.reshape(size_num))),
-                                         shape=(data_source.data_num_total, data_source.data_num_total))
-    del values
-    del idx_dim0
-    del idx_dim1
+    matrix = scipy.sparse.coo_matrix((values,(idx_dim0, idx_dim1)),
+                                             shape=(data_source.data_num_total, data_source.data_num_total))
 
     # Symmetrize this matrix
-    coo_matrix += np.transpose(coo_matrix)
+    matrix += np.transpose(matrix)
 
     # Convert to compressed sparse row matrix
-    csr_matrix = coo_matrix.tocsr()
+    matrix.tocsr(copy=True)
 
     # Save the matrix
-    scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=csr_matrix, compressed=True)
+    scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
 
     # Finishes the calculation.
     toc_0 = MPI.Wtime()

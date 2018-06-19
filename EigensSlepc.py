@@ -1,4 +1,5 @@
 # Standard modules
+from mpi4py import MPI
 import argparse
 import time
 import scipy.sparse
@@ -22,11 +23,18 @@ output_folder = args.output_folder
 neighbor_number = args.neighbor_number
 eig_num = args.eig_num
 
+# Initialize the MPI
+comm = MPI.COMM_WORLD
+comm_rank = comm.Get_rank()
+comm_size = comm.Get_size()
 """
 Step One: Load the sparse matrix and get some information
 """
-print("Begin loading the data", flush=True)
-tic = time.time()
+if comm_rank == 0:
+    #print("Begin loading the data", flush=True)
+    print("Begin loading the data")
+    tic = time.time()
+comm.Barrier()  # Synchronize
 
 csr_matrix = scipy.sparse.load_npz(sparse_matrix_npz)
 mat_size = csr_matrix.shape
@@ -109,6 +117,11 @@ if nconv > 0:
     numpy.save(output_folder + "/Eigenvec.npy", vecs)
     numpy.save(output_folder + "/Eigenval.npy", vals)
 
-print("Finishes all calculation.", flush=True)
-toc = time.time()
-print("The total calculation time is {}".format(toc - tic), flush=True)
+comm.Barrier()  # Synchronize
+if comm_rank == 0:
+    #print("Finishes all calculation.", flush=True)
+    print("Finishes all calculation.")
+    toc = time.time()
+    #print("The total calculation time is {}".format(toc - tic), flush=True)
+    print("The total calculation time is {}".format(toc - tic))
+

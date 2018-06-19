@@ -313,7 +313,7 @@ def solve_for_eigenvectors(matrix, num, mode="general"):
 #       Normalization
 #
 ##################################################################
-@jit(["float64[:, :](float64[:, :], float64[:], float64[:], int64[2])"], nopython=True, parallel=True)
+@jit(["void(float64[:, :], float64[:], float64[:], int64[2])"], nopython=True, parallel=True)
 def normalization(matrix, scaling_dim0, scaling_dim1, matrix_shape):
     """
     Scale each row in the matrix by a corresponding value in scaling_dim0.
@@ -323,11 +323,9 @@ def normalization(matrix, scaling_dim0, scaling_dim1, matrix_shape):
     :param scaling_dim0: Scaling factors for each row.
     :param scaling_dim1: Scaling factors for each column.
     :param matrix_shape: The shape of the matrix
-    :return: matrix.
     """
 
     for l in range(matrix_shape[0]):
         matrix[l, :] *= scaling_dim0[l]
     for m in range(matrix_shape[1]): 
         matrix[:, m] *= scaling_dim1[m]
-    return matrix
