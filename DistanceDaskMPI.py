@@ -312,7 +312,7 @@ if comm_rank != 0:
             col_h5file_holder[file_name].close()
 
     # Close all h5 files opened for the row dataset
-    for file_name in row_info_holder.keys():
+    for file_name in row_h5file_holder.keys():
         row_h5file_holder[file_name].close()
 
     # Save the distance patch
