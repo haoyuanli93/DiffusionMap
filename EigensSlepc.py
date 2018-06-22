@@ -36,6 +36,7 @@ if comm_rank == 0:
     tic = time.time()
 comm.Barrier()  # Synchronize
 
+# Load the matrix
 csr_matrix = scipy.sparse.load_npz(sparse_matrix_npz)
 mat_size = csr_matrix.shape
 
@@ -50,15 +51,16 @@ petsc_mat.setType('aij')  # sparse
 petsc_mat.setPreallocationNNZ(neighbor_number)
 petsc_mat.setUp()
 rstart, rend = petsc_mat.getOwnershipRange()
+print(rstart, rend)
 
 p1 = csr_matrix.indptr
 p2 = csr_matrix.indices
 p3 = csr_matrix.data
 
-petsc_mat.createAIJ(size=csr_matrix.shape,
+petsc_mat.createAIJ(size=mat_size,
                     csr=(p1[rstart:rend + 1] - p1[rstart],
                          p2[p1[rstart]:p1[rend]],
-                         p3[p1[rstart]:p1[rend]]), comm=PETSc.COMM_WORLD)
+                         p3[p1[rstart]:p1[rend]]))
 petsc_mat.assemble()
 
 """
@@ -100,21 +102,19 @@ if nconv > 0:
     for i in range(nconv):
         k = E.getEigenpair(i, xr, xi)
         error = E.computeError(i)
-
+        Print(" %12f       %12g" % (k.real, error))
+        
         # Obtain the result
-        vals.append(k)
-        vecs = [complex(xr0, xi0) for xr0, xi0 in zip(xr.getArray(),
-                                                      xi.getArray())]
-        if k.imag != 0.0:
-            Print(" %9f%+9f j  %12g" % (k.real, k.imag, error))
-        else:
-            Print(" %12f       %12g" % (k.real, error))
+        vals.append(k.real)
+        vecs = xr.getArray()
+        
+        numpy.save(output_folder + "/Eigenvec_{}_{}.npy".format(i, comm_rank), numpy.asarray(vecs))
+        vecs = []
+            
     Print("")
-    vals = numpy.asarray(vals)
-    vecs = numpy.asarray(vecs).T
 
     # Save the result
-    numpy.save(output_folder + "/Eigenvec.npy", vecs)
+    vals = numpy.asarray(vals)
     numpy.save(output_folder + "/Eigenval.npy", vals)
 
 comm.Barrier()  # Synchronize
