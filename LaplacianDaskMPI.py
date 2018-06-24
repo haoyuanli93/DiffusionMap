@@ -42,6 +42,7 @@ comm_size = comm.Get_size()
 """
 Step One: Initialization
 """
+tic_0 = time.time()
 if comm_rank == 0:
     data_source = DataSource.DataSourceFromH5pyList(source_list_file=input_file_list)
 
@@ -53,7 +54,7 @@ if comm_rank == 0:
     print("It takes {} seconds to construct the batches.".format(toc - tic))
 
     # Starting calculating the time
-    tic_0 = MPI.Wtime()
+
 
 else:
     data_source = None
@@ -354,6 +355,9 @@ if comm_rank == 0:
     idx_dim0 = idx_dim0.reshape(size_num)
     idx_dim1 = idx_dim1.reshape(size_num)
 
+    # Calculate the time to construct the Laplacian matrix
+    toc_1 = time.time()
+
     # Construct a sparse matrix
     matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
                                      shape=(data_source.data_num_total, data_source.data_num_total))
@@ -364,10 +368,18 @@ if comm_rank == 0:
     # Convert to compressed sparse row matrix
     matrix.tocsr(copy=True)
 
+    # Calculate the degree
+    degree = np.reshape(1. / np.sqrt(matrix.sum(axis=0)), (1, data_source.data_num_total))
+
+    degree_mat = scipy.sparse.dia_matrix((degree, np.array([0, ])),
+                                         shape=(data_source.data_num_total,
+                                                data_source.data_num_total))
+
     # Save the matrix
     scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
 
     # Finishes the calculation.
-    toc_0 = MPI.Wtime()
+    toc_0 = time.time()
     print("Finishes all calculation.")
     print("Total calculation time is {}".format(toc_0 - tic_0))
+    print("Time to construct the Laplacian matrix from the symmetric matrix is {}".format(toc_1 - toc_0))
