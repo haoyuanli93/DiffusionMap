@@ -1,5 +1,4 @@
 # Standard modules
-import argparse
 import time
 
 import dask.array as da
@@ -10,33 +9,24 @@ from mpi4py import MPI
 
 # project modules
 import DataSource
+import Config
 import Graph
 
-# Parse the parameters
-parser = argparse.ArgumentParser()
-parser.add_argument('--batch_number_dim0', type=int, help="batch number along dimension 0. This value should be "
-                                                          "the same as the worker node number. The worker node"
-                                                          "number is the total node number -1.")
-parser.add_argument('--batch_number_dim1', type=int, help="batch number along dimension 1. This value "
-                                                          "can be arbitrary.")
-parser.add_argument('--output_folder', type=str, help="Specify the folder to put the calculated data.")
-parser.add_argument("--input_file_list", type=str, help="Specify the text file for the input file list.")
-parser.add_argument("--neighbor_number", type=int, help="Specify the number of neighbors.")
-parser.add_argument("--keep_diagonal", type=bool, help="Specify the number of neighbors.")
-
 # Parse
-args = parser.parse_args()
-batch_num_dim0 = args.batch_number_dim0
-batch_num_dim1 = args.batch_number_dim1
-input_file_list = args.input_file_list
-output_folder = args.output_folder
-neighbor_number = args.neighbor_number
-keep_diagonal = args.keep_diagonal
+batch_num_dim0 = Config.CONFIGURATIONS["batch_number_dim0"]
+batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
+input_file_list = Config.CONFIGURATIONS["input_file_list"]
+output_folder = Config.CONFIGURATIONS["output_folder"]
+neighbor_number = Config.CONFIGURATIONS["neighbor_number"]
+keep_diagonal = Config.CONFIGURATIONS["keep_diagonal"]
 
 # Initialize the MPI
 comm = MPI.COMM_WORLD
 comm_rank = comm.Get_rank()
 comm_size = comm.Get_size()
+
+# Check if the configuration information is valid
+Config.
 
 """
 Step One: Initialization
@@ -56,7 +46,6 @@ else:
     data_source = None
 
 print("Sharing the datasource and job list info.")
-# The worker receives the job instruction
 data_source = comm.bcast(obj=data_source, root=0)
 print("Process {} receives the datasource."
       "There are totally {} jobs for this process.".format(comm_rank,
@@ -365,19 +354,6 @@ if comm_rank == 0:
 
     # Save the matrix
     scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
-
-    # Symmetrize this matrix
-    matrix += np.transpose(matrix)
-
-    # Convert to compressed sparse row matrix
-    matrix.tocsr(copy=True)
-
-    # Normalize
-    matrix = scipy.sparse.eye(m=data_source.data_num_total, n=data_source.data_num_total,
-                              format="csr") - degree_mat * matrix * degree_mat
-
-    # Save the matrix
-    scipy.sparse.save_npz(file=output_folder + "/laplacian_matrix.npz", matrix=matrix, compressed=True)
 
     # Finishes the calculation.
     toc_0 = time.time()
