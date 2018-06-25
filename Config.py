@@ -39,36 +39,45 @@ CONFIGURATIONS = {
 #       Check
 #
 ##################################################################
-def check(config, comm_size):
+def check(comm_size):
     """
     This function check if the parameter type is correct and if the batch_num_dim0 is comm_size - 1
     and check if comm_size is an even number.
 
     :return: Void
     """
+
+    global CONFIGURATIONS
+
+    config = CONFIGURATIONS
+
+    # The batch_num_dim0 has to be an odd number. and has to be comm_size - 1
     if not (type(config["batch_num_dim0"]) is int):
         raise Exception("batch_num_dim0 has to be an integer.")
 
     if comm_size - 1 != config["batch_num_dim0"]:
         raise Exception("The number of nodes, i.e. the comm_size has to be config[\"batch_num_dim0\"] + 1.")
 
-    if numpy.mod(comm_size - 1, 2) != 0:
+    if numpy.mod(comm_size, 2) != 0:
         raise Exception("The number of nodes, i.e. the comm_size has to be an even number.")
 
-    if not (type(config["batch_num_dim0"]) is int):
-        raise Exception("batch_num_dim0 has to be an integer.")
+    if not (type(config["batch_num_dim1"]) is int):
+        raise Exception("batch_num_dim1 has to be an integer.")
 
-    if not (type(config["batch_num_dim0"]) is int):
-        raise Exception("batch_num_dim0 has to be an integer.")
+    if not (type(config["input_file_list"]) is str):
+        raise Exception("input_file_list has to be a python string.")
 
-    if not (type(config["batch_num_dim0"]) is int):
-        raise Exception("batch_num_dim0 has to be an integer.")
+    if not (type(config["output_folder"]) is str):
+        raise Exception("output_folder has to be a python string.")
 
-    if not (type(config["batch_num_dim0"]) is int):
-        raise Exception("batch_num_dim0 has to be an integer.")
+    if not (type(config["neighbor_number"]) is int):
+        raise Exception("neighbor_number has to be an integer.")
 
-    if not (type(config["batch_num_dim0"]) is int):
-        raise Exception("batch_num_dim0 has to be an integer.")
+    if not (type(config["keep_diagonal"]) is bool):
+        raise Exception("keep_diagonal has to be of a boolean value.")
 
-    if not (type(config["batch_num_dim0"]) is int):
-        raise Exception("batch_num_dim0 has to be an integer.")
+    if not (type(config["sparse_matrix_npz"]) is str):
+        raise Exception("sparse_matrix_npz has to be a python string.")
+
+    if not (type(config["eig_num"]) is int):
+        raise Exception("eig_num has to be an integer.")

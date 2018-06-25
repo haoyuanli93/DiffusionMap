@@ -633,27 +633,6 @@ def assemble_mat(data_source, config):
 
     return holder
 
-
-def save_variances(data_source, variances, batch_index):
-    """
-    Save variances by batch.
-
-    :param data_source: The data_source class that contains the raw patterns.
-    :param batch_index: The batch index of to process.
-    :param variances: The variances to save.
-    """
-
-    # load the data_source address
-    address = data_source.output_path
-
-    # check if the folder exist
-    if not os.path.isdir(address + '/variances'):
-        os.makedirs(address + '/variances')
-
-    with h5py.File(address + '/variances/batch_{}.h5'.format(batch_index), 'w') as h5file:
-        h5file.create_dataset('{}'.format(batch_index), data=variances, chunks=True)
-
-
 ##################################################################
 #
 #       Assemble

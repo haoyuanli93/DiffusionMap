@@ -31,8 +31,7 @@ comm_size = comm.Get_size()
 Step One: Load the sparse matrix and get some information
 """
 if comm_rank == 0:
-    #print("Begin loading the data", flush=True)
-    print("Begin loading the data")
+    print("Begin loading the data", flush=True)
     tic = time.time()
 comm.Barrier()  # Synchronize
 
@@ -82,7 +81,6 @@ E.solve()
 
 # Inspect the result and save the results
 vals = []
-vecs = []
 
 Print("")
 its = E.getIterationNumber()
@@ -103,14 +101,13 @@ if nconv > 0:
         k = E.getEigenpair(i, xr, xi)
         error = E.computeError(i)
         Print(" %12f       %12g" % (k.real, error))
-        
+
         # Obtain the result
         vals.append(k.real)
         vecs = xr.getArray()
-        
+
         numpy.save(output_folder + "/Eigenvec_{}_{}.npy".format(i, comm_rank), numpy.asarray(vecs))
-        vecs = []
-            
+
     Print("")
 
     # Save the result
@@ -119,9 +116,6 @@ if nconv > 0:
 
 comm.Barrier()  # Synchronize
 if comm_rank == 0:
-    #print("Finishes all calculation.", flush=True)
-    print("Finishes all calculation.")
+    print("Finishes all calculation.", flush=True)
     toc = time.time()
-    #print("The total calculation time is {}".format(toc - tic), flush=True)
-    print("The total calculation time is {}".format(toc - tic))
-
+    print("The total calculation time is {}".format(toc - tic), flush=True)

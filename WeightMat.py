@@ -1,6 +1,5 @@
 # Standard modules
 import time
-
 import dask.array as da
 import h5py
 import numpy as np
@@ -12,6 +11,14 @@ import DataSource
 import Config
 import Graph
 
+# Initialize the MPI
+comm = MPI.COMM_WORLD
+comm_rank = comm.Get_rank()
+comm_size = comm.Get_size()
+
+# Check if the configuration information is valid and compatible with the MPI setup
+Config.check(comm_size=comm_size)
+
 # Parse
 batch_num_dim0 = Config.CONFIGURATIONS["batch_number_dim0"]
 batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
@@ -19,14 +26,6 @@ input_file_list = Config.CONFIGURATIONS["input_file_list"]
 output_folder = Config.CONFIGURATIONS["output_folder"]
 neighbor_number = Config.CONFIGURATIONS["neighbor_number"]
 keep_diagonal = Config.CONFIGURATIONS["keep_diagonal"]
-
-# Initialize the MPI
-comm = MPI.COMM_WORLD
-comm_rank = comm.Get_rank()
-comm_size = comm.Get_size()
-
-# Check if the configuration information is valid
-Config.
 
 """
 Step One: Initialization
@@ -64,132 +63,142 @@ if comm_rank != 0:
     data_num = data_source.batch_num_list_dim0[comm_rank - 1]
 
     # Construct the data for diagonal patch
-    row_info_holder = data_source.batch_ends_local_dim0[comm_rank - 1]
+    info_holder_dim0 = data_source.batch_ends_local_dim0[comm_rank - 1]
 
-    print("Process {}".format(comm_rank), row_info_holder)
+    print("Process {}".format(comm_rank), info_holder_dim0)
 
-    # Open the files to do calculation
-    # Remember to close them in the end
-    row_h5file_holder = {}
-    row_dataset_holder = []
-    for file_name in row_info_holder["files"]:
-        row_h5file_holder.update({file_name: h5py.File(file_name, 'r')})
+    ####################################################################################################################
+    #
+    #   Begin the calculation of the diagonal term.
+    #
+    ####################################################################################################################
+
+    # Open the files to do calculation. Remember to close them in the end
+    h5file_holder_dim0 = {}
+    dataset_holder_dim0 = []
+    for file_name in info_holder_dim0["files"]:
+        h5file_holder_dim0.update({file_name: h5py.File(file_name, 'r')})
 
         # Get the dataset names and the range in that dataset
-        data_name_list = row_info_holder[file_name]["Datasets"]
-        data_ends_list = row_info_holder[file_name]["Ends"]
+        data_name_list = info_holder_dim0[file_name]["Datasets"]
+        data_ends_list = info_holder_dim0[file_name]["Ends"]
 
         for data_idx in range(len(data_name_list)):
             data_name = data_name_list[data_idx]
 
             # Load the datasets for the specified range.
-            tmp_data_holder = row_h5file_holder[file_name][data_name]
+            tmp_data_holder = h5file_holder_dim0[file_name][data_name]
             tmp_dask_data_holder = da.from_array(tmp_data_holder[data_ends_list[data_idx][0]:
                                                                  data_ends_list[data_idx][1]], chunks=chunk_size)
-            row_dataset_holder.append(tmp_dask_data_holder)
+            dataset_holder_dim0.append(tmp_dask_data_holder)
 
     # Create dask arrays based on these h5 files
-    dataset = da.concatenate(row_dataset_holder, axis=0)
-
+    dataset_dim0 = da.concatenate(dataset_holder_dim0, axis=0)
     print("Finishes loading data.")
 
+    axes_range = list(range(1, len(data_shape) + 1))
+    # Calculate the mean value of each pattern of the vector
+    data_mean_dim0 = da.mean(a=dataset_dim0, axis=tuple(axes_range))
+    # Calculate the standard deviation of each pattern of the vector
+    data_std_dim0 = da.std(a=dataset_dim0, axis=tuple(axes_range))
     # Calculate the correlation matrix.
-    num_dim = len(data_shape) + 1
-    inner_prod_matrix = da.tensordot(dataset, dataset, axes=(list(range(1, num_dim)), list(range(1, num_dim))))
-    inner_prod_matrix = np.array(inner_prod_matrix)
+    inner_prod_matrix = da.tensordot(dataset_dim0, dataset_dim0, axes=(axes_range, axes_range)) / np.prod(data_shape)
 
-    print("Finishes calculating the matrix.")
-    # Get the diagonal values
-    inv_norm = 1. / (np.sqrt(np.diag(inner_prod_matrix)))
+    # Calculate the concrete values
+    data_mean_dim0, data_std_dim0, inner_prod_matrix = [np.array(data_mean_dim0),
+                                                        np.array(data_std_dim0),
+                                                        np.array(inner_prod_matrix)]
 
-    # Save the result to disk
-    np.save(output_folder + "/aux/inv_norm_batch_{}.npy".format(comm_rank - 1), inv_norm)
+    print("Finishes calculating the mean, the standard variation and the inner product matrix.")
+
+    ####################################################################################################################
+    #
+    #   Finish the calculation of the diagonal term. Now Clean things up
+    #
+    ####################################################################################################################
 
     # Normalize the inner product matrix
     Graph.normalization(matrix=inner_prod_matrix,
-                        scaling_dim0=inv_norm,
-                        scaling_dim1=inv_norm,
+                        std_dim0=data_std_dim0,
+                        std_dim1=data_std_dim0,
+                        mean_dim0=data_mean_dim0,
+                        mean_dim1=data_mean_dim0,
                         matrix_shape=np.array([data_num, data_num]))
 
     # Remove the diagonal and the lower part by setting that to -10.
     inner_prod_matrix[np.tril_indices(n=data_num, m=data_num, k=0)] = -10
+    print("Please Check line 129 to understand what's going on, if you have met "
+          "something unusual in your result, such as a value -10 in your correlation matrix.")
 
-    # Show warning messages to the user to warn for my dark magic.
-    print("Dear user, here I have used a piece of dark magic to facilitate my matrix manipulation.")
-    print("This is line {}.".format(134))
-
-    # sort get the index of the largest value
     """
     Notice that, finally, when we calculate the eigenvectors for the whole matrix,
     one needs the global index rather than the local index. Therefore, one should 
     keep the global index.
     """
     batch_ends = data_source.batch_global_idx_range_dim0[comm_rank - 1, 0]
-    row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
+    idx_pre_dim0 = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
 
     holder_size = np.array([data_num, neighbor_number], dtype=np.int64)
 
-    row_val_to_keep = np.zeros_like(row_idx_pre, dtype=np.float64)
-    Graph.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
+    val_to_keep = np.zeros_like(idx_pre_dim0, dtype=np.float64)
+    Graph.get_values_float(source=inner_prod_matrix, indexes=idx_pre_dim0, holder=val_to_keep,
                            holder_size=holder_size)
 
-    row_idx_to_keep = row_idx_pre + batch_ends
+    idx_to_keep_dim0 = idx_pre_dim0 + batch_ends
 
-    # Create a holder for all norms
-    inv_norm_all = np.empty(data_source.data_num_total, dtype=np.float64)
-
-    print("Finishes the first stage.")
+    # Create a holder for all standard variations and means
+    std_all = np.empty(data_source.data_num_total, dtype=np.float64)
+    mean_all = np.empty(data_source.data_num_total, dtype=np.float64)
+    print("Process {} finishes the first stage.".format(comm_rank))
 
 else:
     # Create several holders in the master node. These values have no meaning.
-    # They only keep the communication robust.
+    # They only keep the pycharm quiet.
     inv_norm = None
     chunk_size = None
-    dataset = None
+    data_std_dim0 = None
+    data_mean_dim0 = None
     data_num = None
     num_dim = None
     row_val_to_keep = None
     row_idx_to_keep = None
     holder_size = None
-    row_info_holder = None
-    row_h5file_holder = None
-    # Create a holder for the norms in the master node.
-    inv_norm_all = None
+    info_holder_dim0 = None
+    h5file_holder_dim0 = None
+    std_all = np.empty(data_source.data_num_total, dtype=np.float64)
+    mean_all = np.empty(data_source.data_num_total, dtype=np.float64)
 
-    # Let the master node to gather and assemble all the norms.
-recv_data = comm.gather(inv_norm, root=0)
+# Let the master node to gather and assemble all the norms.
+std_data = comm.gather(data_std_dim0, root=0)
+mean_data = comm.gather(data_mean_dim0, root=0)
 comm.Barrier()  # Synchronize
 
 """
 Step Three: The master node receive and organize all the norms
 """
 if comm_rank == 0:
-    inv_norm_all = np.concatenate(recv_data[1:], axis=0)
-    print("This is process {}, the shape of inv_norm_all is {}".format(comm_rank, inv_norm_all.shape))
-    np.save(output_folder + "/inverse_norms.npy", inv_norm_all)
+    std_all = np.concatenate(std_data[1:], axis=0)
+    mean_all = np.concatenate(mean_data[1:], axis=0)
+    print("This is process {}, the shape of mean_all is {}".format(comm_rank, mean_all.shape))
+    np.save(output_folder + "/mean_all.npy", mean_all)
+    np.save(output_folder + "/std_all.npy", std_all)
 
-"""
-One needs to synchronize here because I try to use the following strategy.
-
-During the first stage, one calculate the diagonal patches and therefore get the norm for each pattern.
-If we only have 10**6 patterns, then this is only of a size of a 1024*1024 diffraction pattern.
-
-During the first stage, each worker will sort his patterns and save the largest 50 ones along each rows 
-in the memory and remember the global index for each saved value. 
-
-When the worker moves to the next patch, it will first load the norms for patterns in that patch and 
-calculate the inner product and normalize and compare with the previous 50 values. In the end, the worker 
-will save the largest 50 values along dimension 1.
-
-During this process, each worker need the norm of all the patterns, therefore I have to synchronize here.
-"""
-comm.Bcast(inv_norm_all, root=0)
+# Share this information to all worker nodes.
+comm.Bcast(std_all, root=0)
+comm.Bcast(mean_all, root=0)
 comm.Barrier()  # Synchronize
 
 """
 Step Four: Calculate the off-diagonal patch
 """
 if comm_rank != 0:
+
+    ####################################################################################################################
+    #
+    #   Begin the calculation of a non-diagonal term.
+    #
+    ####################################################################################################################
+
     # Get the batch bin info along this line.
     bin_list_dim1 = data_source.batch_ends_local_dim1[comm_rank - 1]
     bin_number = len(bin_list_dim1)
@@ -198,20 +207,20 @@ if comm_rank != 0:
     """
     Notice that, during this process, there are two things to do.
     First, extract all the data contained in this bin and build a dask array for them.
-    Second, construct a numpy array containing the corresponding index and norm to later process.
+    Second, construct a numpy array containing the corresponding index and mean and std to later process.
     """
     for bin_idx in range(bin_number):
 
         # Loop through batches in this bins.
         # Remember the first element is the batches, the second element is the corresponding index along dim0
         batches_in_bin = bin_list_dim1[bin_idx][0]
-        batch_idx_on_dim0 = bin_list_dim1[bin_idx][1]
+        corresponding_idx_on_dim0 = bin_list_dim1[bin_idx][1]
 
         # Construct holder arrays for the indexes and norms.
         tmp_num_list = np.array([0, ] + [data_source.batch_num_list_dim0[x] for x in batch_idx_on_dim0], dtype=np.int)
         tmp_end_list = np.cumsum(tmp_num_list)
 
-        data_num_row = np.sum(tmp_num_list)
+        data_num_dim1 = np.sum(tmp_num_list)
         """
         The reason that col_idx is longer than the right_inv_norm is that when I use da.argtopk, the returned 
         value is the index in the synthetic array rather than the global index. Therefore, I need an array to 
@@ -220,8 +229,8 @@ if comm_rank != 0:
         Further more, when I do the sorting, I also need to include the previously selected nearest neighbors,
         therefore, the container should be large enough to include these data. 
         """
-        col_idx = np.zeros(data_num_row + neighbor_number, dtype=np.int)
-        right_inv_norm = np.zeros(data_num_row, dtype=np.float)
+        col_idx = np.zeros(data_num_dim1 + neighbor_number, dtype=np.int)
+        right_inv_norm = np.zeros(data_num_dim1, dtype=np.float)
 
         # Open the files to do calculation. Remember to close them in the end
         col_h5file_holder = {}
@@ -306,8 +315,8 @@ if comm_rank != 0:
             col_h5file_holder[file_name].close()
 
     # Close all h5 files opened for the row dataset
-    for file_name in row_h5file_holder.keys():
-        row_h5file_holder[file_name].close()
+    for file_name in h5file_holder_dim0.keys():
+        h5file_holder_dim0[file_name].close()
 
     # Save the distance patch
     name_to_save = output_folder + "/distances/distance_batch_{}.h5".format(comm_rank - 1)
