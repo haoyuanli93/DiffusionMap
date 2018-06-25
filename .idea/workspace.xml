@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/LaplacianDaskMPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/LaplacianDaskMPI.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LaplacianMat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DistanceDaskMPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-25.6.2018.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LaplacianDaskMPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OutPut.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_backup/DiffusionMap.py" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/DiffusionMap.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src_backup/DistanceMPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/DistanceMPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,17 +30,20 @@
       <file leaf-file-name="EigensSlepc.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2354">
-              <caret line="114" selection-start-line="114" selection-end-line="114" />
+            <state relative-caret-position="352">
+              <caret line="16" column="30" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="30" />
+              <folding>
+                <element signature="e#19#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LaplacianDaskMPI.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/LaplacianDaskMPI.py">
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="388" column="78" selection-start-line="388" selection-start-column="78" selection-end-line="388" selection-end-column="78" />
+            <state relative-caret-position="583">
+              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
               <folding>
                 <element signature="e#19#34#0" expanded="true" />
               </folding>
@@ -37,11 +51,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DistanceDaskMPI.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="372" column="67" selection-start-line="372" selection-start-column="49" selection-end-line="372" selection-end-column="67" />
+            <state relative-caret-position="-11">
+              <caret line="617" column="14" selection-start-line="617" selection-start-column="14" selection-end-line="617" selection-end-column="14" />
+              <folding>
+                <element signature="e#71#82#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -110,7 +127,6 @@
         <option value="$PROJECT_DIR$/debug.ipynb" />
         <option value="$PROJECT_DIR$/DistanceDaskMPI-dev.py" />
         <option value="$PROJECT_DIR$/DataSourceBK.py" />
-        <option value="$PROJECT_DIR$/Graph.py" />
         <option value="$PROJECT_DIR$/EigenDaskSlepcMPI.py" />
         <option value="$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py" />
         <option value="$PROJECT_DIR$/EigensDaskSlepscMPI.py" />
@@ -118,9 +134,16 @@
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/DataSource.py" />
         <option value="$PROJECT_DIR$/src_backup/DataSource-bk.py" />
-        <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/DistanceDaskMPI.py" />
+        <option value="$PROJECT_DIR$/parsers.py" />
+        <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/LaplacianDaskMPI.py" />
+        <option value="$PROJECT_DIR$/LaplacianMat.py" />
+        <option value="$PROJECT_DIR$/Graph.py" />
+        <option value="$PROJECT_DIR$/IOfun.py" />
+        <option value="$PROJECT_DIR$/SimilarityMat.py" />
+        <option value="$PROJECT_DIR$/util.py" />
+        <option value="$PROJECT_DIR$/WeightMat.py" />
       </list>
     </option>
   </component>
@@ -133,7 +156,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="width" value="1920" />
     <option name="height" value="1080" />
   </component>
@@ -142,6 +165,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -153,7 +177,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -163,17 +186,17 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\Test\Samples" />
+      <recent name="$PROJECT_DIR$/test" />
+      <recent name="$PROJECT_DIR$/obsolete" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
       <recent name="$PROJECT_DIR$" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\Test\Samples" />
-      <recent name="$PROJECT_DIR$/test" />
-      <recent name="$PROJECT_DIR$/obsolete" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -229,20 +252,21 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="8" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18229167" />
-      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32911393" />
+      <window_info anchor="right" id="SciView" order="4" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -252,27 +276,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32944915" />
     </layout>
-    <layout-to-restore>
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.119791664" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -290,27 +294,25 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Graph.py" />
     <entry file="file://$PROJECT_DIR$/Parser.py" />
-    <entry file="file://$PROJECT_DIR$/Parser.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py" />
+    <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py" />
+    <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py" />
+    <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py" />
+    <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py" />
+    <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/test2.sh" />
     <entry file="file://$PROJECT_DIR$/test/test.sh" />
@@ -325,39 +327,72 @@
     <entry file="file://$PROJECT_DIR$/src_backup/DataSource-tmp.py" />
     <entry file="file://$PROJECT_DIR$/Parser.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py" />
     <entry file="file://$PROJECT_DIR$/README.md" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py" />
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Graph.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI-adapted.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DiffusionMap.py" />
+    <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI.py" />
+    <entry file="file://$PROJECT_DIR$/src_backup/DataSource-2018.6.19.py" />
+    <entry file="file://$PROJECT_DIR$/DataSource.py" />
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2354">
-          <caret line="114" selection-start-line="114" selection-end-line="114" />
+        <state relative-caret-position="352">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="30" />
+          <folding>
+            <element signature="e#19#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI.py" />
-    <entry file="file://$PROJECT_DIR$/src_backup/DataSource-2018.6.19.py" />
-    <entry file="file://$PROJECT_DIR$/util.py" />
-    <entry file="file://$PROJECT_DIR$/DataSource.py" />
-    <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-25.6.2018.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
+        <state relative-caret-position="958">
           <caret line="372" column="67" selection-start-line="372" selection-start-column="49" selection-end-line="372" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LaplacianDaskMPI.py">
+    <entry file="file://$PROJECT_DIR$/LaplacianMat.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="388" column="78" selection-start-line="388" selection-start-column="78" selection-end-line="388" selection-end-column="78" />
+        <state relative-caret-position="572">
+          <caret line="26" column="18" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1111">
+          <caret line="109" column="89" selection-start-line="109" selection-start-column="89" selection-end-line="109" selection-end-column="89" />
+          <folding>
+            <element signature="e#170#188#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IOfun.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-11">
+          <caret line="617" column="14" selection-start-line="617" selection-start-column="14" selection-end-line="617" selection-end-column="14" />
+          <folding>
+            <element signature="e#71#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WeightMat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="583">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
           <folding>
             <element signature="e#19#34#0" expanded="true" />
           </folding>

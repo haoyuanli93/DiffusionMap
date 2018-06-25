@@ -8,7 +8,7 @@ import h5py
 
 # project modules
 import DataSourceBK
-import OutPut
+import IOfun
 import Graph
 import util
 
@@ -173,7 +173,7 @@ if comm_rank == 0:
     print("Total time for this calculation is {} seconds".format(toc_0 - tic_0))
 
     # Assemble the distance matrix
-    tot_matrix = OutPut.assemble(data_source)
+    tot_matrix = IOfun.assemble(data_source)
     # Symmetrize matrix
     sym = np.transpose(np.triu(tot_matrix)) + np.triu(tot_matrix) - np.diag(np.diag(tot_matrix))
     print("Finish assembling the inner product matrix")

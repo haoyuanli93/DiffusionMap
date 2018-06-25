@@ -11,7 +11,6 @@ from mpi4py import MPI
 # project modules
 import DataSource
 import Graph
-import util
 
 # Parse the parameters
 parser = argparse.ArgumentParser()
@@ -52,9 +51,6 @@ if comm_rank == 0:
     data_source.make_batches(batch_num_dim0=batch_num_dim0, batch_num_dim1=batch_num_dim1)
     toc = time.time()
     print("It takes {} seconds to construct the batches.".format(toc - tic))
-
-    # Starting calculating the time
-
 
 else:
     data_source = None
@@ -145,8 +141,8 @@ if comm_rank != 0:
     holder_size = np.array([data_num, neighbor_number], dtype=np.int64)
 
     row_val_to_keep = np.zeros_like(row_idx_pre, dtype=np.float64)
-    util.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
-                          holder_size=holder_size)
+    Graph.get_values_float(source=inner_prod_matrix, indexes=row_idx_pre, holder=row_val_to_keep,
+                           holder_size=holder_size)
 
     row_idx_to_keep = row_idx_pre + batch_ends
 
@@ -305,16 +301,16 @@ if comm_rank != 0:
         row_idx_pre = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
 
         # Turn the local index into global index
-        util.get_values_int(source=aux_dim1_index,
-                            indexes=row_idx_pre,
-                            holder=row_idx_to_keep,
-                            holder_size=holder_size)
+        Graph.get_values_int(source=aux_dim1_index,
+                             indexes=row_idx_pre,
+                             holder=row_idx_to_keep,
+                             holder_size=holder_size)
 
         # Calculate the largest values
-        util.get_values_float(source=inner_prod_matrix,
-                              indexes=row_idx_pre,
-                              holder=row_val_to_keep,
-                              holder_size=holder_size)
+        Graph.get_values_float(source=inner_prod_matrix,
+                               indexes=row_idx_pre,
+                               holder=row_val_to_keep,
+                               holder_size=holder_size)
 
         # Close all h5 file opened for the column dataset
         for file_name in col_h5file_holder.keys():
@@ -375,14 +371,6 @@ if comm_rank == 0:
 
     # Convert to compressed sparse row matrix
     matrix.tocsr(copy=True)
-
-    # Calculate the degree
-    degree = np.reshape(1. / np.sqrt(matrix.sum(axis=0)), (1, data_source.data_num_total))
-
-    degree_mat = scipy.sparse.dia_matrix((degree, np.array([0, ])),
-                                         shape=(data_source.data_num_total,
-                                                data_source.data_num_total))
-    degree_mat.tocsr()
 
     # Normalize
     matrix = scipy.sparse.eye(m=data_source.data_num_total, n=data_source.data_num_total,

@@ -4,7 +4,7 @@ import argparse
 
 # Load other modules
 import DataSourceBK
-import OutPut
+import IOfun
 import Graph
 import time
 
@@ -100,7 +100,7 @@ else:
         # Calculate variance
         distance = Graph.inner_product_batch(pattern_batch_l, pattern_num_l, pattern_batch_r, pattern_num_r)
         # Save variance
-        OutPut.save_distances(data_source, distance, patch_index)
+        IOfun.save_distances(data_source, distance, patch_index)
     toc = time.time()
     print("It takes {} seconds for process {} to calculate distance patches".format(toc - tic, comm_rank))
 
@@ -115,7 +115,7 @@ if comm_rank == 0:
     print("Total time for this calculation is {} seconds".format(toc_0 - tic_0))
 
     # Assemble the distance matrix
-    tot_matrix = OutPut.assemble(data_source)
+    tot_matrix = IOfun.assemble(data_source)
     # Symmetrize matrix
     sym = np.transpose(np.triu(tot_matrix)) + np.triu(tot_matrix) - np.diag(np.diag(tot_matrix))
     print("Finish assembling the inner product matrix")

@@ -10,7 +10,7 @@ import h5py
 
 # project modules
 import DataSource
-import OutPut
+import IOfun
 import Graph
 import util
 

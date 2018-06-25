@@ -8,7 +8,7 @@ import numpy as np
 import argparse
 from scipy import sparse
 
-import OutPut
+import IOfun
 import Graph
 
 # Parse the parameters
