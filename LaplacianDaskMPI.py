@@ -386,7 +386,7 @@ if comm_rank == 0:
 
     # Normalize
     matrix = scipy.sparse.eye(m=data_source.data_num_total, n=data_source.data_num_total,
-                              format="csr") - degree_mat * matrix * matrix
+                              format="csr") - degree_mat * matrix * degree_mat
 
     # Save the matrix
     scipy.sparse.save_npz(file=output_folder + "/laplacian_matrix.npz", matrix=matrix, compressed=True)
