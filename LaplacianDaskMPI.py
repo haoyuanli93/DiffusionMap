@@ -367,6 +367,9 @@ if comm_rank == 0:
     matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
                                      shape=(data_source.data_num_total, data_source.data_num_total))
 
+    # Save the matrix
+    scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
+
     # Symmetrize this matrix
     matrix += np.transpose(matrix)
 
@@ -379,9 +382,14 @@ if comm_rank == 0:
     degree_mat = scipy.sparse.dia_matrix((degree, np.array([0, ])),
                                          shape=(data_source.data_num_total,
                                                 data_source.data_num_total))
+    degree_mat.tocsr()
+
+    # Normalize
+    matrix = scipy.sparse.eye(m=data_source.data_num_total, n=data_source.data_num_total,
+                              format="csr") - degree_mat * matrix * matrix
 
     # Save the matrix
-    scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
+    scipy.sparse.save_npz(file=output_folder + "/laplacian_matrix.npz", matrix=matrix, compressed=True)
 
     # Finishes the calculation.
     toc_0 = time.time()
