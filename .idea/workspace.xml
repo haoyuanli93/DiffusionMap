@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/LaplacianDaskMPI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DistanceDaskMPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/DistanceDaskMPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LaplacianDaskMPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/LaplacianDaskMPI.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,7 +21,7 @@
       <file leaf-file-name="EigensSlepc.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2354">
+            <state relative-caret-position="855">
               <caret line="114" selection-start-line="114" selection-end-line="114" />
             </state>
           </provider>
@@ -30,11 +30,17 @@
       <file leaf-file-name="LaplacianDaskMPI.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LaplacianDaskMPI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7136">
-              <caret line="381" column="23" lean-forward="true" selection-start-line="381" selection-start-column="23" selection-end-line="381" selection-end-column="23" />
-              <folding>
-                <element signature="e#19#34#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="646">
+              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DistanceDaskMPI.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2109">
+              <caret line="133" selection-start-line="133" selection-end-line="133" />
             </state>
           </provider>
         </entry>
@@ -112,8 +118,8 @@
         <option value="$PROJECT_DIR$/DataSource.py" />
         <option value="$PROJECT_DIR$/src_backup/DataSource-bk.py" />
         <option value="$PROJECT_DIR$/util.py" />
-        <option value="$PROJECT_DIR$/DistanceDaskMPI.py" />
         <option value="$PROJECT_DIR$/LaplacianDaskMPI.py" />
+        <option value="$PROJECT_DIR$/DistanceDaskMPI.py" />
       </list>
     </option>
   </component>
@@ -152,8 +158,8 @@
   <component name="PropertiesComponent">
     <property name="ToolWindowEvent Log.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../py_env/DiffusionMap" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -282,93 +288,27 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2040">
-          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Graph.py" />
     <entry file="file://$PROJECT_DIR$/Parser.py" />
     <entry file="file://$PROJECT_DIR$/Parser.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1513">
-          <caret line="91" column="104" selection-start-line="91" selection-start-column="104" selection-end-line="91" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/OutPut.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
-    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="18" column="16" lean-forward="true" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OutPut.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1513">
-          <caret line="91" column="104" selection-start-line="91" selection-start-column="104" selection-end-line="91" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
+    <entry file="file://$PROJECT_DIR$/OutPut.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
-    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="116" column="21" lean-forward="true" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OutPut.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="95" column="83" selection-start-line="95" selection-start-column="83" selection-end-line="95" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
+    <entry file="file://$PROJECT_DIR$/OutPut.py" />
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
-    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1496">
-          <caret line="96" selection-start-line="96" selection-end-line="96" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="58" column="49" selection-start-line="58" selection-start-column="49" selection-end-line="58" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/OutPut.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
-    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1496">
-          <caret line="96" selection-start-line="96" selection-end-line="96" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="58" column="49" selection-start-line="58" selection-start-column="49" selection-end-line="58" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/OutPut.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/test2.sh" />
     <entry file="file://$PROJECT_DIR$/test/test.sh" />
@@ -383,120 +323,39 @@
     <entry file="file://$PROJECT_DIR$/src_backup/DataSource-tmp.py" />
     <entry file="file://$PROJECT_DIR$/Parser.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" />
-    <entry file="file://$PROJECT_DIR$/OutPut.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="3" selection-start-column="3" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="22">
-            <caret line="7" column="61" selection-start-line="7" selection-start-column="61" selection-end-line="7" selection-end-column="61" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/OutPut.py" />
+    <entry file="file://$PROJECT_DIR$/README.md" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py" />
-    <entry file="file://$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6710">
-          <caret line="318" column="23" selection-start-line="318" selection-start-column="23" selection-end-line="318" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py" />
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="889">
-          <caret line="308" selection-start-line="308" selection-end-line="308" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI-adapted.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="779">
-          <caret line="456" lean-forward="true" selection-start-line="396" selection-end-line="456" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/DiffusionMap.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Graph.py" />
+    <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI-adapted.py" />
+    <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
+    <entry file="file://$PROJECT_DIR$/src_backup/DiffusionMap.py" />
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2354">
+        <state relative-caret-position="855">
           <caret line="114" selection-start-line="114" selection-end-line="114" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="779">
-          <caret line="182" selection-start-line="182" selection-end-line="184" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src_backup/DataSource-2018.6.19.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="759">
-          <caret line="328" column="19" selection-start-line="328" selection-start-column="19" selection-end-line="328" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="434" selection-start-line="434" selection-end-line="434" />
-          <folding>
-            <element signature="e#71#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DataSource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="849">
-          <caret line="131" column="66" selection-start-line="131" selection-start-column="66" selection-end-line="131" selection-end-column="66" />
-          <folding>
-            <element signature="e#1316#1334#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI.py" />
+    <entry file="file://$PROJECT_DIR$/src_backup/DataSource-2018.6.19.py" />
+    <entry file="file://$PROJECT_DIR$/util.py" />
+    <entry file="file://$PROJECT_DIR$/DataSource.py" />
     <entry file="file://$PROJECT_DIR$/DistanceDaskMPI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1703">
-          <caret line="261" selection-start-line="261" selection-end-line="261" />
-          <folding>
-            <element signature="e#19#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2109">
+          <caret line="133" selection-start-line="133" selection-end-line="133" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LaplacianDaskMPI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7136">
-          <caret line="381" column="23" lean-forward="true" selection-start-line="381" selection-start-column="23" selection-end-line="381" selection-end-column="23" />
-          <folding>
-            <element signature="e#19#34#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="646">
+          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
         </state>
       </provider>
     </entry>

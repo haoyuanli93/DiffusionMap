@@ -126,7 +126,12 @@ if comm_rank != 0:
                         scaling_dim1=inv_norm,
                         matrix_shape=np.array([data_num, data_num]))
 
-    inner_prod_matrix -= np.eye(N=data_num, dtype=np.float)
+    # Remove the diagonal and the lower part by setting that to -10.
+    inner_prod_matrix[np.tril_indices(n=data_num, m=data_num, k=0)] = -10
+
+    # Show warning messages to the user to warn for my dark magic.
+    print("Dear user, here I have used a piece of dark magic to facilitate my matrix manipulation.")
+    print("This is line {}.".format(134))
 
     # sort get the index of the largest value
     """
