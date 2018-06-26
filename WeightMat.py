@@ -277,11 +277,6 @@ if comm_rank != 0:
 
         print("Finishes loading data.")
 
-        # Create auxiliary variable to update index along dimension 1
-        aux_dim1_index = np.outer(np.ones(data_source.batch_num_list_dim0[comm_rank - 1], dtype=np.int), idx_dim1)
-        # Assign corresponding values to the first neighbor_number elements along dimension 1
-        aux_dim1_index[:, :neighbor_number] = idx_to_keep_dim1
-
         # Create dask arrays based on these h5 files
         dataset_dim1 = da.concatenate(dataset_holder_dim1, axis=0)
 
@@ -306,7 +301,7 @@ if comm_rank != 0:
                             std_dim1=data_std_dim1,
                             mean_dim0=data_mean_dim0,
                             mean_dim1=data_mean_dim1,
-                            matrix_shape=np.array([data_num, data_num]))
+                            matrix_shape=np.array([data_num, data_num_dim1]))
 
         print("line 311: the scaled matrix. max is {} min is {}".format(np.max(inner_prod_matrix),
                                                                         np.min(inner_prod_matrix)))
@@ -316,6 +311,11 @@ if comm_rank != 0:
 
         # Find the local index of the largest values
         idx_pre_dim1 = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
+
+        # Create auxiliary variable to update index along dimension 1
+        aux_dim1_index = np.outer(np.ones(data_num, dtype=np.int), idx_dim1)
+        # Assign corresponding values to the first neighbor_number elements along dimension 1
+        aux_dim1_index[:, :neighbor_number] = idx_to_keep_dim1
 
         # Turn the local index into global index
         Graph.get_values_int(source=aux_dim1_index,
