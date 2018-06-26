@@ -249,7 +249,7 @@ if comm_rank != 0:
 
             data_std_dim1[tmp_end_list[batch_local_idx]:tmp_end_list[batch_local_idx + 1]] = std_all[
                                                                                              _tmp_start:_tmp_end]
-            data_mean_dim0[tmp_end_list[batch_local_idx]:tmp_end_list[batch_local_idx + 1]] = mean_all[
+            data_mean_dim1[tmp_end_list[batch_local_idx]:tmp_end_list[batch_local_idx + 1]] = mean_all[
                                                                                               _tmp_start:_tmp_end]
 
             # Extract the batch info

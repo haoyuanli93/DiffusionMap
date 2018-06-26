@@ -13,7 +13,7 @@ CONFIGURATIONS = {
     # or the Laplacian matrix. If you only want to calculate the correlation matrix, then
     # you only need to modify this part.
 
-    "batch_num_dim0": int(8),  # Batch number along dimension 0
+    "batch_num_dim0": int(7),  # Batch number along dimension 0
     "batch_num_dim1": int(2),  # Batch number along dimension 1
     "input_file_list": str("../input/file_list_2.txt"),  # The txt file containing the h5 files to process
     "output_folder": str("../output/"),  # The output folder to store the output

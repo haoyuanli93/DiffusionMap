@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="23" column="49" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
+            <state relative-caret-position="654">
+              <caret line="251" column="26" selection-start-line="251" selection-start-column="26" selection-end-line="251" selection-end-column="26" />
               <folding>
                 <element signature="e#19#30#0" expanded="true" />
               </folding>
@@ -49,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Config.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Config.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+            <state relative-caret-position="308">
+              <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -161,8 +162,8 @@
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/Graph.py" />
         <option value="$PROJECT_DIR$/LaplacianMat.py" />
-        <option value="$PROJECT_DIR$/Config.py" />
         <option value="$PROJECT_DIR$/WeightMat.py" />
+        <option value="$PROJECT_DIR$/Config.py" />
       </list>
     </option>
   </component>
@@ -384,13 +385,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LaplacianMat.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
@@ -403,11 +397,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WeightMat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="23" column="49" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
+        <state relative-caret-position="654">
+          <caret line="251" column="26" selection-start-line="251" selection-start-column="26" selection-end-line="251" selection-end-column="26" />
           <folding>
             <element signature="e#19#30#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
         </state>
       </provider>
     </entry>
