@@ -15,7 +15,7 @@ CONFIGURATIONS = {
 
     "batch_num_dim0": int(7),  # Batch number along dimension 0
     "batch_num_dim1": int(2),  # Batch number along dimension 1
-    "input_file_list": str("../input/file_list_2.txt"),  # The txt file containing the h5 files to process
+    "input_file_list": str("../input/file_list.txt"),  # The txt file containing the h5 files to process
     "output_folder": str("../output/"),  # The output folder to store the output
     "neighbor_number": int(37),  # The number of nearest neighbors to keep
     "keep_diagonal": bool(False),  # When counting the nearest neighbors, whether to include the point itself.

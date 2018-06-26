@@ -228,8 +228,8 @@ if comm_rank != 0:
         data_num_dim1 = np.sum(tmp_num_list)
 
         idx_dim1 = np.zeros(data_num_dim1 + neighbor_number, dtype=np.int)
-        data_mean_dim1 = np.zeros(data_num_dim1, dtype=np.float)
-        data_std_dim1 = np.zeros(data_num_dim1, dtype=np.float)
+        data_mean_dim1 = np.ones(data_num_dim1, dtype=np.float)
+        data_std_dim1 = np.ones(data_num_dim1, dtype=np.float)
 
         # Open the files to do calculation. Remember to close them in the end
         h5file_holder_dim1 = {}
@@ -291,7 +291,9 @@ if comm_rank != 0:
         #   Finish the calculation of a non diagonal term. Now Clean things up
         #
         ################################################################################################################
-
+        print("Process {}, the min of data_std_dim0 is {}, the min of data_std_dim1 is{}".format(comm_rank,
+                                                                                                 np.min(data_std_dim0),
+                                                                                                 np.min(data_std_dim1)))
         # Normalize the inner product matrix
         Graph.normalization(matrix=inner_prod_matrix,
                             std_dim0=data_std_dim0,
@@ -363,7 +365,8 @@ if comm_rank == 0:
     # Construct a sparse matrix
     matrix = scipy.sparse.coo_matrix((values_all, (idx_dim0_all, idx_dim1_all)),
                                      shape=(data_source.data_num_total, data_source.data_num_total))
-
+    matrix.tocsr()
+    
     # Save the matrix
     scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
 
