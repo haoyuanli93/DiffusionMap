@@ -21,7 +21,7 @@ comm_size = comm.Get_size()
 Config.check(comm_size=comm_size)
 
 # Parse
-batch_num_dim0 = Config.CONFIGURATIONS["batch_number_dim0"]
+batch_num_dim0 = Config.CONFIGURATIONS["batch_num_dim0"]
 batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
 input_file_list = Config.CONFIGURATIONS["input_file_list"]
 output_folder = Config.CONFIGURATIONS["output_folder"]
