@@ -326,12 +326,6 @@ if comm_rank != 0:
     for file_name in h5file_holder_dim0.keys():
         h5file_holder_dim0[file_name].close()
 
-    # Save the distance patch
-    name_to_save = output_folder + "/distances/distance_batch_{}.h5".format(comm_rank - 1)
-    with h5py.File(name_to_save, 'w') as _tmp_h5file:
-        _tmp_h5file.create_dataset("/row_index", data=idx_to_keep_dim1)
-        _tmp_h5file.create_dataset("/row_values", data=val_to_keep)
-
 # Let the master node to gather and assemble the matrix.
 index_to_keep_dim1_data = comm.gather(idx_to_keep_dim1, root=0)
 value_to_keep_data = comm.gather(val_to_keep, root=0)
