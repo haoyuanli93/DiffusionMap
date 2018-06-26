@@ -155,8 +155,8 @@ if comm_rank != 0:
 else:
     # Create several holders in the master node. These values have no meaning.
     # They only keep the pycharm quiet.
-    inv_norm = None
     chunk_size = None
+    data_shape = None
     data_std_dim0 = None
     data_mean_dim0 = None
     data_num = None
