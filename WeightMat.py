@@ -1,14 +1,15 @@
 # Standard modules
 import time
+
 import dask.array as da
 import h5py
 import numpy as np
 import scipy.sparse
 from mpi4py import MPI
 
+import Config
 # project modules
 import DataSource
-import Config
 import Graph
 
 # Initialize the MPI
@@ -164,6 +165,7 @@ else:
     info_holder_dim0 = None
     h5file_holder_dim0 = None
     dataset_dim0 = None
+    axes_range = None
     std_all = np.empty(data_source.data_num_total, dtype=np.float64)
     mean_all = np.empty(data_source.data_num_total, dtype=np.float64)
     # For assembling
@@ -339,41 +341,33 @@ comm.Barrier()  # Synchronize
 Step Five: Collect all the patches and assemble them.
 """
 if comm_rank == 0:
-    std_all = np.concatenate(std_data[1:], axis=0)
-    mean_all = np.concatenate(mean_data[1:], axis=0)
 
-    ####################################################################################
-    # TODO 我去做饭了
-    ####################################################################################
+    values_all = np.concatenate(value_to_keep_data[1:], axis=0)
+    idx_dim1_all = np.concatenate(index_to_keep_dim1_data[1:], axis=0)
+
+    # Constuct the holder for index for each point along dimension 0
     holder_size = (data_source.data_num_total, neighbor_number)
-    # Load all the patches and assemble them as a sparse matrix
-    idx_dim1 = np.zeros(holder_size, dtype=np.int)
-    idx_dim0 = np.zeros(holder_size, dtype=np.int)
-    values = np.zeros(holder_size, dtype=np.float)
+    idx_dim0_all = np.zeros(holder_size, dtype=np.int)
 
-    # Fill the variables with desired values
+    # Fill the idx_dim0_all with desired values
     for idx in range(batch_num_dim0):
-        with h5py.File(output_folder + "/distances/distance_batch_{}.h5".format(idx)) as h5file:
-            _tmp_start = data_source.batch_global_idx_range_dim0[idx, 0]
-            _tmp_end = data_source.batch_global_idx_range_dim0[idx, 1]
-
-            idx_dim0[_tmp_start:_tmp_end] = np.outer(np.arange(_tmp_start, _tmp_end, dtype=np.int),
+        _tmp_start = data_source.batch_global_idx_range_dim0[idx, 0]
+        _tmp_end = data_source.batch_global_idx_range_dim0[idx, 1]
+        idx_dim0_all[_tmp_start:_tmp_end] = np.outer(np.arange(_tmp_start, _tmp_end, dtype=np.int),
                                                      np.ones(neighbor_number, dtype=np.int))
 
-            idx_dim1[_tmp_start:_tmp_end] = np.array(h5file['row_index'])
-            values[_tmp_start:_tmp_end] = np.array(h5file['row_values'])
-
+    # Convert 1-D array to construct the sparse matrix
     size_num = data_source.data_num_total * neighbor_number
 
-    values = values.reshape(size_num)
-    idx_dim0 = idx_dim0.reshape(size_num)
-    idx_dim1 = idx_dim1.reshape(size_num)
+    values_all = values_all.reshape(size_num)
+    idx_dim0_all = idx_dim0_all.reshape(size_num)
+    idx_dim1_all = idx_dim1_all.reshape(size_num)
 
     # Calculate the time to construct the Laplacian matrix
     toc_1 = time.time()
 
     # Construct a sparse matrix
-    matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
+    matrix = scipy.sparse.coo_matrix((values_all, (idx_dim0_all, idx_dim1_all)),
                                      shape=(data_source.data_num_total, data_source.data_num_total))
 
     # Save the matrix
