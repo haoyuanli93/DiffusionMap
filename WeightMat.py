@@ -126,8 +126,11 @@ if comm_rank != 0:
                         mean_dim1=data_mean_dim0,
                         matrix_shape=np.array([data_num, data_num]))
 
+    print("line 129: the scaled matrix. max is {} min is {}".format(np.max(inner_prod_matrix),
+                                                                    np.min(inner_prod_matrix)))
+
     # Remove the diagonal and the lower part by setting that to -10.
-    inner_prod_matrix[np.tril_indices(n=data_num, m=data_num, k=0)] = -10
+    inner_prod_matrix[np.tril_indices(n=data_num, m=data_num, k=0)] = -10.
     print("Please Check line 129 to understand what's going on, if you have met "
           "something unusual in your result, such as a value -10 in your correlation matrix.")
 
@@ -366,7 +369,7 @@ if comm_rank == 0:
     matrix = scipy.sparse.coo_matrix((values_all, (idx_dim0_all, idx_dim1_all)),
                                      shape=(data_source.data_num_total, data_source.data_num_total))
     matrix.tocsr()
-    
+
     # Save the matrix
     scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
 
