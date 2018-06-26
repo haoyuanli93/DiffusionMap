@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataSource.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSource.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,44 +18,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="303" column="74" selection-start-line="303" selection-start-column="74" selection-end-line="303" selection-end-column="74" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Graph.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Graph.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="138" column="59" lean-forward="true" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="59" />
+            <state relative-caret-position="629">
+              <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
               <folding>
-                <element signature="e#230#248#0" expanded="true" />
+                <element signature="e#19#30#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Config.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="3" selection-start-column="3" selection-end-column="3" />
+            <state relative-caret-position="277">
+              <caret line="603" column="16" selection-start-line="603" selection-start-column="8" selection-end-line="603" selection-end-column="16" />
               <folding>
-                <element signature="e#71#82#0" expanded="true" />
+                <element signature="e#71#80#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DataSource.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2191">
+              <caret line="286" column="46" selection-start-line="286" selection-start-column="46" selection-end-line="286" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -95,8 +88,6 @@
       <find>source_dict</find>
       <find>&quot;files&quot;</find>
       <find>col_info_holder</find>
-      <find>data_shape</find>
-      <find>line</find>
     </findStrings>
     <replaceStrings>
       <replace>map</replace>
@@ -138,21 +129,21 @@
         <option value="$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py" />
         <option value="$PROJECT_DIR$/EigensDaskSlepscMPI.py" />
         <option value="$PROJECT_DIR$/EigensSlepsc.py" />
-        <option value="$PROJECT_DIR$/DataSource.py" />
         <option value="$PROJECT_DIR$/src_backup/DataSource-bk.py" />
         <option value="$PROJECT_DIR$/DistanceDaskMPI.py" />
         <option value="$PROJECT_DIR$/parsers.py" />
         <option value="$PROJECT_DIR$/config.py" />
         <option value="$PROJECT_DIR$/LaplacianDaskMPI.py" />
-        <option value="$PROJECT_DIR$/LaplacianMat.py" />
         <option value="$PROJECT_DIR$/IOfun.py" />
         <option value="$PROJECT_DIR$/SimilarityMat.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/DaskUtil.py" />
-        <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/Graph.py" />
+        <option value="$PROJECT_DIR$/LaplacianMat.py" />
         <option value="$PROJECT_DIR$/Config.py" />
+        <option value="$PROJECT_DIR$/DataSource.py" />
         <option value="$PROJECT_DIR$/WeightMat.py" />
+        <option value="$PROJECT_DIR$/util.py" />
       </list>
     </option>
   </component>
@@ -271,7 +262,7 @@
       <window_info anchor="bottom" id="Python Console" order="8" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18229167" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18229167" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -346,9 +337,7 @@
     <entry file="file://$PROJECT_DIR$/src_backup/DiffusionMap.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSource-2018.6.19.py" />
-    <entry file="file://$PROJECT_DIR$/DataSource.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-25.6.2018.py" />
-    <entry file="file://$PROJECT_DIR$/LaplacianMat.py" />
     <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -358,37 +347,51 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DaskUtil.py" />
+    <entry file="file://$PROJECT_DIR$/LaplacianMat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Graph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="138" column="59" lean-forward="true" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="59" />
-          <folding>
-            <element signature="e#230#248#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-2869">
+          <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="3" selection-start-column="3" selection-end-column="3" />
-          <folding>
-            <element signature="e#71#82#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="211">
+          <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WeightMat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="303" column="74" selection-start-line="303" selection-start-column="74" selection-end-line="303" selection-end-column="74" />
+        <state relative-caret-position="629">
+          <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
+          <folding>
+            <element signature="e#19#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DataSource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2191">
+          <caret line="286" column="46" selection-start-line="286" selection-start-column="46" selection-end-line="286" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="603" column="16" selection-start-line="603" selection-start-column="8" selection-end-line="603" selection-end-column="16" />
+          <folding>
+            <element signature="e#71#80#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

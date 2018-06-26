@@ -1,53 +1,11 @@
 """
 This module contains functions that I don't know where to put.
 """
-import copy
 import os
-
+import copy
 import h5py
 import numpy as np
 from numba import jit, int64
-
-
-##################################################################
-#
-#       Generate job list
-#
-##################################################################
-
-def generate_job_list(param, mode="IO_optimized"):
-    """
-    Generate the job list for each worker
-
-    :param param: This contains information necessary for generate the job list. Currently, this argument
-                    receives a dictionary contains
-
-                    {"batch_number":  ,
-                     "patch_index": }
-
-                    The patch index is a list which contains the patch index for each patch.
-    :param mode: The mode for calculation. Different mode may requires different param value. Currently
-                 the only supported mode is "IO_optimized".
-    :return: A list containing the jobs for each workder
-            [[job1 ,job2, job3,...],
-             [job1 ,job2, job3,...],
-             [job1 ,job2, job3,...],
-              ...                  ]
-    """
-    if mode == "IO_optimized":
-        batch_number = param["batch_number"]
-        jobs_list = copy.deepcopy(param["patch_index"])
-
-        # When there is only one batch, do not change anything. Sine everything will be done at once.
-        if batch_number == 1:
-            return jobs_list
-
-        # Move the diagonal patch to the first position.
-        for worker_idx in range(batch_number):
-            tmp = jobs_list[worker_idx][int((worker_idx + 1) // 2)]
-            jobs_list[worker_idx][0], tmp = tmp, jobs_list[worker_idx][0]
-
-        return jobs_list
 
 
 ##################################################################
@@ -633,8 +591,50 @@ def assemble_mat(data_source, config):
 
     return holder
 
+
 ##################################################################
 #
 #       Assemble
 #
 ##################################################################
+
+
+##################################################################
+#
+#       Obsolete
+#
+##################################################################
+
+def generate_job_list(param, mode="IO_optimized"):
+    """
+    Generate the job list for each worker
+
+    :param param: This contains information necessary for generate the job list. Currently, this argument
+                    receives a dictionary contains
+
+                    {"batch_number":  ,
+                     "patch_index": }
+
+                    The patch index is a list which contains the patch index for each patch.
+    :param mode: The mode for calculation. Different mode may requires different param value. Currently
+                 the only supported mode is "IO_optimized".
+    :return: A list containing the jobs for each workder
+            [[job1 ,job2, job3,...],
+             [job1 ,job2, job3,...],
+             [job1 ,job2, job3,...],
+              ...                  ]
+    """
+    if mode == "IO_optimized":
+        batch_number = param["batch_number"]
+        jobs_list = copy.deepcopy(param["patch_index"])
+
+        # When there is only one batch, do not change anything. Sine everything will be done at once.
+        if batch_number == 1:
+            return jobs_list
+
+        # Move the diagonal patch to the first position.
+        for worker_idx in range(batch_number):
+            tmp = jobs_list[worker_idx][int((worker_idx + 1) // 2)]
+            jobs_list[worker_idx][0], tmp = tmp, jobs_list[worker_idx][0]
+
+        return jobs_list

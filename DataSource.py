@@ -275,27 +275,16 @@ class DataSourceFromH5pyList:
         The batch number is calculated in this way.
         
                     --------------------------
-                    | 00 | 11 | 11 | 00 | 00 |
+                    | 00 | 11 | 11 | 11 | 11 |
                     --------------------------
-                    | 00 | 00 | 11 | 11 | 00 |
+                    | 11 | 00 | 11 | 11 | 11 |
                     --------------------------
-                    | 00 | 00 | 00 | 11 | 11 |
+                    | 11 | 11 | 00 | 11 | 11 |
                     --------------------------
-                    | 11 | 00 | 00 | 00 | 11 |
+                    | 11 | 11 | 11 | 00 | 11 |
                     --------------------------
-                    | 11 | 11 | 00 | 00 | 00 |
+                    | 11 | 11 | 11 | 11 | 00 |
                     --------------------------
-                    
-        Previously, I planned to do something more sophisticated such as partitioning each row again from scratch.
-        Then I just realized that I did not want that for 
-            1. The implementation would be complicated and inefficient unless I come up with some brighter idea.
-                However, I love more profound math than these concrete ones, so I prefer to spend time on stochastic
-                analysis and operator algebras.
-            2. After I used the restroom for a while, I realized that, the finer implementation might not provide
-                much better performance than the current one. Therefore, I did not want to spend time on this.
-            3. I have left enough comments everywhere in this project. Therefore, in the future, some summer interns
-                or younger and smarter students might finish the finer implementation.
-        
         """
         # The number of vertical batches along each line.
         batch_num_per_line = (int(batch_num_dim0) - 1) // 2
