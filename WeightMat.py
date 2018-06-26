@@ -103,12 +103,12 @@ if comm_rank != 0:
     # Calculate the standard deviation of each pattern of the vector
     data_std_dim0 = da.std(a=dataset_dim0, axis=tuple(axes_range))
     # Calculate the correlation matrix.
-    inner_prod_matrix = da.tensordot(dataset_dim0, dataset_dim0, axes=(axes_range, axes_range)) / np.prod(data_shape)
+    inner_prod_matrix = da.tensordot(dataset_dim0, dataset_dim0, axes=(axes_range, axes_range))
 
     # Calculate the concrete values
     data_mean_dim0, data_std_dim0, inner_prod_matrix = [np.array(data_mean_dim0),
                                                         np.array(data_std_dim0),
-                                                        np.array(inner_prod_matrix)]
+                                                        np.array(inner_prod_matrix) / float(np.prod(data_shape))]
 
     print("Finishes calculating the mean, the standard variation and the inner product matrix.")
 
@@ -284,7 +284,7 @@ if comm_rank != 0:
 
         # Calculate the correlation matrix.
         inner_prod_matrix = da.tensordot(dataset_dim0, dataset_dim1, axes=(axes_range, axes_range))
-        inner_prod_matrix = np.array(inner_prod_matrix)
+        inner_prod_matrix = np.array(inner_prod_matrix) / float(np.prod(data_shape))
 
         ################################################################################################################
         #
@@ -363,7 +363,7 @@ if comm_rank == 0:
     idx_dim0_all = idx_dim0_all.reshape(size_num)
     idx_dim1_all = idx_dim1_all.reshape(size_num)
 
-    # Calculate the time to construct the Laplacian matrix
+    # Calculate the time to construct the correlation matrix
     toc_1 = time.time()
 
     # Construct a sparse matrix
@@ -377,4 +377,4 @@ if comm_rank == 0:
     toc_0 = time.time()
     print("Finishes all calculation.")
     print("Total calculation time is {}".format(toc_0 - tic_0))
-    print("Time to construct the Laplacian matrix from the symmetric matrix is {}".format(toc_1 - toc_0))
+    print("Time to construct the correlation matrix is {}".format(toc_0 - toc_1))
