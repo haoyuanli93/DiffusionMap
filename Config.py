@@ -9,11 +9,9 @@ import numpy
 
 CONFIGURATIONS = {
 
-    """
-    The following six parameters are used to calculate the correlation matrix
-    or the Laplacian matrix. If you only want to calculate the correlation matrix, then
-    you only need to modify this part.
-    """
+    # The following six parameters are used to calculate the correlation matrix
+    # or the Laplacian matrix. If you only want to calculate the correlation matrix, then
+    # you only need to modify this part.
 
     "batch_num_dim0": int(8),  # Batch number along dimension 0
     "batch_num_dim1": int(2),  # Batch number along dimension 1
@@ -22,11 +20,9 @@ CONFIGURATIONS = {
     "neighbor_number": int(37),  # The number of nearest neighbors to keep
     "keep_diagonal": bool(False),  # When counting the nearest neighbors, whether to include the point itself.
 
-    """
-    The following two parameters are for the eigenvector calculation. During that calculation, one need 
-    to specify the output folder and the neighborhood number. Those two parameters are specified in the 
-    preceding six parameters.  
-    """
+    # The following two parameters are for the eigenvector calculation. During that calculation, one need
+    # to specify the output folder and the neighborhood number. Those two parameters are specified in the
+    # preceding six parameters.
 
     "sparse_matrix_npz": str("../output/laplacian_matrix.npz"),  # The npz file containing the sparse matrix
     "eig_num": int(10)  # The number of (eigenvector, eigenvalue) pairs to compute.
