@@ -193,7 +193,7 @@ if comm_rank != 0:
                 data_name = dataset_name_list_dim1[data_idx]
 
                 # Load the datasets for the specified range.
-                tmp_data_holder = h5file_holder_dim0[file_name][data_name]
+                tmp_data_holder = h5file_holder_dim1[file_name][data_name]
                 tmp_dask_data_holder = da.from_array(tmp_data_holder[dataset_ends_list_dim1[data_idx][0]:
                                                                      dataset_ends_list_dim1[data_idx][1]],
                                                      chunks=chunk_size)
@@ -257,6 +257,9 @@ if comm_rank != 0:
     for file_name in h5file_holder_dim0.keys():
         h5file_holder_dim0[file_name].close()
 
+    np.save('../output/idx_{}.npy'.format(comm_rank -1), idx_to_keep_dim1)
+    np.save('../output/val_{}.npy'.format(comm_rank -1), val_to_keep)
+    
 # Let the master node to gather and assemble the matrix.
 index_to_keep_dim1_data = comm.gather(idx_to_keep_dim1, root=0)
 value_to_keep_data = comm.gather(val_to_keep, root=0)
