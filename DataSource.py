@@ -33,6 +33,7 @@ Tips:
 """
 
 import numpy as np
+
 import util
 
 
@@ -286,10 +287,8 @@ class DataSourceFromH5pyList:
                     | 11 | 11 | 11 | 11 | 00 |
                     --------------------------
         """
-        # The number of vertical batches along each line.
-        batch_num_per_line = (int(batch_num_dim0) - 1) // 2
         # Number of batches to bin together.
-        batch_num_per_bin = util.get_batch_num_list(batch_num_per_line, batch_num_dim1)
+        batch_num_per_bin = util.get_batch_num_list(batch_num_dim0 - 1, batch_num_dim1)
         """
         This number is used to specify the range of batches inside a specific bin
         """

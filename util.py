@@ -2,80 +2,10 @@
 This module contains functions that I don't know where to put.
 """
 import os
-import copy
+
 import h5py
 import numpy as np
 from numba import jit, int64
-
-
-##################################################################
-#
-#       Generate patch index
-#
-##################################################################
-
-def generate_patch_index_list(batch_number, mode="IO_optimized"):
-    """
-    Generate a list contains the patch indexes.
-
-    :param batch_number: The number of batches to consider.
-    :param mode: upper_triangle, only create indexes for upper_triangle. lower_triangle. only create indexes for
-    the lower triangle. For "IO_optimized", the pattern looks like
-                    --------------------------
-                    | 11 | 00 | 11 | 00 | 11 |
-                    --------------------------
-                    | 11 | 11 | 00 | 11 | 00 |
-                    --------------------------
-                    | 00 | 11 | 11 | 00 | 11 |
-                    --------------------------
-                    | 11 | 00 | 11 | 11 | 00 |
-                    --------------------------
-                    | 00 | 11 | 00 | 11 | 11 |
-                    --------------------------
-
-    :return: a list contains the indexes. For upper_triangule
-                [ [0,0],[0,1],[0,2], ... , [0, batch_number = n],
-                        [1,1],[1,2], ... , [1, n]
-                                     ...
-                                     ...
-                                           [n,n]]
-    """
-
-    # Check if the batch_number is a integer
-    if not isinstance(batch_number, int):
-        raise Exception("The batch number has to be an integer.")
-
-    patch_indexes = []
-
-    if mode == "upper_triangle":
-        for l in range(batch_number):
-            for m in range(l, batch_number):
-                patch_indexes.append([l, m])
-    elif mode == "lower_triangle":
-        for l in range(batch_number):
-            for m in range(0, l):
-                patch_indexes.append([l, m])
-    elif mode == "IO_optimized":
-        # Check if the batch_number is odd
-        if np.mod(batch_number, 2) == 0:
-            raise Exception(
-                "At present, this mode only works when the batch number is odd. Please set a new batch number")
-
-        for row in range(batch_number):
-            patch_indexes.append([])
-
-            for col in range(row, batch_number):
-                if np.mod(col - row, 2) == 0:
-                    patch_indexes[-1].append([row, col])
-
-            for col in range(0, row):
-                if np.mod(row - col, 2) == 1:
-                    patch_indexes[-1].append([row, col])
-
-    else:
-        raise Exception("At present, this program can only calculate the upper or lower triangular part"
-                        "of the distance matrix.")
-    return patch_indexes
 
 
 ##################################################################
@@ -455,36 +385,34 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
 @jit(int64[:, :](int64))
 def get_batch_idx_per_list(batch_num):
     """
-                        --------------------------
-                        | 00 | 11 | 11 | 00 | 00 |
-                        --------------------------
-                        | 00 | 00 | 11 | 11 | 00 |
-                        --------------------------
-                        | 00 | 00 | 00 | 11 | 11 |
-                        --------------------------
-                        | 11 | 00 | 00 | 00 | 11 |
-                        --------------------------
-                        | 11 | 11 | 00 | 00 | 00 |
-                        --------------------------
+    The batch number is calculated in this way.
+
+                --------------------------
+                | 00 | 11 | 11 | 11 | 11 |
+                --------------------------
+                | 11 | 00 | 11 | 11 | 11 |
+                --------------------------
+                | 11 | 11 | 00 | 11 | 11 |
+                --------------------------
+                | 11 | 11 | 11 | 00 | 11 |
+                --------------------------
+                | 11 | 11 | 11 | 11 | 00 |
+                --------------------------
 
     I want the index along each line for each 11 element.
 
     :param batch_num: The number of batches along each line.
     :return: A numpy array containing the dim1 idx of the 11 element in this matrix.
     """
-    batch_num_per_line = int((batch_num - 1) // 2)
+    batch_num_per_line = batch_num - 1
     holder = np.zeros((batch_num, batch_num_per_line), dtype=np.int)
 
-    # Deal with the first batch_num_per_line + 1 lines
-    for l in range(batch_num_per_line + 1):
-        holder[l, :] = np.arange(l + 1, l + 1 + batch_num_per_line, dtype=np.int)
-    # Deal with the lower region except the last line.
-    for l in range(batch_num_per_line - 1):
-        line_idx = batch_num_per_line + 1 + l
-        holder[line_idx, :l + 1] = np.arange(l + 1, dtype=np.int)
-        holder[line_idx, l + 1:] = np.arange(batch_num_per_line + 2 + l, batch_num, dtype=np.int)
-    # Deal with the last line
-    holder[batch_num - 1] = np.arange(batch_num_per_line, dtype=np.int)
+    # Deal with the first line and the last line
+    holder[0, :] = np.arange(1, batch_num, dtype=np.int)
+    holder[batch_num - 1, :] = np.arange(batch_num_per_line, dtype=np.int)
+    for l in range(1, batch_num - 1):
+        holder[l, :l] = np.arange(l, dtype=np.int)
+        holder[l, l:] = np.arange(l, batch_num, dtype=np.int)
 
     return holder
 
@@ -591,50 +519,8 @@ def assemble_mat(data_source, config):
 
     return holder
 
-
 ##################################################################
 #
 #       Assemble
 #
 ##################################################################
-
-
-##################################################################
-#
-#       Obsolete
-#
-##################################################################
-
-def generate_job_list(param, mode="IO_optimized"):
-    """
-    Generate the job list for each worker
-
-    :param param: This contains information necessary for generate the job list. Currently, this argument
-                    receives a dictionary contains
-
-                    {"batch_number":  ,
-                     "patch_index": }
-
-                    The patch index is a list which contains the patch index for each patch.
-    :param mode: The mode for calculation. Different mode may requires different param value. Currently
-                 the only supported mode is "IO_optimized".
-    :return: A list containing the jobs for each workder
-            [[job1 ,job2, job3,...],
-             [job1 ,job2, job3,...],
-             [job1 ,job2, job3,...],
-              ...                  ]
-    """
-    if mode == "IO_optimized":
-        batch_number = param["batch_number"]
-        jobs_list = copy.deepcopy(param["patch_index"])
-
-        # When there is only one batch, do not change anything. Sine everything will be done at once.
-        if batch_number == 1:
-            return jobs_list
-
-        # Move the diagonal patch to the first position.
-        for worker_idx in range(batch_number):
-            tmp = jobs_list[worker_idx][int((worker_idx + 1) // 2)]
-            jobs_list[worker_idx][0], tmp = tmp, jobs_list[worker_idx][0]
-
-        return jobs_list
