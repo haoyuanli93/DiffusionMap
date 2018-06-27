@@ -47,8 +47,8 @@ else:
 print("Sharing the datasource and job list info.")
 data_source = comm.bcast(obj=data_source, root=0)
 print("Process {} receives the datasource."
-      "There are totally {} jobs for this process.".format(comm_rank,
-                                                           len(data_source.batch_ends_local_dim1[comm_rank - 1])))
+      "There are totally {} jobs for this process.".format(comm_rank, len(data_source.batch_ends_local_dim1)))
+
 comm.Barrier()  # Synchronize
 
 """
