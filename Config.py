@@ -18,7 +18,6 @@ CONFIGURATIONS = {
     "input_file_list": str("../input/file_list.txt"),  # The txt file containing the h5 files to process
     "output_folder": str("../output/"),  # The output folder to store the output
     "neighbor_number": int(37),  # The number of nearest neighbors to keep
-    "keep_diagonal": bool(False),  # When counting the nearest neighbors, whether to include the point itself.
 
     # The following two parameters are for the eigenvector calculation. During that calculation, one need
     # to specify the output folder and the neighborhood number. Those two parameters are specified in the
@@ -65,9 +64,6 @@ def check(comm_size):
 
     if not (type(config["neighbor_number"]) is int):
         raise Exception("neighbor_number has to be an integer.")
-
-    if not (type(config["keep_diagonal"]) is bool):
-        raise Exception("keep_diagonal has to be of a boolean value.")
 
     if not (type(config["sparse_matrix_npz"]) is str):
         raise Exception("sparse_matrix_npz has to be a python string.")

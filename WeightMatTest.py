@@ -26,7 +26,6 @@ batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
 input_file_list = Config.CONFIGURATIONS["input_file_list"]
 output_folder = Config.CONFIGURATIONS["output_folder"]
 neighbor_number = Config.CONFIGURATIONS["neighbor_number"]
-keep_diagonal = Config.CONFIGURATIONS["keep_diagonal"]
 
 """
 Step One: Initialization
@@ -53,7 +52,7 @@ print("Process {} receives the datasource."
 comm.Barrier()  # Synchronize
 
 """
-Step Two: Calculate the diagonal patch
+Step Two: Calculate mean and std for each diffraction pattern
 """
 tic = time.time()
 if comm_rank != 0:
@@ -65,8 +64,6 @@ if comm_rank != 0:
 
     # Construct the data for diagonal patch
     info_holder_dim0 = data_source.batch_ends_local_dim0[comm_rank - 1]
-
-    print("Process {}".format(comm_rank), info_holder_dim0)
 
     ####################################################################################################################
     #
@@ -101,13 +98,9 @@ if comm_rank != 0:
     data_mean_dim0 = da.mean(a=dataset_dim0, axis=-1)
     # Calculate the standard deviation of each pattern of the vector
     data_std_dim0 = da.std(a=dataset_dim0, axis=-1)
-    # Calculate the correlation matrix.
-    inner_prod_matrix = da.cov(dataset_dim0, rowvar=True)
 
     # Calculate the concrete values
-    data_mean_dim0, data_std_dim0, inner_prod_matrix = [np.array(data_mean_dim0),
-                                                        np.array(data_std_dim0),
-                                                        np.array(inner_prod_matrix)]
+    data_mean_dim0, data_std_dim0 = [np.array(data_mean_dim0), np.array(data_std_dim0)]
 
     print("Finishes calculating the mean, the standard variation and the inner product matrix.")
 
@@ -116,30 +109,6 @@ if comm_rank != 0:
     #   Finish the calculation of the diagonal term. Now Clean things up
     #
     ####################################################################################################################
-
-    # Normalize the inner product matrix
-    Graph.scaling(matrix=inner_prod_matrix,
-                  scaling_dim0=1. / data_std_dim0,
-                  scaling_dim1=1. / data_std_dim0,
-                  matrix_shape=np.array([data_num, data_num]))
-
-    if not keep_diagonal:
-        inner_prod_matrix -= np.eye(data_num)
-
-    """
-    Notice that, finally, when we calculate the eigenvectors for the whole matrix,
-    one needs the global index rather than the local index. Therefore, one should 
-    keep the global index.
-    """
-
-    holder_size = np.array([data_num, neighbor_number], dtype=np.int64)  # Auxiliary variable
-    idx_pre_dim1 = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
-    val_to_keep = np.zeros_like(idx_pre_dim1, dtype=np.float64)
-    Graph.get_values_float(source=inner_prod_matrix, indexes=idx_pre_dim1, holder=val_to_keep,
-                           holder_size=holder_size)
-
-    # Convert to global index
-    idx_to_keep_dim1 = idx_pre_dim1 + data_source.batch_global_idx_range_dim0[comm_rank - 1, 0]
 
     # Create a holder for all standard variations and means
     std_all = np.empty(data_source.data_num_total, dtype=np.float64)
@@ -160,10 +129,9 @@ else:
     dataset_dim0 = None
     std_all = np.empty(data_source.data_num_total, dtype=np.float64)
     mean_all = np.empty(data_source.data_num_total, dtype=np.float64)
-    # For assembling
-    idx_pre_dim1 = None
     idx_to_keep_dim1 = None
     val_to_keep = None
+    idx_pre_dim1 = None
 
 # Let the master node to gather and assemble all the norms.
 std_data = comm.gather(data_std_dim0, root=0)
@@ -186,13 +154,14 @@ comm.Bcast(mean_all, root=0)
 comm.Barrier()  # Synchronize
 
 """
-Step Four: Calculate the off-diagonal patch
+Step Four: Calculate the sparse correlation matrix
 """
 if comm_rank != 0:
 
-    # Get the batch bin info along this line.
-    bin_list_dim1 = data_source.batch_ends_local_dim1[comm_rank - 1]
-    bin_number = len(bin_list_dim1)
+    # Create holders to store the largest values and the corresponding indexes of the correlation matrix
+    holder_size = np.array([data_num, neighbor_number], dtype=np.int64)  # Auxiliary variable
+    idx_to_keep_dim1 = np.zeros((data_num, neighbor_number), dtype=np.int64)
+    val_to_keep = -10. * np.ones((data_num, neighbor_number), dtype=np.float64)
 
     ####################################################################################################################
     #
@@ -200,74 +169,39 @@ if comm_rank != 0:
     #
     ####################################################################################################################
 
-    # Loop through bins along this line
-    """
-    Notice that, during this process, there are two things to do.
-    First, extract all the data contained in this bin and build a dask array for them.
-    Second, construct a numpy array containing the corresponding index and mean and std to later process.
-    """
-    for bin_idx in range(bin_number):
+    for batch_idx_dim1 in range(batch_num_dim1):
 
-        # Loop through batches in this bins.
-        # Remember the first element is the batches, the second element is the corresponding index along dim0
-        batches_in_bin = bin_list_dim1[bin_idx][0]
-        original_idx_on_dim0 = bin_list_dim1[bin_idx][1]
+        # Data number for this patch along dimension 1
+        data_num_dim1 = data_source.batch_num_list_dim1[batch_idx_dim1]
+        global_idx_start = data_source.batch_global_idx_range_dim1[batch_idx_dim1, 0]
+        global_idx_end = data_source.batch_global_idx_range_dim1[batch_idx_dim1, 1]
 
-        # Construct holder arrays for the indexes and norms.
-        tmp_num_list = np.array([0, ] + [data_source.batch_num_list_dim0[x] for x in original_idx_on_dim0],
-                                dtype=np.int)
-        tmp_end_list = np.cumsum(tmp_num_list)
-        data_num_dim1 = np.sum(tmp_num_list)
-
-        idx_dim1 = np.zeros(data_num_dim1 + neighbor_number, dtype=np.int)
-        data_mean_dim1 = np.zeros(data_num_dim1, dtype=np.float)
-        data_std_dim1 = np.zeros(data_num_dim1, dtype=np.float)
+        # Construct the data along dimension 1
+        info_holder_dim1 = data_source.batch_ends_local_dim1[batch_idx_dim1]
 
         # Open the files to do calculation. Remember to close them in the end
         h5file_holder_dim1 = {}
         dataset_holder_dim1 = []
+        for file_name in info_holder_dim1["files"]:
+            h5file_holder_dim1.update({file_name: h5py.File(file_name, 'r')})
 
-        for batch_local_idx in range(len(batches_in_bin)):
+            # Get the dataset names and the range in that dataset
+            dataset_name_list_dim1 = info_holder_dim1[file_name]["Datasets"]
+            dataset_ends_list_dim1 = info_holder_dim1[file_name]["Ends"]
 
-            # Define auxiliary variables
-            batch_idx = original_idx_on_dim0[batch_local_idx]
-            _tmp_start = data_source.batch_global_idx_range_dim0[batch_idx, 0]
-            _tmp_end = data_source.batch_global_idx_range_dim0[batch_idx, 1]
+            for data_idx in range(len(dataset_name_list_dim1)):
+                data_name = dataset_name_list_dim1[data_idx]
 
-            # Assign index value and norm values to corresponding variables.
-            # The idx_dim1 is shifted according to the previously listed reason
-            idx_dim1[tmp_end_list[batch_local_idx] + neighbor_number:
-                     tmp_end_list[batch_local_idx + 1] + neighbor_number] = np.arange(_tmp_start, _tmp_end)
-
-            data_std_dim1[tmp_end_list[batch_local_idx]:tmp_end_list[batch_local_idx + 1]] = std_all[
-                                                                                             _tmp_start:_tmp_end]
-            data_mean_dim1[tmp_end_list[batch_local_idx]:tmp_end_list[batch_local_idx + 1]] = mean_all[
-                                                                                              _tmp_start:_tmp_end]
-
-            # Extract the batch info
-            info_holder_dim1 = batches_in_bin[batch_local_idx]  # For different horizontal patches
-
-            for file_name in info_holder_dim1["files"]:
-
-                # To prevent hanging opened files, check existing files.
-                if not (file_name in h5file_holder_dim1):
-                    h5file_holder_dim1.update({file_name: h5py.File(file_name, 'r')})
-
-                data_name_list_dim1 = info_holder_dim1[file_name]["Datasets"]
-                data_ends_list_dim1 = info_holder_dim1[file_name]["Ends"]
-                for data_idx in range(len(data_name_list_dim1)):
-                    col_data_name = data_name_list_dim1[data_idx]
-
-                    tmp_data_holder = h5file_holder_dim1[file_name][col_data_name]
-                    tmp_dask_data_holder = da.from_array(tmp_data_holder[data_ends_list_dim1[data_idx][0]:
-                                                                         data_ends_list_dim1[data_idx][1]],
-                                                         chunks=chunk_size)
-                    dataset_holder_dim1.append(tmp_dask_data_holder)
-
-        print("Finishes loading data.")
+                # Load the datasets for the specified range.
+                tmp_data_holder = h5file_holder_dim0[file_name][data_name]
+                tmp_dask_data_holder = da.from_array(tmp_data_holder[dataset_ends_list_dim1[data_idx][0]:
+                                                                     dataset_ends_list_dim1[data_idx][1]],
+                                                     chunks=chunk_size)
+                dataset_holder_dim1.append(tmp_dask_data_holder)
 
         # Create dask arrays based on these h5 files
         dataset_dim1 = da.reshape(da.concatenate(dataset_holder_dim1, axis=0), (data_num_dim1, np.prod(data_shape)))
+        print("Finishes loading data.")
 
         # Calculate the correlation matrix.
         inner_prod_matrix = da.dot(dataset_dim0, da.transpose(dataset_dim1)) / float(np.prod(data_shape))
@@ -278,6 +212,16 @@ if comm_rank != 0:
         #   Finish the calculation of a non diagonal term. Now Clean things up
         #
         ################################################################################################################
+
+        # prepare some auxiliary variables for later process
+        data_std_dim1 = std_all[global_idx_start:global_idx_end]
+        data_mean_dim1 = mean_all[global_idx_start:global_idx_end]
+
+        # Construct the global index for each entry along dimension 1
+        aux_dim1_index = np.outer(np.ones(data_num, dtype=np.int64), np.arange(global_idx_start - neighbor_number,
+                                                                               global_idx_end, dtype=np.int64))
+        # Store the index for the entry from the last iteration
+        aux_dim1_index[:, :neighbor_number] = idx_to_keep_dim1
 
         # Normalize the inner product matrix
         Graph.normalization(matrix=inner_prod_matrix,
@@ -292,11 +236,6 @@ if comm_rank != 0:
 
         # Find the local index of the largest values
         idx_pre_dim1 = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
-
-        # Create auxiliary variable to update index along dimension 1
-        aux_dim1_index = np.outer(np.ones(data_num, dtype=np.int), idx_dim1)
-        # Assign corresponding values to the first neighbor_number elements along dimension 1
-        aux_dim1_index[:, :neighbor_number] = idx_to_keep_dim1
 
         # Turn the local index into global index
         Graph.get_values_int(source=aux_dim1_index,
@@ -327,24 +266,16 @@ comm.Barrier()  # Synchronize
 Step Five: Collect all the patches and assemble them.
 """
 if comm_rank == 0:
-
     values_all = np.concatenate(value_to_keep_data[1:], axis=0)
     idx_dim1_all = np.concatenate(index_to_keep_dim1_data[1:], axis=0)
 
     # Constuct the holder for index for each point along dimension 0
     holder_size = (data_source.data_num_total, neighbor_number)
-    idx_dim0_all = np.zeros(holder_size, dtype=np.int)
-
-    # Fill the idx_dim0_all with desired values
-    for idx in range(batch_num_dim0):
-        _tmp_start = data_source.batch_global_idx_range_dim0[idx, 0]
-        _tmp_end = data_source.batch_global_idx_range_dim0[idx, 1]
-        idx_dim0_all[_tmp_start:_tmp_end] = np.outer(np.arange(_tmp_start, _tmp_end, dtype=np.int),
-                                                     np.ones(neighbor_number, dtype=np.int))
+    idx_dim0_all = np.outer(np.arange(data_source.data_num_total, dtype=np.int),
+                            np.ones(neighbor_number, dtype=np.int))
 
     # Convert 1-D array to construct the sparse matrix
     size_num = data_source.data_num_total * neighbor_number
-
     values_all = values_all.reshape(size_num)
     idx_dim0_all = idx_dim0_all.reshape(size_num)
     idx_dim1_all = idx_dim1_all.reshape(size_num)

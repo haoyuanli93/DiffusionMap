@@ -82,11 +82,77 @@ class DataSourceFromH5pyList:
             self.data_num_total = np.sum(self.data_num_per_file)
             self.dataset_num_total = np.sum(self.dataset_num_per_file)
 
+            """
+            The self.batch_ends_local_dim0 is the crucial variable for data retrieval along dimension 0 
+            variable is 
+
+            The first layer is a list ----->   [                                                          
+                                            " This is for the first batch"    
+            The second layer is a dic ----->     {
+                                                  files :[ A list containing the addresses for files in this
+                                                           folder. Notice that this list has the same order 
+                                                           as that listed in the input file list.]
+                                                  file name 1:
+            The third layer is a dic  ----->                    {Dataset name: 
+            The forth layer is a list ----->                     [A list of the dataset names],
+
+                                                                 Ends:
+                                                                 [A list of the ends in the dataset. Each is a
+                                                                  small list: [start,end]]}
+                                                                 ,
+                                                  file name 2:
+            The third layer is a dic  ----->                    {Dataset name: 
+            The forth layer is a list ----->                     [A list of the dataset names],
+
+                                                                 Ends:
+                                                                 [A list of the ends in the dataset. Each is a
+                                                                  small list: [start,end]]}
+                                                                 , ... }
+
+                                             " This is for the second batch"
+                                             ...         
+                                                ]
+            """
+
+            """
+            The self.batch_ends_local_dim1 is the crucial variable for data retrieval along dimension 1 
+            variable is 
+
+            The first layer is a list ----->   [                                                          
+                                            " This is for the first batch"    
+            The second layer is a dic ----->     {
+                                                  files :[ A list containing the addresses for files in this
+                                                           folder. Notice that this list has the same order 
+                                                           as that listed in the input file list.]
+                                                  file name 1:
+            The third layer is a dic  ----->                    {Dataset name: 
+            The forth layer is a list ----->                     [A list of the dataset names],
+
+                                                                 Ends:
+                                                                 [A list of the ends in the dataset. Each is a
+                                                                  small list: [start,end]]}
+                                                                 ,
+                                                  file name 2:
+            The third layer is a dic  ----->                    {Dataset name: 
+            The forth layer is a list ----->                     [A list of the dataset names],
+
+                                                                 Ends:
+                                                                 [A list of the ends in the dataset. Each is a
+                                                                  small list: [start,end]]}
+                                                                 , ... }
+
+                                             " This is for the second batch"
+                                             ...         
+                                                ]
+            """
+
             self.batch_ends_local_dim0 = []
             self.batch_num_list_dim0 = []
             self.batch_global_idx_range_dim0 = None
 
             self.batch_ends_local_dim1 = []
+            self.batch_num_list_dim1 = []
+            self.batch_global_idx_range_dim1 = None
 
     def initialize(self, source_list_file=None):
         """
@@ -116,79 +182,13 @@ class DataSourceFromH5pyList:
         self.data_num_total = np.sum(self.data_num_per_file)
         self.dataset_num_total = np.sum(self.dataset_num_per_file)
 
-        """
-        The self.batch_ends_local_dim0 is the crucial variable for data retrieval along dimension 0 
-        variable is 
-        
-        The first layer is a list ----->   [                                                          
-                                        " This is for the first batch"    
-        The second layer is a dic ----->     {
-                                              files :[ A list containing the addresses for files in this
-                                                       folder. Notice that this list has the same order 
-                                                       as that listed in the input file list.]
-                                              file name 1:
-        The third layer is a dic  ----->                    {Dataset name: 
-        The forth layer is a list ----->                     [A list of the dataset names],
-                                                             
-                                                             Ends:
-                                                             [A list of the ends in the dataset. Each is a
-                                                              small list: [start,end]]}
-                                                             ,
-                                              file name 2:
-        The third layer is a dic  ----->                    {Dataset name: 
-        The forth layer is a list ----->                     [A list of the dataset names],
-                                                             
-                                                             Ends:
-                                                             [A list of the ends in the dataset. Each is a
-                                                              small list: [start,end]]}
-                                                             , ... }
-                                        
-                                         " This is for the second batch"
-                                         ...         
-                                            ]
-        """
-
-        """
-        The structure of the self.batch_ends_local_dim1 is different. Actually, this contains the job information
-        for each worker. According to the explanation in the self.make_indexes function below, the calculation 
-        scheme requires that each worker is in charge of one line. Therefore, when we have excessive workers, one might 
-        want to divide the matrix finer along dimension 0 and less finer on dimension 1. Along each batch in dimension 
-        0, we can bin the batch along dimension 0 a little bit. Detailed explanation is in the function 
-        self.make_indexes. Therefore, each line will contains several different batches. 
-        
-        Then there comes another problem, I don't want to re find all the batches. So instead of finding new batches
-        I group together the batches along dimension 0. This is the reason I use the following structure.
-        
-        The zeroth layer is a list ---->  [
-                                        "This is for the first line"
-                The first layer is a list ----->   [                                                          
-                                                " This is for the first batch along this line"    
-                The second layer is a list ----->    [ 
-                                                        "The first element is the batches"
-                The third layer is a list ----->     [
-                                                        The 1st batch along dimension 0 that is in this batch,
-                                                        The 2nd batch along dimension 0 that is in this batch,
-                                                        ...
-                                                      ],
-                                                        " The second element is batches index of batches
-                                                        along dimension 0 in this bin."
-                                                      [ 1,2,3,4 ..]
-            
-                                                      ],
-                                                
-                                                 " This is for the second batch along this line"
-                                                 ...         
-                                                    ]
-                                         "This is for the second line"
-                                         []
-                                         ...
-                                         ]
-        """
         self.batch_ends_local_dim0 = []
         self.batch_num_list_dim0 = []
         self.batch_global_idx_range_dim0 = None
 
         self.batch_ends_local_dim1 = []
+        self.batch_num_list_dim1 = []
+        self.batch_global_idx_range_dim1 = None
 
     def make_batches(self, batch_num_dim0, batch_num_dim1):
         """
@@ -230,45 +230,20 @@ class DataSourceFromH5pyList:
                                                          global_index_range_list=self.batch_global_idx_range_dim0,
                                                          file_list=self.file_list,
                                                          source_dict=self.source_dict)
+
         #################################################################
         #  Process dimension 1
         #################################################################
-        """
-        The batch number is calculated in this way.
-        
-                    --------------------------
-                    | 00 | 11 | 11 | 11 | 11 |
-                    --------------------------
-                    | 11 | 00 | 11 | 11 | 11 |
-                    --------------------------
-                    | 11 | 11 | 00 | 11 | 11 |
-                    --------------------------
-                    | 11 | 11 | 11 | 00 | 11 |
-                    --------------------------
-                    | 11 | 11 | 11 | 11 | 00 |
-                    --------------------------
-        """
-        # Number of batches to bin together.
-        batch_num_per_bin = util.get_batch_num_list(batch_num_dim0 - 1, batch_num_dim1)
-        """
-        This number is used to specify the range of batches inside a specific bin
-        """
-        bin_ends = np.cumsum([0, ] + batch_num_per_bin)
-        # batch index along each line
-        batch_idx_per_line = util.get_batch_idx_per_list(batch_num=batch_num_dim0)
 
-        for line_idx in range(batch_num_dim0):
+        # Get batch number list along dimension 1
+        self.batch_num_list_dim1 = util.get_batch_num_list(total_num=self.data_num_total, batch_num=batch_num_dim1)
+        self.batch_global_idx_range_dim1 = np.zeros((batch_num_dim1, 2), dtype=np.int)
+        tmp = np.cumsum([0, ] + self.batch_num_list_dim1)
+        self.batch_global_idx_range_dim1[:, 0] = tmp[:-1]
+        self.batch_global_idx_range_dim1[:, 1] = tmp[1:]
 
-            # The second layer of list is for different batches in this line.
-            # Create a holder for batch bins in this line
-            self.batch_ends_local_dim1.append([])
-
-            for bin_idx in range(batch_num_dim1):
-                # Get the batch indexes to merge
-                idx_list = batch_idx_per_line[line_idx, bin_ends[bin_idx]:bin_ends[bin_idx + 1]]
-
-                # The third layer of list is for this batch in this line.
-                tmp = [[self.batch_ends_local_dim0[x] for x in idx_list],
-                       idx_list]
-
-                self.batch_ends_local_dim1[-1].append(tmp)
+        # Get batch ends for dimension 0 and 1
+        self.batch_ends_local_dim1 = util.get_batch_ends(index_map=global_index_map,
+                                                         global_index_range_list=self.batch_global_idx_range_dim1,
+                                                         file_list=self.file_list,
+                                                         source_dict=self.source_dict)
