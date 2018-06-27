@@ -20,7 +20,7 @@ from numba import jit, int64, float64
 def degree_mat(weight_matrix):
     """
     Obtain the degree matrix to construct the Laplacian matrix.
-    :param weight_matrix:
+    :param weight_matrix:The weight matrix of data points. This has to be sparse
     :return: The csr diagonal degree matrix
     """
 
@@ -38,7 +38,7 @@ def degree_mat(weight_matrix):
 def inverse_degree_mat(weight_matrix):
     """
     Obtain the degree matrix to construct the normalized Laplacian matrix.
-    :param weight_matrix:
+    :param weight_matrix:The weight matrix of data points. This has to be sparse
     :return: The csr diagonal inverse degree matrix
     """
 
@@ -56,7 +56,7 @@ def inverse_degree_mat(weight_matrix):
 def inverse_sqrt_degree_mat(weight_matrix):
     """
     Obtain the degree matrix to construct the normalized symmetric Laplacian matrix.
-    :param weight_matrix:
+    :param weight_matrix:The weight matrix of data points. This has to be sparse
     :return: The csr diagonal inverse sqrt degree matrix
     """
 

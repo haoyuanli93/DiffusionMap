@@ -194,41 +194,6 @@ class DataSourceFromH5pyList:
         """
         Get the info to extract the batches.
 
-                    ================
-                    Detailed explain
-                    ================
-
-        To use this function, one has assumed that each node has almost the same memory available.
-        It is not obvious, but the small patches does not necessarily have the same shape.
-        The calculation model in my mind is the following:
-
-                    --------------------------
-                    | 11 | 11 | 11 | 00 | 00 |
-                    --------------------------
-                    | 00 | 11 | 11 | 11 | 00 |
-                    --------------------------
-                    | 00 | 00 | 11 | 11 | 11 |
-                    --------------------------
-                    | 11 | 00 | 00 | 11 | 11 |
-                    --------------------------
-                    | 11 | 11 | 00 | 00 | 11 |
-                    --------------------------
-
-        "11" represents that  I plan to calculate this patch. "00" means I will skip this patch.
-        To avoid excessive io, each worker is in charge of patches along one row.
-
-        Because, my calculation also requires scaling, so the calculation is done in such a way.
-
-        1. All the workers will calculate the diagonal patches. After that, they will save the
-            diagonal values to disk. The other jobs will read the value each time they need to do the scaling.
-        2. The workers will load patches along each row. Calculate the inner product and do the
-            scaling and sorting and etc. Notice that, because we could have a lot of workers, really
-            a lot of workers, therefore, each row can be quite flat and if we keep the  partitions
-            along the two dimensions the same, we might not use all the memory. Therefore, I'll let the user to
-            choose the partition number along each dimension.
-        3. Later, I would try to provide some more information and perhaps functions to help the user
-            to set the optimal value for the partition number along dim1.
-
         :param batch_num_dim0: the number of batches along dimension 0.
         :param batch_num_dim1: the number of batches along dimension 1.
         :return: A list containing the necessary info.

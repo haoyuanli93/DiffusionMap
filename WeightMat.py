@@ -108,8 +108,7 @@ if comm_rank != 0:
     # Calculate the concrete values
     data_mean_dim0, data_std_dim0, inner_prod_matrix = [np.array(data_mean_dim0),
                                                         np.array(data_std_dim0),
-                                                        np.array(inner_prod_matrix) / float(
-                                                            np.prod(data_shape)) - np.eye(data_num)]
+                                                        np.array(inner_prod_matrix) / float(np.prod(data_shape))]
 
     print("Finishes calculating the mean, the standard variation and the inner product matrix.")
 
@@ -127,12 +126,14 @@ if comm_rank != 0:
                         mean_dim1=data_mean_dim0,
                         matrix_shape=np.array([data_num, data_num]))
 
+    if not keep_diagonal:
+        inner_prod_matrix -= np.eye(data_num)
+
     """
     Notice that, finally, when we calculate the eigenvectors for the whole matrix,
     one needs the global index rather than the local index. Therefore, one should 
     keep the global index.
     """
-    batch_ends = data_source.batch_global_idx_range_dim0[comm_rank - 1, 0]
     idx_pre_dim1 = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
 
     holder_size = np.array([data_num, neighbor_number], dtype=np.int64)
@@ -141,7 +142,7 @@ if comm_rank != 0:
     Graph.get_values_float(source=inner_prod_matrix, indexes=idx_pre_dim1, holder=val_to_keep,
                            holder_size=holder_size)
 
-    idx_to_keep_dim1 = idx_pre_dim1 + batch_ends
+    idx_to_keep_dim1 = idx_pre_dim1 + data_source.batch_global_idx_range_dim0[comm_rank - 1, 0]
 
     # Create a holder for all standard variations and means
     std_all = np.empty(data_source.data_num_total, dtype=np.float64)
@@ -224,8 +225,8 @@ if comm_rank != 0:
         data_num_dim1 = np.sum(tmp_num_list)
 
         idx_dim1 = np.zeros(data_num_dim1 + neighbor_number, dtype=np.int)
-        data_mean_dim1 = np.ones(data_num_dim1, dtype=np.float)
-        data_std_dim1 = np.ones(data_num_dim1, dtype=np.float)
+        data_mean_dim1 = np.zeros(data_num_dim1, dtype=np.float)
+        data_std_dim1 = np.zeros(data_num_dim1, dtype=np.float)
 
         # Open the files to do calculation. Remember to close them in the end
         h5file_holder_dim1 = {}
