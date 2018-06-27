@@ -382,7 +382,6 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
 #
 ##################################################################
 
-@jit(int64[:, :](int64))
 def get_batch_idx_per_list(batch_num):
     """
     The batch number is calculated in this way.
@@ -412,7 +411,7 @@ def get_batch_idx_per_list(batch_num):
     holder[batch_num - 1, :] = np.arange(batch_num_per_line, dtype=np.int)
     for l in range(1, batch_num - 1):
         holder[l, :l] = np.arange(l, dtype=np.int)
-        holder[l, l:] = np.arange(l, batch_num, dtype=np.int)
+        holder[l, l:] = np.arange(l + 1, batch_num, dtype=np.int)
 
     return holder
 
