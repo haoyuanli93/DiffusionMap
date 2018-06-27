@@ -126,14 +126,6 @@ if comm_rank != 0:
                         mean_dim1=data_mean_dim0,
                         matrix_shape=np.array([data_num, data_num]))
 
-    print("line 129: the scaled matrix. max is {} min is {}".format(np.max(inner_prod_matrix),
-                                                                    np.min(inner_prod_matrix)))
-
-    # Remove the diagonal and the lower part by setting that to -10.
-    inner_prod_matrix[np.tril_indices(n=data_num, m=data_num, k=0)] = -10.
-    print("Please Check line 129 to understand what's going on, if you have met "
-          "something unusual in your result, such as a value -10 in your correlation matrix.")
-
     """
     Notice that, finally, when we calculate the eigenvectors for the whole matrix,
     one needs the global index rather than the local index. Therefore, one should 
@@ -284,17 +276,12 @@ if comm_rank != 0:
         inner_prod_matrix = da.tensordot(dataset_dim0, dataset_dim1, axes=(axes_range, axes_range))
         inner_prod_matrix = np.array(inner_prod_matrix) / float(np.prod(data_shape))
 
-        print("line 292: the original matrix. max is {} min is {}".format(np.max(inner_prod_matrix),
-                                                                          np.min(inner_prod_matrix)))
-
         ################################################################################################################
         #
         #   Finish the calculation of a non diagonal term. Now Clean things up
         #
         ################################################################################################################
-        print("Process {}, the min of data_std_dim0 is {}, the min of data_std_dim1 is{}".format(comm_rank,
-                                                                                                 np.min(data_std_dim0),
-                                                                                                 np.min(data_std_dim1)))
+
         # Normalize the inner product matrix
         Graph.normalization(matrix=inner_prod_matrix,
                             std_dim0=data_std_dim0,
@@ -302,9 +289,6 @@ if comm_rank != 0:
                             mean_dim0=data_mean_dim0,
                             mean_dim1=data_mean_dim1,
                             matrix_shape=np.array([data_num, data_num_dim1]))
-
-        print("line 311: the scaled matrix. max is {} min is {}".format(np.max(inner_prod_matrix),
-                                                                        np.min(inner_prod_matrix)))
 
         # Put previously selected values together with the new value and do the sort
         inner_prod_matrix = np.concatenate((val_to_keep, inner_prod_matrix), axis=1)
