@@ -108,7 +108,8 @@ if comm_rank != 0:
     # Calculate the concrete values
     data_mean_dim0, data_std_dim0, inner_prod_matrix = [np.array(data_mean_dim0),
                                                         np.array(data_std_dim0),
-                                                        np.array(inner_prod_matrix) / float(np.prod(data_shape))]
+                                                        np.array(inner_prod_matrix) / float(
+                                                            np.prod(data_shape)) - np.eye(data_num)]
 
     print("Finishes calculating the mean, the standard variation and the inner product matrix.")
 
@@ -131,9 +132,6 @@ if comm_rank != 0:
     one needs the global index rather than the local index. Therefore, one should 
     keep the global index.
     """
-    # Remove the diagonal value
-    inner_prod_matrix -= np.eye(data_num)
-    
     batch_ends = data_source.batch_global_idx_range_dim0[comm_rank - 1, 0]
     idx_pre_dim1 = np.argsort(a=inner_prod_matrix, axis=1)[:, :-(neighbor_number + 1):-1]
 

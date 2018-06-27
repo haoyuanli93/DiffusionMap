@@ -87,8 +87,6 @@ class DataSourceFromH5pyList:
             self.batch_global_idx_range_dim0 = None
 
             self.batch_ends_local_dim1 = []
-            self.batch_num_list_dim1 = []
-            # self.batch_global_idx_range_dim1 = None
 
     def initialize(self, source_list_file=None):
         """
@@ -191,8 +189,6 @@ class DataSourceFromH5pyList:
         self.batch_global_idx_range_dim0 = None
 
         self.batch_ends_local_dim1 = []
-        self.batch_num_list_dim1 = []
-        # self.batch_global_idx_range_dim1 = None
 
     def make_batches(self, batch_num_dim0, batch_num_dim1):
         """

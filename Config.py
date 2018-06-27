@@ -54,9 +54,6 @@ def check(comm_size):
     if comm_size - 1 != config["batch_num_dim0"]:
         raise Exception("The number of nodes, i.e. the comm_size has to be config[\"batch_num_dim0\"] + 1.")
 
-    if numpy.mod(comm_size, 2) != 0:
-        raise Exception("The number of nodes, i.e. the comm_size has to be an even number.")
-
     if not (type(config["batch_num_dim1"]) is int):
         raise Exception("batch_num_dim1 has to be an integer.")
 
