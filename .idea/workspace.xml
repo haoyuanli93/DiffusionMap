@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/WeightMatTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataSource.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataSource.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,14 +17,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="637">
+            <state relative-caret-position="1017">
               <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
               <folding>
                 <element signature="e#19#30#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WeightMatTest.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/WeightMatTest.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="329">
+              <caret line="272" column="105" selection-start-line="272" selection-start-column="105" selection-end-line="272" selection-end-column="105" />
             </state>
           </provider>
         </entry>
@@ -109,6 +116,7 @@
       <find>col_info_holder</find>
       <find>line</find>
       <find>files</find>
+      <find>num_dim</find>
     </findStrings>
     <replaceStrings>
       <replace>map</replace>
@@ -165,6 +173,7 @@
         <option value="$PROJECT_DIR$/DataSource.py" />
         <option value="$PROJECT_DIR$/Graph.py" />
         <option value="$PROJECT_DIR$/WeightMat.py" />
+        <option value="$PROJECT_DIR$/WeightMatTest.py" />
       </list>
     </option>
   </component>
@@ -207,17 +216,18 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\Test\Samples" />
       <recent name="$PROJECT_DIR$/test" />
       <recent name="$PROJECT_DIR$/obsolete" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -315,7 +325,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
@@ -399,6 +408,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/WeightMat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1017">
+          <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
+          <folding>
+            <element signature="e#19#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Graph.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1767">
@@ -406,13 +425,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WeightMat.py">
+    <entry file="file://$PROJECT_DIR$/WeightMatTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="637">
-          <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
-          <folding>
-            <element signature="e#19#30#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="329">
+          <caret line="272" column="105" selection-start-line="272" selection-start-column="105" selection-end-line="272" selection-end-column="105" />
         </state>
       </provider>
     </entry>
