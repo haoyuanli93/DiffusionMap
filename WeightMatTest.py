@@ -267,7 +267,7 @@ if comm_rank != 0:
         print("Finishes loading data.")
 
         # Create dask arrays based on these h5 files
-        dataset_dim1 = da.reshape(da.concatenate(dataset_holder_dim1, axis=0), (dataset_dim0, np.prod(data_shape)))
+        dataset_dim1 = da.reshape(da.concatenate(dataset_holder_dim1, axis=0), (data_num_dim1, np.prod(data_shape)))
 
         # Calculate the correlation matrix.
         inner_prod_matrix = da.dot(dataset_dim0, da.transpose(dataset_dim1)) / float(np.prod(data_shape))
