@@ -6,46 +6,61 @@ the original pattern.
 
 import numpy as np
 import h5py as h5
-from  numba import jit
+from numba import jit
 import argparse
+
+
+@jit()
+def get_a_disk(x, y, r):
+    """
+    Generate a numpy array containing a disk
+    :param x: the x coordinate of the center of the disk
+    :param y: the y coordinate of the center of the disk
+    :param r: the radius of the disk
+    :return: a 2D array containing the disk
+    """
+
+    _holder = np.zeros((128, 128))
+    for x_idx in range(128):
+        for y_idx in range(128):
+            if (x_idx - x) ** 2 + (y_idx - y) ** 2 <= r ** 2:
+                _holder[x_idx, y_idx] = 1.
+
+    return _holder
+
 
 # Parse the parameters
 parser = argparse.ArgumentParser()
 parser.add_argument('batch_num', type=int, help="batches.")
 parser.add_argument('address', type=str, help="Specify where to save.")
 
-"""
-Generate a h5 file to hold the data
-"""
 args = parser.parse_args()
 num = args.batch_num
 address = args.address
 
+"""
+Generate a h5 file to hold the data
+"""
 with h5.File(address, 'w') as h5file:
-    for r in range(num):
-        """
-        Generate patterns for square
-        """
-        original_square = np.zeros((128, 128))
-        original_square[45:72, 45:72] = 40
+    for batch_idx in range(num):
+        # Generate a circle radius
+        radius = np.random.rand() * 64
+        x_coo = np.random.rand() * 64 + 64
+        y_coo = np.random.rand() * 64 + 64
 
-        square_stack = np.zeros((51, 128, 128))
-        for l in range(51):
-            square_stack[l] = original_square + np.random.rand(128, 128) * 150
+        # Generate noise level, truth level and pattern number
+        pattern_num = np.random.randint(low=25, high=301)
+        noise = np.random.rand(pattern_num) * 64
+        truth = np.random.rand(pattern_num) * 64
 
-        """
-        Generate patterns for circle
-        """
-        original_disk = np.zeros((128, 128))
-        for l in range(128):
-            for m in range(128):
-                if (l - 63.5) ** 2 + (m - 63.5) ** 2 <= 400:
-                    original_disk[l, m] = 68
+        # Get the unit disk
+        unit_disk = get_a_disk(x_coo, y_coo, radius)
+        # Get the holder for different patterns
+        holder = np.zeros((pattern_num, 128, 128))
 
-        disk_stack = np.zeros((71, 128, 128))
-        for l in range(71):
-            disk_stack[l] = original_disk + np.random.rand(128, 128) * 150
+        # Fill the holder with the patterns
+        for pattern_idx in range(pattern_num):
+            holder[pattern_idx, :, :] = unit_disk * truth[pattern_idx] + noise[pattern_idx]
 
-        h5file.create_dataset(str(2 * r), data=square_stack)
-        h5file.create_dataset(str(2 * r + 1), data=disk_stack)
-
+        # Save the stack
+        h5file.create_dataset(str(2 * batch_idx + 1), data=holder)
