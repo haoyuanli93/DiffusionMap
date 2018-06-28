@@ -51,7 +51,7 @@ with h5.File(address, 'w') as h5file:
         # Generate noise level, truth level and pattern number
         pattern_num = np.random.randint(low=25, high=301)
         noise = np.random.rand(pattern_num) * 64
-        truth = np.random.rand(pattern_num) * 64
+        truth = np.random.rand(pattern_num)
 
         # Get the unit disk
         unit_disk = get_a_disk(x_coo, y_coo, radius)
