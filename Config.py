@@ -19,6 +19,10 @@ CONFIGURATIONS = {
     "output_folder": str("../output/"),  # The output folder to store the output
     "neighbor_number": int(37),  # The number of nearest neighbors to keep
 
+    # Construct the Laplacian matrix term
+    "keep_diagonal": bool(False),  # Whether to keep the diagonal terms or not.for
+    "Laplacian_matrix": str("symmetric normalized laplacian"),
+
     # The following two parameters are for the eigenvector calculation. During that calculation, one need
     # to specify the output folder and the neighborhood number. Those two parameters are specified in the
     # preceding six parameters.
