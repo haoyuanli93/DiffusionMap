@@ -316,7 +316,7 @@ if comm_rank == 0:
             if not Config.CONFIGURATIONS["keep_diagonal"]:
                 matrix_sym.setdiag(values=0, k=0)
             # Calculate the degree matrix for normalization
-            degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix)
+            degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix_sym)
             # Calculate the laplacian matrix
             laplacian = Graph.symmetrized_normalized_laplacian(degree_matrix=degree, weight_matrix=matrix_sym)
 
