@@ -51,7 +51,7 @@ with h5.File(address, 'w') as h5file:
         # Generate noise level, truth level and pattern number
         pattern_num = np.random.randint(low=25, high=301)
         noise = np.random.rand(pattern_num) * 64
-        truth = np.random.rand(pattern_num)
+        truth = np.random.rand(pattern_num) * 10
 
         # Get the unit disk
         unit_disk = get_a_disk(x_coo, y_coo, radius)
@@ -60,7 +60,7 @@ with h5.File(address, 'w') as h5file:
 
         # Fill the holder with the patterns
         for pattern_idx in range(pattern_num):
-            holder[pattern_idx, :, :] = unit_disk * truth[pattern_idx] + noise[pattern_idx]
+            holder[pattern_idx, :, :] = unit_disk * truth[pattern_idx] + np.random.rand(128, 128) * noise[pattern_idx]
 
         # Save the stack
         h5file.create_dataset(str(2 * batch_idx + 1), data=holder)
