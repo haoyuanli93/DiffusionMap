@@ -294,7 +294,6 @@ if comm_rank == 0:
     # Construct a sparse matrix
     matrix = scipy.sparse.coo_matrix((values_all, (idx_dim0_all, idx_dim1_all)),
                                      shape=(data_source.data_num_total, data_source.data_num_total))
-    matrix.tocsr()
 
     # Save the matrix
     scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
@@ -320,6 +319,9 @@ if comm_rank == 0:
             degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix)
             # Calculate the laplacian matrix
             laplacian = Graph.symmetrized_normalized_laplacian(degree_matrix=degree, weight_matrix=matrix_sym)
+
+            laplacian.tocsr()
+            scipy.sparse.save_npz(file=output_folder + "/laplacian_matrix.npz", matrix=laplacian, compressed=True)
 
             toc_2 = time.time()
             print("Time to construct the Laplacian matrix is {}".format(toc_2 - toc_1))
