@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version8.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/version8.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version9.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/version9.ipynb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -299,7 +297,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
