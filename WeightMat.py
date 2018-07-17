@@ -14,15 +14,16 @@ except ImportError:
 comm = MPI.COMM_WORLD
 comm_rank = comm.Get_rank()
 comm_size = comm.Get_size()
+batch_num_dim0 = comm_size - 1
 
 # Check if the configuration information is valid and compatible with the MPI setup
 Config.check(comm_size=comm_size)
 
 # Parse
-batch_num_dim0 = Config.CONFIGURATIONS["batch_num_dim0"]
 batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
 input_file_list = Config.CONFIGURATIONS["input_file_list"]
 output_folder = Config.CONFIGURATIONS["output_folder"]
+mask_file = Config.CONFIGURATIONS["mask_file"]
 
 if Config.CONFIGURATIONS["keep_diagonal"]:
     neighbor_number = Config.CONFIGURATIONS["neighbor_number"]
@@ -36,6 +37,12 @@ Step One: Initialization
 """
 if comm_rank == 0:
     data_source = DataSource.DataSourceFromH5pyList(source_list_file=input_file_list)
+
+    # Check the mask shape
+    mask = np.load(mask_file)
+    if mask.shape == data_source.source_dict["shape"]:
+        raise ValueError("The shape of the mask, {}, ".format(mask.shape) +
+                         "is different from the shape of the sample, {}.".format(data_source.source_dict["shape"]))
 
     # Time for making batches
     tic_local = time.time()
@@ -94,16 +101,25 @@ if comm_rank != 0:
             dataset_holder_dim0.append(tmp_dask_data_holder)
 
     # Create dask arrays based on these h5 files
-    dataset_dim0 = da.reshape(da.concatenate(dataset_holder_dim0, axis=0), (data_num, np.prod(data_shape)))
+    dataset_dim0 = np.array(da.concatenate(dataset_holder_dim0, axis=0))
+
+    # Load the mask
+    mask = np.reshape(np.load(mask_file), (1,) + data_shape)
+
+    # Apply the mask to the dataset_dim0
+    """
+    Notice that after applying the mask to dimension 0, it is not necessary to apply the mask again 
+    to the dataset along dimension 1.
+    """
+    dataset_dim0 *= mask
+
+    dataset_dim0 = np.reshape(dataset_dim0, (data_num, np.prod(data_shape)))
     print("Finishes loading data.")
 
     # Calculate the mean value of each pattern of the vector
-    data_mean_dim0 = da.mean(a=dataset_dim0, axis=-1)
+    data_mean_dim0 = np.mean(a=dataset_dim0, axis=-1)
     # Calculate the standard deviation of each pattern of the vector
-    data_std_dim0 = da.std(a=dataset_dim0, axis=-1)
-
-    # Calculate the concrete values
-    data_mean_dim0, data_std_dim0 = [np.array(data_mean_dim0), np.array(data_std_dim0)]
+    data_std_dim0 = np.std(a=dataset_dim0, axis=-1)
 
     print("Finishes calculating the mean, the standard variation and the inner product matrix.")
 

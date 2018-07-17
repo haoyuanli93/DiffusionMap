@@ -2,36 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/start_a_new_project.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EigensSlepc.py" beforeDir="false" afterPath="$PROJECT_DIR$/EigensSlepc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigenvector_cleaner.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pic/filling.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DataSource-2018.6.19.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DataSource-tmp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DataSourceBK.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DiffusionMap.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-25.6.2018.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/DistanceMPI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI-adapted.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/EigensDaskSlepscMPI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/WeightMat.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/Example_Million_Patterns.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version1.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version2.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version3.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version4.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version5.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version6-failure.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version7.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version8.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src_backup/visualization/version9-failure.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj_000/input/file_list.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj_000/src/Config.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,24 +19,24 @@
     <SUITE FILE_PATH="coverage/DiffusionMap$DiffusionMap.coverage" NAME="DiffusionMap Coverage Results" MODIFIED="1527807238432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="EigensSlepc.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/asset/Config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1197">
-              <caret line="105" column="29" selection-start-line="105" selection-start-column="29" selection-end-line="105" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#22#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="323">
+              <caret line="17" column="14" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Config.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/asset/Config.py">
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="1767">
+              <caret line="93" column="51" lean-forward="true" selection-start-line="93" selection-start-column="51" selection-end-line="93" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#48#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -169,11 +144,12 @@
         <option value="$PROJECT_DIR$/visutil.py" />
         <option value="$PROJECT_DIR$/Example_Million_Patterns.ipynb" />
         <option value="$PROJECT_DIR$/eigenvector_cleaner.py" />
-        <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/Test/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
+        <option value="$PROJECT_DIR$/asset/Config.py" />
+        <option value="$PROJECT_DIR$/WeightMat.py" />
       </list>
     </option>
   </component>
@@ -201,11 +177,6 @@
             <path>
               <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
               <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
-              <item name="asset" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -290,6 +261,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
@@ -301,7 +273,6 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.1328125" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32911393" />
       <window_info anchor="right" id="SciView" order="4" />
       <window_info id="Structure" order="1" sideWeight="0.50048685" side_tool="true" weight="0.18229167" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -312,6 +283,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32911393" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,13 +334,7 @@
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-25.6.2018.py" />
     <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/DaskUtil.py" />
-    <entry file="file://$PROJECT_DIR$/src_backup/WeightMat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2261">
-          <caret line="130" selection-start-line="130" selection-end-line="130" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src_backup/WeightMat.py" />
     <entry file="file://$PROJECT_DIR$/LaplacianMat.py" />
     <entry file="file://$PROJECT_DIR$/Graph.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -417,36 +383,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
-          <folding>
-            <element signature="e#19#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WeightMat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4807">
-          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project_template/src/Config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="30" column="12" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project_template/input/file_list.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py" />
+    <entry file="file://$PROJECT_DIR$/project_template/src/Config.py" />
+    <entry file="file://$PROJECT_DIR$/project_template/input/file_list.txt" />
     <entry file="file://$PROJECT_DIR$/proj_000/src/Config.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -469,7 +408,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1197">
+        <state relative-caret-position="855">
           <caret line="105" column="29" selection-start-line="105" selection-start-column="29" selection-end-line="105" selection-end-column="29" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
@@ -479,8 +418,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/asset/Config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="323">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WeightMat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1767">
+          <caret line="93" column="51" lean-forward="true" selection-start-line="93" selection-start-column="51" selection-end-line="93" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

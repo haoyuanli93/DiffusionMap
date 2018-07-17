@@ -13,9 +13,9 @@ CONFIGURATIONS = {
     # or the Laplacian matrix. If you only want to calculate the correlation matrix, then
     # you only need to modify this part.
 
-    "batch_num_dim0": int(47),  # Batch number along dimension 0
     "batch_num_dim1": int(40),  # Batch number along dimension 1
     "input_file_list": str("../input/file_list.txt"),  # The txt file containing the h5 files to process
+    "mask_file": str("../input/mask.npy"),  # The txt file containing the h5 files to process
     "output_folder": str("../output/"),  # The output folder to store the output
     "neighbor_number": int(50),  # The number of nearest neighbors to keep
 
@@ -49,13 +49,6 @@ def check(comm_size):
     global CONFIGURATIONS
 
     config = CONFIGURATIONS
-
-    # The batch_num_dim0 has to be an odd number. and has to be comm_size - 1
-    if not (type(config["batch_num_dim0"]) is int):
-        raise Exception("batch_num_dim0 has to be an integer.")
-
-    if comm_size - 1 != config["batch_num_dim0"]:
-        raise Exception("The number of nodes, i.e. the comm_size has to be config[\"batch_num_dim0\"] + 1.")
 
     if not (type(config["batch_num_dim1"]) is int):
         raise Exception("batch_num_dim1 has to be an integer.")
