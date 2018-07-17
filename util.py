@@ -563,16 +563,16 @@ def get_sampled_pattern_batch(global_index_array, global_index_map, data_dict):
     :return: A numpy array containing all patterns of interests to us .
     """
 
-    holder_shape = tuple([global_index_array.shape[0], ] + data_dict['shape'])
+    holder_shape = tuple([global_index_array.shape[0], ] + list(data_dict['shape']))
     pattern_holder = np.zeros(holder_shape)
 
     for l in range(global_index_array.shape[0]):
         global_index = global_index_array[l]
 
         # Decipher the global index
-        file_index = global_index_map[global_index, 0]
-        dataset_index = global_index_map[global_index, 1]
-        local_index = global_index_map[global_index, 2]
+        file_index = global_index_map[ 0,global_index]
+        dataset_index = global_index_map[1,global_index]
+        local_index = global_index_map[2,global_index]
 
         # Get file name and dataset name
         file_name = data_dict["Files"][file_index]
