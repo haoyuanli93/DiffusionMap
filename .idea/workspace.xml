@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/eigenvector_cleaner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/visutil.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version10.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/version10.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version3.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version3.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version4.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version4.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version5.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version5.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version6-failure.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version6-failure.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version7.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version7.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version8.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version8.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version9-failure.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version9-failure.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example_Million_Patterns.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Example_Million_Patterns.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eigenvector_cleaner.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigenvector_cleaner.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,7 +17,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visutil.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="137">
@@ -37,6 +25,15 @@
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Example_Million_Patterns.ipynb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Example_Million_Patterns.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="2" />
             </state>
           </provider>
         </entry>
@@ -50,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="eigenvector_cleaner.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="eigenvector_cleaner.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="34" column="44" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="44" />
+            <state relative-caret-position="152">
+              <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
               <folding>
                 <element signature="e#19#34#0" expanded="true" />
               </folding>
@@ -184,6 +181,8 @@
         <option value="$PROJECT_DIR$/visualization/eigenvector_cleaner.py" />
         <option value="$PROJECT_DIR$/visutil.py" />
         <option value="$PROJECT_DIR$/util.py" />
+        <option value="$PROJECT_DIR$/Example_Million_Patterns.ipynb" />
+        <option value="$PROJECT_DIR$/eigenvector_cleaner.py" />
       </list>
     </option>
   </component>
@@ -295,7 +294,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
@@ -336,7 +334,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/IOfun.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
@@ -429,16 +426,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="34" column="44" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="44" />
-          <folding>
-            <element signature="e#19#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="980">
@@ -459,6 +446,23 @@
           <caret line="39" column="112" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="112" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Example_Million_Patterns.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
+          <folding>
+            <element signature="e#19#34#0" expanded="true" />
           </folding>
         </state>
       </provider>

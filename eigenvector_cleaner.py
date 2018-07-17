@@ -6,7 +6,7 @@ import numpy
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--input_folder', type=str, help="Specify the folder containing the eigenvectors.")
-parser.add_argument("--node_num", type=str, help="Specify how many pieces is related to a single eigenvector.")
+parser.add_argument("--node_num", type=int, help="Specify how many pieces is related to a single eigenvector.")
 parser.add_argument("--eig_num", type=int, help="Specify the number of eigenvectors to assemble.")
 
 # Parse
