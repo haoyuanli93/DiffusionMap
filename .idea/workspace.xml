@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/Example_Million_Patterns.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Example_Million_Patterns.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eigenvector_cleaner.py" beforeDir="false" afterPath="$PROJECT_DIR$/eigenvector_cleaner.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,7 +19,7 @@
       <file leaf-file-name="visutil.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
+            <state relative-caret-position="703">
               <caret line="39" column="112" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="112" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -38,16 +37,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="980">
-              <caret line="555" column="77" selection-start-line="555" selection-start-column="30" selection-end-line="555" selection-end-column="77" />
+            <state relative-caret-position="494">
+              <caret line="139" column="36" lean-forward="true" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="eigenvector_cleaner.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="eigenvector_cleaner.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="152">
@@ -71,7 +70,7 @@
       <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataSource.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
+            <state relative-caret-position="1159">
               <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
             </state>
           </provider>
@@ -426,23 +425,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="980">
-          <caret line="555" column="77" selection-start-line="555" selection-start-column="30" selection-end-line="555" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DataSource.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
+        <state relative-caret-position="1159">
           <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/visutil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
+        <state relative-caret-position="703">
           <caret line="39" column="112" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="112" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -453,7 +445,7 @@
     <entry file="file://$PROJECT_DIR$/Example_Million_Patterns.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="0" />
+          <selected id="2" />
         </state>
       </provider>
     </entry>
@@ -464,6 +456,13 @@
           <folding>
             <element signature="e#19#34#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="139" column="36" lean-forward="true" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="36" />
         </state>
       </provider>
     </entry>
