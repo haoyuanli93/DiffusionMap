@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/eigenvector_cleaner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/version9.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/visutil.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version1.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version10.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/version10.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version2.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version3.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version3.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version4.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version4.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version5.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version5.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version6-failure.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version6-failure.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version7.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version7.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version8.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version8.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/version9-failure.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/src_backup/visualization/version9-failure.ipynb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,14 +29,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/visualization/util.py">
+      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/visutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+            <state relative-caret-position="137">
+              <caret line="39" column="112" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="112" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/util.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="980">
+              <caret line="555" column="77" selection-start-line="555" selection-start-column="30" selection-end-line="555" selection-end-column="77" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="eigenvector_cleaner.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="646">
+              <caret line="34" column="44" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="44" />
+              <folding>
+                <element signature="e#19#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WeightMat.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="532">
+              <caret line="39" column="85" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="85" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DataSource.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="410">
+              <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -41,7 +92,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>self.inde</find>
       <find>get_batch_ends</find>
       <find>pattern_number_total</find>
       <find>h5.File</find>
@@ -71,6 +121,7 @@
       <find>num_dim</find>
       <find>toc_</find>
       <find>tic_</find>
+      <find>parse</find>
     </findStrings>
     <replaceStrings>
       <replace>map</replace>
@@ -122,7 +173,6 @@
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/DaskUtil.py" />
         <option value="$PROJECT_DIR$/LaplacianMat.py" />
-        <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/DataSource.py" />
         <option value="$PROJECT_DIR$/WeightMatTest.py" />
         <option value="$PROJECT_DIR$/Graph.py" />
@@ -131,6 +181,9 @@
         <option value="$PROJECT_DIR$/manifoldROI.py" />
         <option value="$PROJECT_DIR$/visualization/util.py" />
         <option value="$PROJECT_DIR$/Test/src/GenerateStandardTest.py" />
+        <option value="$PROJECT_DIR$/visualization/eigenvector_cleaner.py" />
+        <option value="$PROJECT_DIR$/visutil.py" />
+        <option value="$PROJECT_DIR$/util.py" />
       </list>
     </option>
   </component>
@@ -152,7 +205,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -160,15 +212,11 @@
               <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
               <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
-              <item name="visualization" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -178,19 +226,19 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\src_backup" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\Test\Samples" />
-      <recent name="$PROJECT_DIR$/test" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\Test\src" />
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\src_backup" />
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\Test\Samples" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -256,7 +304,7 @@
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32943678" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.18333334" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.1328125" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -288,7 +336,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceMPI.py" />
     <entry file="file://$PROJECT_DIR$/IOfun.py" />
@@ -343,29 +390,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="865">
-          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DataSource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2888">
-          <caret line="154" column="44" selection-start-line="154" selection-start-column="17" selection-end-line="154" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Test/src/GenerateSamples.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5092">
-          <caret line="272" column="5" selection-start-line="272" selection-start-column="5" selection-end-line="272" selection-end-column="5" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/manifoldROI.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -388,24 +414,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/visualization/version9.ipynb" />
+    <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1425">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/WeightMat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="318" column="75" selection-start-line="318" selection-start-column="75" selection-end-line="318" selection-end-column="75" />
+        <state relative-caret-position="532">
+          <caret line="39" column="85" selection-start-line="39" selection-start-column="4" selection-end-line="39" selection-end-column="85" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/visualization/version9.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visualization/util.py">
+    <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+        <state relative-caret-position="646">
+          <caret line="34" column="44" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="44" />
+          <folding>
+            <element signature="e#19#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="980">
+          <caret line="555" column="77" selection-start-line="555" selection-start-column="30" selection-end-line="555" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DataSource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visutil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="137">
+          <caret line="39" column="112" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="112" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
