@@ -64,11 +64,20 @@ def _parse_h5_data_list(txt_file):
 
     # Read the lines. Do not change the order of the files in the txt file.
     with open(txt_file, 'r') as txtFile:
-        lines = txtFile.readlines()
+        lines_holder = txtFile.readlines()
 
     # Remove redundant "/n" symbol and blank spaces
-    lines = [x.strip('\n') for x in lines]
-    lines = [x.strip() for x in lines]
+    lines_holder = [x.strip('\n') for x in lines_holder]
+    lines_holder = [x.strip() for x in lines_holder]
+
+    """
+    The initial step is to remove all lines starting with #
+    """
+    lines = []
+    for x in lines_holder:
+        if x[0] == "#":
+            continue
+        lines.append(x)
 
     """
     This parser exams Three times through the file.

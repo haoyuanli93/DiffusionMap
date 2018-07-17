@@ -1,16 +1,14 @@
-# Standard modules
-import time
-
-import dask.array as da
-import h5py
-import numpy as np
-import scipy.sparse
+import time, h5py, numpy as np, dask.array as da
+import scipy.sparse, DataSource, Graph
 from mpi4py import MPI
 
-import Config
-# project modules
-import DataSource
-import Graph
+try:
+    import Config
+except ImportError:
+    raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
+                    "script to get a folder \'proj_****\'. Move this folder to a desirable address and modify"
+                    "the Config.py file in the folder \'proj_****/src\' and execute DiffusionMap calculation"
+                    "in this folder.")
 
 # Initialize the MPI
 comm = MPI.COMM_WORLD

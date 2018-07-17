@@ -1,32 +1,27 @@
-# Standard modules
 from mpi4py import MPI
-import argparse
-import time
-import scipy.sparse
-import numpy
-
+import time, scipy.sparse, numpy
 from petsc4py import PETSc
 from slepc4py import SLEPc
 
-# Parse the parameters
-parser = argparse.ArgumentParser()
-
-parser.add_argument('--output_folder', type=str, help="Specify the folder to put the calculated data.")
-parser.add_argument("--sparse_matrix_npz", type=str, help="Specify the npz file containing the sparse matrix.")
-parser.add_argument("--neighbor_number", type=int, help="Specify the number of neighbors.")
-parser.add_argument("--eig_num", type=int, help="Specify the number of eigenvectors to calculate.")
+try:
+    import Config
+except ImportError:
+    raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
+                    "script to get a folder \'proj_****\'. Move this folder to a desirable address and modify"
+                    "the Config.py file in the folder \'proj_****/src\' and execute DiffusionMap calculation"
+                    "in this folder.")
 
 # Parse
-args = parser.parse_args()
-sparse_matrix_npz = args.sparse_matrix_npz
-output_folder = args.output_folder
-neighbor_number = args.neighbor_number
-eig_num = args.eig_num
+sparse_matrix_npz = Config.CONFIGURATIONS["sparse_matrix_npz"]
+neighbor_number = Config.CONFIGURATIONS["neighbor_number"]
+eig_num = Config.CONFIGURATIONS["eig_num"]
+output_folder = Config.CONFIGURATIONS["output_folder"]
 
 # Initialize the MPI
 comm = MPI.COMM_WORLD
 comm_rank = comm.Get_rank()
 comm_size = comm.Get_size()
+
 """
 Step One: Load the sparse matrix and get some information
 """
@@ -40,7 +35,7 @@ csr_matrix = scipy.sparse.load_npz(sparse_matrix_npz)
 mat_size = csr_matrix.shape
 
 """
-Step One: Initialize the petsc matrix
+Step Two: Initialize the petsc matrix
 """
 petsc_mat = PETSc.Mat()
 petsc_mat.create(PETSc.COMM_WORLD)
@@ -63,7 +58,7 @@ petsc_mat.createAIJ(size=mat_size,
 petsc_mat.assemble()
 
 """
-Step Seven: Solve for the eigenvalues and eigenvectors
+Step Three: Solve for the eigenvalues and eigenvectors
 """
 
 Print = PETSc.Sys.Print
@@ -79,9 +74,15 @@ E.setFromOptions()
 # Solve the eigensystem
 E.solve()
 
-# Inspect the result and save the results
-vals = []
+"""
+Step Four: Inspect the result
+"""
 
+# Inspect the result and save the results
+eigen_values = []
+local_eigenvector_holder = numpy.zeros((eig_num, rend - rstart))
+
+# Show some calculation information
 Print("")
 its = E.getIterationNumber()
 Print("Number of iterations of the method: %i" % its)
@@ -93,29 +94,41 @@ tol, maxit = E.getTolerances()
 Print("Stopping condition: tol=%.4g, maxit=%d" % (tol, maxit))
 nconv = E.getConverged()
 Print("Number of converged eigenpairs: %d" % nconv)
-if nconv > 0:
-    Print("")
-    Print("        k          ||Ax-kx||/||kx|| ")
-    Print("----------------- ------------------")
-    for i in range(nconv):
-        k = E.getEigenpair(i, xr, xi)
-        error = E.computeError(i)
-        Print(" %12f       %12g" % (k.real, error))
+if not (nconv > 0):
+    raise Exception(" The weight matrix is too singular, no converged eigen-pair is obtained.")
 
-        # Obtain the result
-        vals.append(k.real)
-        vecs = xr.getArray()
+# Show the error and collect the eigen-pairs
+Print("")
+Print("        k          ||Ax-kx||/||kx|| ")
+Print("----------------- ------------------")
+for i in range(nconv):
+    k = E.getEigenpair(i, xr, xi)
+    error = E.computeError(i)
+    Print(" %12f       %12g" % (k.real, error))
 
-        numpy.save(output_folder + "/Eigenvec_{}_{}.npy".format(i, comm_rank), numpy.asarray(vecs))
+    # Obtain the eigenvalue
+    eigen_values.append(k.real)
 
-    Print("")
+    # Obtain the eigenvector
+    local_eigenvector = xr.getArray()
+    local_eigenvector_holder[i, :] = local_eigenvector
 
-    # Save the result
-    vals = numpy.asarray(vals)
-    numpy.save(output_folder + "/Eigenval.npy", vals)
-
+Print("")
 comm.Barrier()  # Synchronize
+
+# All the node send the eigenvector holder to the first node
+eigenvector_pieces = comm.gather(local_eigenvector_holder, root=0)
+
 if comm_rank == 0:
+    # Save the eigenvalues
+    vals = numpy.asarray(eigen_values)
+    numpy.save(output_folder + "/Eigenvalues.npy", vals)
+
+    # Assemble the eigenvectors and save them
+    eigenvectors = numpy.concatenate(eigenvector_pieces, axis=1)
+    numpy.save(output_folder + "/Eigenvectors.npy", vals)
+
+    # Finishes everything.
     print("Finishes all calculation.", flush=True)
     toc = time.time()
     print("The total calculation time is {}".format(toc - tic), flush=True)
