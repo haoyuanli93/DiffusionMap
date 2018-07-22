@@ -1,6 +1,13 @@
 import numpy as np
 import holoviews as hv
 import matplotlib.path as mpltPath
+import pandas as pd
+
+import datashader as ds
+from functools import partial
+from datashader.utils import export_image
+from datashader.colors import colormap_select, Greys9, Hot, inferno
+from datashader import transfer_functions as tf
 
 
 def assemble_patterns(data_holder, row_num, col_num, index, pattern_shape):
@@ -72,3 +79,57 @@ def save_selected_region(stream_holder, data_holder, output='./selected_index.np
     if return_selected_region is True:
         # return the selected index and the selected points
         return index, data_holder[index]
+
+
+def get_eigenvectors(eigenvectors):
+    """
+    Load the eigenvector npy file or convert the numpy array containing all the eigenvectors to a pandas DataFrame
+    :param eigenvectors: A string containing the npy file position or a numpy array containing the eigenvectors
+                        The shape of the eigenvector is
+                                    [number of eigenvectors, dimension of eigenvectors]
+    :return: A pandas DataFrame of the following format.
+                {eigvec_0: The first eigenvector,
+                 eigvec_1: The second eigenvector,
+                 ...
+                 number: The number of eigenvectors.
+                 dimension: The dimension of the eigenvectors}
+    """
+    if type(eigenvectors) is str:
+        data_holder = np.load(eigenvectors)
+    else:
+        data_holder = eigenvectors
+
+    dict_holder = {"eigvec_{}".format(l): data_holder[l] for l in range(data_holder.shape[0])}
+
+    return pd.DataFrame(data=dict_holder)
+
+
+def get_random_samples(eigvec_holder, dim0, dim1, sample_num):
+    """
+    Get a randomly sampled subset of the total dataset containing the corresponding embedded dimensions
+    and the indexes.
+
+    :param eigvec_holder: The dataframe object containing all the embedded coordinates of all the data points.
+    :param dim0: The name of the first dimension to show
+    :param dim1: The name of the second dimension to show
+    :param sample_num: The number of samples to extract.
+    :return: A dataframe object containing
+            {'index': index,
+             'x': x coordinate,
+             'y': y coordinate
+    """
+
+    index = np.random.permutation(eigvec_holder[dim0].shape[0])[:sample_num]
+
+    dict_holder = {'index': index}
+    dict_holder.update({"x": eigvec_holder[dim0][index],
+                        "y": eigvec_holder[dim1][index]})
+
+    return pd.DataFrame(dict_holder)
+
+
+def create_image(dataframe, dim0="eigvec_1", dim1="eigvec_2", x_range=(-1, 1), y_range=(-1, 1), w=700, h=700):
+    cvs = ds.Canvas(plot_width=w, plot_height=h, x_range=x_range, y_range=y_range)
+    agg = cvs.points(dataframe, dim0, dim1)
+    img = tf.shade(agg)
+    return tf.dynspread(img, threshold=0.5, max_px=4)
