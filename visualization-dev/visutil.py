@@ -121,15 +121,8 @@ def get_random_samples(eigvec_holder, dim0, dim1, sample_num):
 
     index = np.random.permutation(eigvec_holder[dim0].shape[0])[:sample_num]
 
-    dict_holder = {'index': index}
-    dict_holder.update({"x": eigvec_holder[dim0][index],
-                        "y": eigvec_holder[dim1][index]})
+    dict_holder = {'idx': index}
+    dict_holder.update({"x": np.array(eigvec_holder[dim0][index]),
+                        "y": np.array(eigvec_holder[dim1][index])})
 
     return pd.DataFrame(dict_holder)
-
-
-def create_image(dataframe, dim0="eigvec_1", dim1="eigvec_2", x_range=(-1, 1), y_range=(-1, 1), w=700, h=700):
-    cvs = ds.Canvas(plot_width=w, plot_height=h, x_range=x_range, y_range=y_range)
-    agg = cvs.points(dataframe, dim0, dim1)
-    img = tf.shade(agg)
-    return tf.dynspread(img, threshold=0.5, max_px=4)
