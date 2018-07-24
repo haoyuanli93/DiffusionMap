@@ -1,7 +1,7 @@
 import sys
 sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
 
-import time, h5py, numpy as np, dask.array as da, sys
+import time, h5py, numpy as np, dask.array as da
 import scipy.sparse, DataSource, Graph
 from mpi4py import MPI
 

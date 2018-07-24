@@ -2,6 +2,7 @@
 This script create a project folder to execute the diffusion map.
 """
 import os
+import shutil
 
 for l in range(1000):
 
@@ -54,13 +55,16 @@ for l in range(1000):
         txtfile.write("#File:/reg/d/psdm/amo/amo86615/res/haoyuan/multiples.py\n")
         txtfile.write("##################################################################\n")
 
-    # Create the Config.py file
-    with open(project_dir + '/src/Config.py', 'w') as pyfile:
-        with open('./asset/Config.py', 'r') as temp:
-            lines = temp.readlines()
-            pyfile.writelines(lines)
+    # Copy the Config.py file
+    shutil.copyfile(src='./asset/Config.py', dst=project_dir + '/src/Config.py')
 
-    # One create one new project folder
+    # Copy the WeightMat.py file
+    shutil.copyfile(src='./WeightMat.py', dst=project_dir + '/src/WeightMat.py')
+
+    # Copy the EigensSlepc.py file
+    shutil.copyfile(src='./EigensSlepc.py', dst=project_dir + '/src/EigensSlepc.py')
+
+    # Only create one new project folder
     break
 
 print("The new project is located at {}".format(project_dir))

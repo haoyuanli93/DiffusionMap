@@ -1,6 +1,3 @@
-import sys, numpy as np
-sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
-
 from mpi4py import MPI
 import time, scipy.sparse, numpy
 from petsc4py import PETSc
