@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/visualization-dev/export/NYCT_hot.png" beforeDir="false" afterPath="$PROJECT_DIR$/visualization-dev/export/NYCT_hot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/visualization-bokeh-version1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/visualization-dev/visualization-bokeh-version1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization-dev/visutil.py" afterDir="false" />
-    </list>
+    <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,11 +14,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visualization-dev/visutil.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="695">
               <caret line="125" column="66" selection-start-line="125" selection-start-column="66" selection-end-line="125" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/util.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="822">
+              <caret line="70" column="51" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
+              <folding>
+                <element signature="e#71#80#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,11 +140,11 @@
         <option value="$PROJECT_DIR$/eigenvector_cleaner.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/Test/start_a_new_project.py" />
-        <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/asset/Config.py" />
         <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/visualization-dev/visutil.py" />
+        <option value="$PROJECT_DIR$/util.py" />
       </list>
     </option>
   </component>
@@ -158,6 +166,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -174,7 +183,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -376,13 +384,6 @@
     <entry file="file://$PROJECT_DIR$/project_template/src/Config.py" />
     <entry file="file://$PROJECT_DIR$/project_template/input/file_list.txt" />
     <entry file="file://$PROJECT_DIR$/proj_000/src/Config.py" />
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/proj_000/input/file_list.txt" />
     <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -419,6 +420,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="695">
           <caret line="125" column="66" selection-start-line="125" selection-start-column="66" selection-end-line="125" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="822">
+          <caret line="70" column="51" selection-start-line="70" selection-start-column="51" selection-end-line="70" selection-end-column="51" />
+          <folding>
+            <element signature="e#71#80#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
