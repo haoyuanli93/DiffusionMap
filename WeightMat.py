@@ -1,4 +1,7 @@
-import time, h5py, numpy as np, dask.array as da
+import sys
+sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
+
+import time, h5py, numpy as np, dask.array as da, sys
 import scipy.sparse, DataSource, Graph
 from mpi4py import MPI
 
@@ -40,7 +43,9 @@ if comm_rank == 0:
 
     # Check the mask shape
     mask = np.load(mask_file)
-    if mask.shape == data_source.source_dict["shape"]:
+    if not np.array_equal(np.array(mask.shape, dtype=np.int64), 
+                   np.array(data_source.source_dict["shape"],dtype=np.int64)):
+        
         raise ValueError("The shape of the mask, {}, ".format(mask.shape) +
                          "is different from the shape of the sample, {}.".format(data_source.source_dict["shape"]))
 
@@ -53,12 +58,12 @@ if comm_rank == 0:
 
 else:
     data_source = None
-
+    
+comm.Barrier()  # Synchronize
 print("Sharing the datasource and job list info.")
 data_source = comm.bcast(obj=data_source, root=0)
 print("Process {} receives the datasource."
       "There are totally {} jobs for this process.".format(comm_rank, len(data_source.batch_ends_local_dim1)))
-
 comm.Barrier()  # Synchronize
 
 """

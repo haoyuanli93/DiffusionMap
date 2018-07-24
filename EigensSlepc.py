@@ -1,3 +1,6 @@
+import sys, numpy as np
+sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
+
 from mpi4py import MPI
 import time, scipy.sparse, numpy
 from petsc4py import PETSc
@@ -101,7 +104,7 @@ if not (nconv > 0):
 Print("")
 Print("        k          ||Ax-kx||/||kx|| ")
 Print("----------------- ------------------")
-for i in range(nconv):
+for i in range(eig_num):
     k = E.getEigenpair(i, xr, xi)
     error = E.computeError(i)
     Print(" %12f       %12g" % (k.real, error))
@@ -126,7 +129,7 @@ if comm_rank == 0:
 
     # Assemble the eigenvectors and save them
     eigenvectors = numpy.concatenate(eigenvector_pieces, axis=1)
-    numpy.save(output_folder + "/Eigenvectors.npy", vals)
+    numpy.save(output_folder + "/Eigenvectors.npy", eigenvectors)
 
     # Finishes everything.
     print("Finishes all calculation.", flush=True)

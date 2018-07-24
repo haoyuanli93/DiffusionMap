@@ -67,8 +67,8 @@ def _parse_h5_data_list(txt_file):
         lines_holder = txtFile.readlines()
 
     # Remove redundant "/n" symbol and blank spaces
-    lines_holder = [x.strip('\n') for x in lines_holder]
-    lines_holder = [x.strip() for x in lines_holder]
+    lines_holder = [x.strip('\n') for x in lines_holder if x.strip('\n')]
+    lines_holder = [x.strip() for x in lines_holder if x.strip()]
 
     """
     The initial step is to remove all lines starting with #

@@ -48,10 +48,10 @@ for l in range(1000):
         txtfile.write("#-----------------------------------------------------------------\n")
         txtfile.write("#             *This is an example*\n")
         txtfile.write("#-----------------------------------------------------------------\n")
-        txtfile.write("#Files:/reg/d/psdm/amo/amo86615/res/haoyuan/singles.h5\n")
+        txtfile.write("#File:/reg/d/psdm/amo/amo86615/res/haoyuan/singles.h5\n")
         txtfile.write("#Dataset:patterns_one\n")
         txtfile.write("#Dataset:patterns_two\n")
-        txtfile.write("#Files:/reg/d/psdm/amo/amo86615/res/haoyuan/multiples.py\n")
+        txtfile.write("#File:/reg/d/psdm/amo/amo86615/res/haoyuan/multiples.py\n")
         txtfile.write("##################################################################\n")
 
     # Create the Config.py file
