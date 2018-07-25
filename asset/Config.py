@@ -27,7 +27,9 @@ CONFIGURATIONS = {
     # to specify the output folder and the neighborhood number. Those two parameters are specified in the
     # preceding six parameters.
 
-    "sparse_matrix_npz": str("../output/laplacian_matrix.npz"),  # The npz file containing the sparse matrix
+    "sparse_matrix_npz": str("../output/partial_weight_matrix.npz"),  # The npz file containing the weight matrix
+                                                                      # From the weight matrix, the laplacian matrix
+                                                                      # will be constructed.
     "eig_num": int(10)  # The number of (eigenvector, eigenvalue) pairs to compute.
 
 }

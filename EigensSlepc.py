@@ -1,5 +1,9 @@
+import sys
+sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
+
 from mpi4py import MPI
 import time, scipy.sparse, numpy
+import Graph
 from petsc4py import PETSc
 from slepc4py import SLEPc
 
@@ -23,7 +27,7 @@ comm_rank = comm.Get_rank()
 comm_size = comm.Get_size()
 
 """
-Step One: Load the sparse matrix and get some information
+Step One: Load the partial weight matrix and construct the Laplacian matrix
 """
 if comm_rank == 0:
     print("Begin loading the data", flush=True)
@@ -31,8 +35,27 @@ if comm_rank == 0:
 comm.Barrier()  # Synchronize
 
 # Load the matrix
-csr_matrix = scipy.sparse.load_npz(sparse_matrix_npz)
-mat_size = csr_matrix.shape
+matrix = scipy.sparse.load_npz(sparse_matrix_npz)
+
+if Config.CONFIGURATIONS["Laplacian_matrix"] == "symmetric normalized laplacian":
+    # Convert negative values, if there is any, to positive values
+    numpy.exp(matrix.data, out=matrix.data)
+    # Cast the weight matrix to a symmetric format.
+    matrix_trans = matrix.transpose(copy=True)
+    matrix_sym = (matrix + matrix_trans) / 2.
+    matrix_asym = (matrix - matrix_trans) / 2.
+    numpy.absolute(matrix_asym.data, out=matrix_asym.data)
+    matrix_sym += matrix_asym
+    # Remove the diagonal term
+    if not Config.CONFIGURATIONS["keep_diagonal"]:
+        matrix_sym.setdiag(values=0, k=0)
+    # Calculate the degree matrix for normalization
+    degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix_sym)
+    # Calculate the laplacian matrix
+    csr_matrix = Graph.symmetrized_normalized_laplacian(degree_matrix=degree, weight_matrix=matrix_sym)
+    csr_matrix.tocsr()
+    # Get the matrix shape
+    mat_size = csr_matrix.shape
 
 """
 Step Two: Initialize the petsc matrix

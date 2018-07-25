@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
 
 import time, h5py, numpy as np, dask.array as da
@@ -43,9 +44,11 @@ if comm_rank == 0:
 
     # Check the mask shape
     mask = np.load(mask_file)
-    if not np.array_equal(np.array(mask.shape, dtype=np.int64), 
-                   np.array(data_source.source_dict["shape"],dtype=np.int64)):
-        
+    # Get the summation of the mask file since I am using the mask file as a probability measure.
+    mask_norm = np.sum(mask)
+
+    if not np.array_equal(np.array(mask.shape, dtype=np.int64),
+                          np.array(data_source.source_dict["shape"], dtype=np.int64)):
         raise ValueError("The shape of the mask, {}, ".format(mask.shape) +
                          "is different from the shape of the sample, {}.".format(data_source.source_dict["shape"]))
 
@@ -58,7 +61,7 @@ if comm_rank == 0:
 
 else:
     data_source = None
-    
+
 comm.Barrier()  # Synchronize
 print("Sharing the datasource and job list info.")
 data_source = comm.bcast(obj=data_source, root=0)
@@ -122,9 +125,10 @@ if comm_rank != 0:
     print("Finishes loading data.")
 
     # Calculate the mean value of each pattern of the vector
-    data_mean_dim0 = np.mean(a=dataset_dim0, axis=-1)
+    data_mean_dim0 = np.sum(a=dataset_dim0, axis=-1) / mask_norm
     # Calculate the standard deviation of each pattern of the vector
-    data_std_dim0 = np.std(a=dataset_dim0, axis=-1)
+    # TODO: Since I have changed the method to get the mean values, I should also change the methods to get std values.
+    data_std_dim0 = np.std(a=dataset_dim0, axis=-1) * np.sqrt(np.prod(data_shape - 1) / mask_norm)
 
     print("Finishes calculating the mean, the standard variation and the inner product matrix.")
 
@@ -315,33 +319,8 @@ if comm_rank == 0:
                                      shape=(data_source.data_num_total, data_source.data_num_total))
 
     # Save the matrix
-    scipy.sparse.save_npz(file=output_folder + "/correlation_matrix.npz", matrix=matrix, compressed=True)
+    scipy.sparse.save_npz(file=output_folder + "/partial_weight_matrix.npz", matrix=matrix, compressed=True)
 
     # Finishes the calculation.
     toc_1 = time.time()
-    print("Time to construct the correlation matrix is {}".format(toc_1 - toc_0))
-
-    if not (Config.CONFIGURATIONS["Laplacian_matrix"] is None):
-        if Config.CONFIGURATIONS["Laplacian_matrix"] == "symmetric normalized laplacian":
-            # Convert negative values, if there is any, to positive values
-            np.exp(matrix.data, out=matrix.data)
-            # Cast the weight matrix to a symmetric format.
-            matrix_trans = matrix.transpose(copy=True)
-            matrix_sym = (matrix + matrix_trans) / 2.
-            matrix_asym = (matrix - matrix_trans) / 2.
-            np.absolute(matrix_asym.data, out=matrix_asym.data)
-            matrix_sym += matrix_asym
-            # Remove the diagonal term
-            if not Config.CONFIGURATIONS["keep_diagonal"]:
-                matrix_sym.setdiag(values=0, k=0)
-            # Calculate the degree matrix for normalization
-            degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix_sym)
-            # Calculate the laplacian matrix
-            laplacian = Graph.symmetrized_normalized_laplacian(degree_matrix=degree, weight_matrix=matrix_sym)
-
-            laplacian.tocsr()
-            scipy.sparse.save_npz(file=output_folder + "/laplacian_matrix.npz", matrix=laplacian, compressed=True)
-
-            toc_2 = time.time()
-            print("Time to construct the Laplacian matrix is {}".format(toc_2 - toc_1))
-            print("This finishes all calculation. The total running time is {}".format(toc_2 - tic))
+    print("Time to construct the partial weight matrix is {}".format(toc_1 - toc_0))
