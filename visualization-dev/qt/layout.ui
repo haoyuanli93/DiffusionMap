@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1116</width>
-    <height>605</height>
+    <width>1354</width>
+    <height>892</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>40</y>
-      <width>461</width>
-      <height>511</height>
+      <x>710</x>
+      <y>20</y>
+      <width>611</width>
+      <height>641</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -151,10 +151,10 @@
    <widget class="QOpenGLWidget" name="openGLWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>10</x>
       <y>50</y>
-      <width>511</width>
-      <height>501</height>
+      <width>681</width>
+      <height>611</height>
      </rect>
     </property>
    </widget>
@@ -164,7 +164,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1116</width>
+     <width>1354</width>
      <height>21</height>
     </rect>
    </property>
