@@ -6,171 +6,432 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1354</width>
-    <height>892</height>
+    <width>1719</width>
+    <height>887</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>20</y>
-      <width>611</width>
-      <height>641</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>100</width>
-      <height>100</height>
-     </size>
-    </property>
-    <property name="font">
-     <font>
-      <family>Consolas</family>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="currentIndex">
-     <number>3</number>
-    </property>
-    <widget class="QWidget" name="general">
-     <attribute name="title">
-      <string>General</string>
-     </attribute>
-    </widget>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>Inspect</string>
-     </attribute>
-     <widget class="QGraphicsView" name="graphicsView_3">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>30</y>
-        <width>171</width>
-        <height>151</height>
-       </rect>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1">
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Consolas</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="general">
+        <attribute name="title">
+         <string>General</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="4" column="1">
+          <widget class="QPushButton" name="pushButton_7">
+           <property name="text">
+            <string>Up</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QPushButton" name="pushButton_9">
+           <property name="text">
+            <string>Left</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QPushButton" name="pushButton_8">
+           <property name="text">
+            <string>Down</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2">
+          <widget class="QPushButton" name="pushButton_10">
+           <property name="text">
+            <string>Right</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="0">
+          <widget class="QPushButton" name="pushButton_6">
+           <property name="text">
+            <string>View</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="0">
+          <widget class="QPushButton" name="pushButton_13">
+           <property name="text">
+            <string>Reset</string>
+           </property>
+          </widget>
+         </item>
+         <item row="10" column="2">
+          <widget class="QPushButton" name="pushButton_11">
+           <property name="text">
+            <string>Zoom In</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="2">
+          <widget class="QPushButton" name="pushButton_12">
+           <property name="text">
+            <string>Zoom Out</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="pushButton_3">
+           <property name="text">
+            <string>Load </string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>X-axis</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Y-axis</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_3">
+           <property name="text">
+            <string>2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" colspan="3">
+          <widget class="QLineEdit" name="lineEdit">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_2">
+           <property name="text">
+            <string>C:\Users\haoyu\Documents\Python Scripts\diffusion_map_dev\fake_eigens.npy</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Inspect</string>
+        </attribute>
+        <widget class="QGraphicsView" name="graphicsView_3">
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>30</y>
+           <width>171</width>
+           <height>151</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QGraphicsView" name="graphicsView">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>30</y>
+           <width>161</width>
+           <height>151</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QGraphicsView" name="graphicsView_5">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>240</y>
+           <width>161</width>
+           <height>151</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QGraphicsView" name="graphicsView_4">
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>240</y>
+           <width>171</width>
+           <height>151</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="roi">
+        <attribute name="title">
+         <string>ROI</string>
+        </attribute>
+        <widget class="QPushButton" name="pushButton">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>410</y>
+           <width>261</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Save Selected Region</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>200</y>
+           <width>351</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Number of Selected Samples</string>
+         </property>
+        </widget>
+        <widget class="QTextBrowser" name="textBrowser">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>230</y>
+           <width>301</width>
+           <height>41</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>360</y>
+           <width>261</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Select a Region</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="propogration">
+        <attribute name="title">
+         <string>Prop</string>
+        </attribute>
+       </widget>
+      </widget>
      </widget>
-     <widget class="QGraphicsView" name="graphicsView">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>30</y>
-        <width>161</width>
-        <height>151</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QGraphicsView" name="graphicsView_5">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>240</y>
-        <width>161</width>
-        <height>151</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QGraphicsView" name="graphicsView_4">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>240</y>
-        <width>171</width>
-        <height>151</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="roi">
-     <attribute name="title">
-      <string>ROI</string>
-     </attribute>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>410</y>
-        <width>261</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Save Selected Region</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>200</y>
-        <width>351</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Number of Selected Samples</string>
-      </property>
-     </widget>
-     <widget class="QTextBrowser" name="textBrowser">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>230</y>
-        <width>301</width>
-        <height>41</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>360</y>
-        <width>261</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Select a Region</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="propogration">
-     <attribute name="title">
-      <string>Prop</string>
-     </attribute>
-    </widget>
-   </widget>
-   <widget class="QOpenGLWidget" name="openGLWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>681</width>
-      <height>611</height>
-     </rect>
-    </property>
-   </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QGraphicsView" name="graphicsView_2"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1354</width>
+     <width>1719</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>load_eigenvectors()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>980</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>793</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_7</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>move_upward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1099</x>
+     <y>371</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1015</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_10</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>move_to_right()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1275</x>
+     <y>449</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1060</x>
+     <y>774</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_8</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>move_downward()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1106</x>
+     <y>534</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>923</x>
+     <y>774</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_9</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>move_to_left()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>928</x>
+     <y>448</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>801</x>
+     <y>774</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_11</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>zoom_in()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1266</x>
+     <y>612</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1325</x>
+     <y>488</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_12</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>zoom_out()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1276</x>
+     <y>693</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1325</x>
+     <y>569</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_13</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reset_manifold()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>941</x>
+     <y>615</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1325</x>
+     <y>665</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>show_manifold()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>834</x>
+     <y>689</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>643</x>
+     <y>796</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>load_eigenvectors()</slot>
+  <slot>show_manifold()</slot>
+  <slot>move_upward()</slot>
+  <slot>move_to_right()</slot>
+  <slot>move_to_left()</slot>
+  <slot>move_downward()</slot>
+  <slot>zoom_in()</slot>
+  <slot>zoom_out()</slot>
+  <slot>reset_manifold()</slot>
+ </slots>
 </ui>
