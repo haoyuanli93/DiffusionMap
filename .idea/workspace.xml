@@ -2,9 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/EigensSlepc.py" beforeDir="false" afterPath="$PROJECT_DIR$/EigensSlepc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manifoldROI.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_a_new_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_a_new_project.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/surfOnTheSparseManifold.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/Example_AMO86615.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Example_AMO86615.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/Example_Million_Patterns.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Example_Million_Patterns.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/manual-datashader.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/qt/layout.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/qt/layout.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/qt/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/qt_version_1.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/version10.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/version11.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization-dev/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/visutil.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,20 +28,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/visualization-dev/qt/main.py">
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="717">
-              <caret line="52" selection-start-line="52" selection-end-line="52" />
+            <state relative-caret-position="95">
+              <caret line="181" column="28" selection-start-line="181" selection-start-column="28" selection-end-line="181" selection-end-column="28" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/WeightMat.py">
+      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="177" column="28" lean-forward="true" selection-start-line="177" selection-start-column="28" selection-end-line="177" selection-end-column="28" />
+            <state relative-caret-position="779">
+              <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
             </state>
           </provider>
         </entry>
@@ -39,17 +49,8 @@
       <file leaf-file-name="EigensSlepc.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-506">
-              <caret line="1" column="73" selection-start-line="1" selection-start-column="73" selection-end-line="1" selection-end-column="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="layout.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/visualization-dev/qt/layout.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1760">
-              <caret line="80" column="27" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="27" />
+            <state relative-caret-position="76">
+              <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -160,11 +161,11 @@
         <option value="$PROJECT_DIR$/Test/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/visualization-dev/visutil.py" />
         <option value="$PROJECT_DIR$/util.py" />
-        <option value="$PROJECT_DIR$/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/visualization-dev/qt/main.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/asset/Config.py" />
         <option value="$PROJECT_DIR$/WeightMat.py" />
+        <option value="$PROJECT_DIR$/start_a_new_project.py" />
       </list>
     </option>
   </component>
@@ -193,22 +194,6 @@
               <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
               <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
-              <item name="asset" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
-              <item name="visualization-dev" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
-              <item name="visualization-dev" type="462c0819:PsiDirectoryNode" />
-              <item name="qt" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -223,18 +208,18 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\visualization-dev" />
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\proj_0000\src" />
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\src_backup" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\asset" />
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\Test\src" />
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\visualization-dev" />
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\proj_0000\src" />
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\src_backup" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
     </key>
   </component>
@@ -292,6 +277,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
@@ -378,8 +364,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/visualization/version9.ipynb" />
     <entry file="file://$PROJECT_DIR$/visutil.py" />
-    <entry file="file://$PROJECT_DIR$/visualization-dev/Example_Million_Patterns.ipynb" />
-    <entry file="file://$PROJECT_DIR$/visualization-dev/Example_AMO86615.ipynb" />
+    <entry file="file://$PROJECT_DIR$/Example_Million_Patterns.ipynb" />
+    <entry file="file://$PROJECT_DIR$/Example_AMO86615.ipynb" />
     <entry file="file://$PROJECT_DIR$/DataSource.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="855">
@@ -395,7 +381,7 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/visualization-dev/visutil.py">
+    <entry file="file://$PROJECT_DIR$/visutil.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2204">
           <caret line="125" column="57" selection-start-line="125" selection-start-column="57" selection-end-line="125" selection-end-column="57" />
@@ -413,31 +399,24 @@
     <entry file="file://$PROJECT_DIR$/propagator.py" />
     <entry file="file://$PROJECT_DIR$/../../Python Scripts/PyQt5_gpl-5.11.2/PyQt5_gpl-5.11.2/examples/desktop/screenshot.py" />
     <entry file="file://$PROJECT_DIR$/manifoldROI.py" />
-    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1474">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/visualization-dev/qt/layout.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1760">
-          <caret line="80" column="27" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="27" />
+        <state relative-caret-position="1520">
+          <caret line="152" column="27" selection-start-line="152" selection-start-column="13" selection-end-line="152" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/visualization-dev/qt/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="717">
-          <caret line="52" selection-start-line="52" selection-end-line="52" />
+        <state relative-caret-position="304">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-506">
-          <caret line="1" column="73" selection-start-line="1" selection-start-column="73" selection-end-line="1" selection-end-column="73" />
+        <state relative-caret-position="76">
+          <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -450,8 +429,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WeightMat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="177" column="28" lean-forward="true" selection-start-line="177" selection-start-column="28" selection-end-line="177" selection-end-column="28" />
+        <state relative-caret-position="95">
+          <caret line="181" column="28" selection-start-line="181" selection-start-column="28" selection-end-line="181" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="779">
+          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
         </state>
       </provider>
     </entry>

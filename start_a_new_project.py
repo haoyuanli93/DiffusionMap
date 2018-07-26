@@ -4,6 +4,9 @@ This script create a project folder to execute the diffusion map.
 import os
 import shutil
 
+# Create a holder
+project_dir = None
+
 for l in range(1000):
 
     # Find the first available name and create the project folder
