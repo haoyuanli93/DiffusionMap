@@ -113,6 +113,8 @@ if comm_rank != 0:
 
     # Load the mask
     mask = np.reshape(np.load(mask_file), (1,) + data_shape)
+    # Get the summation of the mask file since I am using the mask file as a probability measure.
+    mask_norm = np.sum(mask)
 
     # Apply the mask to the dataset_dim0
     """
@@ -127,8 +129,7 @@ if comm_rank != 0:
     # Calculate the mean value of each pattern of the vector
     data_mean_dim0 = np.sum(a=dataset_dim0, axis=-1) / mask_norm
     # Calculate the standard deviation of each pattern of the vector
-    # TODO: Since I have changed the method to get the mean values, I should also change the methods to get std values.
-    data_std_dim0 = np.std(a=dataset_dim0, axis=-1) * np.sqrt(np.prod(data_shape - 1) / mask_norm)
+    data_std_dim0 = np.sqrt(np.sum(a=np.square(dataset_dim0), axis=-1) / mask_norm - np.square(data_mean_dim0))
 
     print("Finishes calculating the mean, the standard variation and the inner product matrix.")
 

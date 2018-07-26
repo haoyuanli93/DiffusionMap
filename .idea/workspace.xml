@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/manifoldROI.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/start_a_new_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_a_new_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/surfOnTheSparseManifold.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/Example_AMO86615.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Example_AMO86615.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/Example_Million_Patterns.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Example_Million_Patterns.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/manual-datashader.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/qt/layout.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/qt/layout.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/qt/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/qt_version_1.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/version10.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/version11.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization-dev/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/visutil.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,29 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="181" column="28" selection-start-line="181" selection-start-column="28" selection-end-line="181" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="779">
-              <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EigensSlepc.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
+            <state relative-caret-position="2185">
+              <caret line="115" column="97" lean-forward="true" selection-start-line="115" selection-start-column="97" selection-end-line="115" selection-end-column="97" />
             </state>
           </provider>
         </entry>
@@ -164,8 +134,8 @@
         <option value="$PROJECT_DIR$/visualization-dev/qt/main.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/asset/Config.py" />
-        <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
+        <option value="$PROJECT_DIR$/WeightMat.py" />
       </list>
     </option>
   </component>
@@ -427,17 +397,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WeightMat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="181" column="28" selection-start-line="181" selection-start-column="28" selection-end-line="181" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="779">
           <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WeightMat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2185">
+          <caret line="115" column="97" lean-forward="true" selection-start-line="115" selection-start-column="97" selection-end-line="115" selection-end-column="97" />
         </state>
       </provider>
     </entry>
