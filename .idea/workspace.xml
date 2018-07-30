@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="" />
+    <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/picture/structure.png" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,11 +18,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/WeightMat.py">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="206">
+                <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/asset/Config.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-209">
-              <caret line="58" column="27" lean-forward="true" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+            <state relative-caret-position="323">
+              <caret line="17" column="14" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -97,7 +113,6 @@
         <option value="$PROJECT_DIR$/OutPut.py" />
         <option value="$PROJECT_DIR$/DistanceMPI.py" />
         <option value="$PROJECT_DIR$/Parser.py" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/KernalAndNorm.py" />
         <option value="$PROJECT_DIR$/debug.ipynb" />
         <option value="$PROJECT_DIR$/DistanceDaskMPI-dev.py" />
@@ -134,6 +149,7 @@
         <option value="$PROJECT_DIR$/asset/Config.py" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/WeightMat.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -162,6 +178,11 @@
               <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
               <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
+              <item name="asset" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -176,18 +197,18 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\visualization-dev" />
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\proj_0000\src" />
-      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\src_backup" />
-      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\asset" />
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\Test\src" />
       <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap" />
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\visualization-dev" />
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\proj_0000\src" />
+      <recent name="C:\Users\haoyu\Documents\GitHub\DiffusionMap\src_backup" />
       <recent name="C:\Users\haoyu\OneDrive\Documents\GitHub\DiffusionMap\src_backup" />
     </key>
   </component>
@@ -253,7 +274,7 @@
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32943678" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.20572917" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.109375" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -296,7 +317,6 @@
     <entry file="file://$PROJECT_DIR$/src_backup/DataSource-tmp.py" />
     <entry file="file://$PROJECT_DIR$/Parser.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" />
-    <entry file="file://$PROJECT_DIR$/README.md" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk2.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py" />
     <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
@@ -333,13 +353,6 @@
     <entry file="file://$PROJECT_DIR$/visutil.py" />
     <entry file="file://$PROJECT_DIR$/Example_Million_Patterns.ipynb" />
     <entry file="file://$PROJECT_DIR$/Example_AMO86615.ipynb" />
-    <entry file="file://$PROJECT_DIR$/DataSource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/eigenvector_cleaner.py" />
     <entry file="file://$PROJECT_DIR$/project_template/src/Config.py" />
     <entry file="file://$PROJECT_DIR$/project_template/input/file_list.txt" />
@@ -348,52 +361,12 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/visutil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2204">
-          <caret line="125" column="57" selection-start-line="125" selection-start-column="57" selection-end-line="125" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="993">
-          <caret line="70" column="64" selection-start-line="70" selection-start-column="64" selection-end-line="70" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/surfOnTheSparseManifold.py" />
     <entry file="file://$PROJECT_DIR$/propagator.py" />
     <entry file="file://$PROJECT_DIR$/../../Python Scripts/PyQt5_gpl-5.11.2/PyQt5_gpl-5.11.2/examples/desktop/screenshot.py" />
     <entry file="file://$PROJECT_DIR$/manifoldROI.py" />
-    <entry file="file://$PROJECT_DIR$/visualization-dev/qt/layout.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1520">
-          <caret line="152" column="27" selection-start-line="152" selection-start-column="13" selection-end-line="152" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visualization-dev/qt/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asset/Config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="763">
-          <caret line="37" column="66" lean-forward="true" selection-start-line="37" selection-start-column="66" selection-end-line="37" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/visualization-dev/qt/layout.py" />
+    <entry file="file://$PROJECT_DIR$/visualization-dev/qt/main.py" />
     <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="779">
@@ -401,10 +374,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/visutil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="19" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1330">
+          <caret line="70" column="64" selection-start-line="70" selection-start-column="64" selection-end-line="70" selection-end-column="64" />
+          <folding>
+            <element signature="e#71#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/WeightMat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-209">
-          <caret line="58" column="27" lean-forward="true" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+        <state relative-caret-position="1102">
+          <caret line="58" column="27" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DataSource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1195">
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
+          <folding>
+            <element signature="e#1316#1334#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/Config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="206">
+            <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
