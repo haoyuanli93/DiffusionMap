@@ -78,20 +78,40 @@ switch to a new mask and new output folder.
 
 ### Calculate the similarity matrix.
 Stay in the `/experiment/scratch/hahaha/src` folder.
-Activate the official psana environment ``
+Activate the official conda environment `ana-1.3.54`.
+Acutally, any current `ana` environment should work.
+Also, I would recommend `ana-1.3.54-py3` since officially
+this package only support python3.
 
 ```bash
 bsub -q psfehq -n 48 -R"span[ptile=1]" -o %J.out mpirun --mca btl ^openib python WeightMat.py
 ```
 
 ### Calculate the Laplacian matrix.
+Stay in the `/experiment/scratch/hahaha/src` folder.
+Activate the my personal conda environment.
+```bash
+conda activate /reg/neh/home/haoyuan/.conda/envs/mypython3
+```
+Due to a mismatch between the mpi4py in the official environment 
+and the mpi4py required by packages `slec4py` and `petsc4py`, I have 
+to use both the official environment to calculate the similarity matrix.
 
-
-```python
-# Go to a node where you can use jupyter notebook
-print s
+When you have acitvated my environment for this package, run
+```bash
+bsub -q psanaq -n 8 -R"span[ptile=1]" -o %J.out mpirun python EigensSlepc.py
 ```
 
+### Visualization
+Go to repo folder. Stay in my conda environment.
+Open the jupyter notebook and have a look at the `Example_AMO86615.ipynb`.
+There are detailed explanations in the notebook as to how to do the visualization.
+
+To select a small region and see several randomly sampled patterns from that
+region, use the box selection tool.
+
+To select a small region and to save the index of all data points in the region,
+use the polygon selection tool.
 
 ## Dependence
 This package depends on the following packages
@@ -113,28 +133,29 @@ This package has been tested only for python 3.6.
 There's no guarantee on the result on the other python version. 
 
 ## Installation
+This package has not been released at pip or conda yet. One has to first 
+install all the dependence manually and then clone this repo. There
+are several things to notice.
 
+    1. To use petsc4py and slepc4py, one needs to make sure that 
+       the mpi4py is the conda-forge version. i.e. intall the mpi4py with
+       conda install -c conda-forge mpi4py
+    2. At the beginning of the file WeightMat.py and EigensSlepc.py, I use
+       sys.path to make sure that these two files can find the repo position.
+       please modify these two values if you want to install your own version
+       so that your scripts can find your repo.
+    3. The jupyter notebook also has the previous dependence problem. The solution
+       is again to modify sys.path at the beginning of the notebook.  
+
+    
   
 ## TODO
 Things to do
 
-    1. It's possible that sometimes, user will want to specify a pattern list and 
-       only calculate patterns in the list. I might write an interface for that.
-       However, this really depends, because this can greatly increase the complexity
-       and slow down the IO.
-    2. Write documentation for how to generate proper file lists.
-    3. When the quantity of data is really huge, that the whole dataset can not be 
-       put into memory at once. I need a better way to coordinate the jobs. But at 
-       present, I assume that the distributed memory is large enough.
-       
-       
-## Modules
-**DataSource**
-Currently, supported data source is a series of h5 files. There can be an arbitrary 
-number of datasets in each file. User can also specify which datasets in a h5 file 
-to process. But at present, the user can not specify which patterns in a dataset
- to process.
-
+    1. Remove the dependence with dask. I am currely using dask to control the IO.
+       when applying masks or doing some other complicated modifications, dask can
+       becomes clumsy.
+    2. Improve the visualization.
 
 
 
