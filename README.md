@@ -156,6 +156,9 @@ Things to do
        when applying masks or doing some other complicated modifications, dask can
        becomes clumsy.
     2. Improve the visualization.
+    3. To enable the user to tune the normalization methods when constructing
+       the Laplacian matrix
+       
 
 
 
