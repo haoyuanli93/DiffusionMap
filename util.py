@@ -2,9 +2,15 @@
 This module contains functions that I don't know where to put.
 """
 import os
+import time
+import datetime
 
 import h5py
 import numpy as np
+import scipy
+import scipy.sparse
+import Graph
+
 from numba import jit, int64
 
 
@@ -427,115 +433,6 @@ def get_batch_idx_per_list(batch_num):
 
 ##################################################################
 #
-#       IO functions
-#
-##################################################################
-
-
-def save_distances(output_path, distance_patch, patch_position):
-    """
-    Save the distance patch to a numpy array.
-
-    :param output_path: The folder to save the distance patch
-    :param patch_position: the position of the patch in the large matrix. eg
-                patch (0,0) | patch (0,1)
-                --------------------------
-                patch (1,0) | patch (1,1)
-
-            The first number is the position along dimension zero. The second
-            number is the position along dimension one.
-    :param distance_patch: the distance patch to save
-    """
-
-    # load the data_source address
-    address = output_path
-
-    # check if the folder exist
-    if not os.path.isdir(address + '/distances'):
-        os.makedirs(address + '/distances')
-
-    name = address + "/distances/patch_{}_{}.npy".format(patch_position[0], patch_position[1])
-    np.save(name, distance_patch)
-
-
-def assemble_mat(data_source, config):
-    """
-    Assemble different patches of distance matrices into a single distance matrix
-    :param data_source: An instance of data_source class.
-    :return: The 2D distance matrix. Notice that this matrix is up-triangular.
-    """
-
-    folder_address = data_source.output_path + '/distances'
-
-    batch_num = data_source.batch_number
-    total_num = data_source.pattern_number_total
-
-    # First check if the address is a folder
-    if not os.path.isdir(folder_address):
-        raise Exception("The target specified by the folder_address is not a folder.\n" +
-                        "Please make sure the folder_address is the folder where you have \n" +
-                        "saved the distance patches.")
-
-    # Second check whether all the patches are present in the folder
-    flag = True  # True if all the patches exist.
-    for l in range(batch_num):
-        for m in range(l, batch_num):
-            patch_file = folder_address + "/patch_{}_{}.npy".format(l, m)
-            if not os.path.isfile(patch_file):
-                flag *= False
-
-    if not flag:
-        raise Exception("The patches are not complete. \n" +
-                        "Please check if you have obtained " +
-                        "all {} patterns required to get a complete distance matrix.".format(
-                            batch_num * (batch_num + 1) // 2))
-
-    """
-    If we have all the files, we can assemble the distance matrix.
-    start_dim_0 record the starting point of the patch along axis 0.
-    start_dim_1 record the starting point of the patch along axis 1.
-    """
-    holder = np.zeros((total_num, total_num))
-
-    start_dim_0 = 0
-    for l in range(batch_num):
-        # Notice that the first dimension increases slower.
-        end_dim_0 = start_dim_0 + data_source.batch_size_list[l]
-
-        start_dim_1 = start_dim_0
-        for m in range(l, batch_num):
-
-            patch_file = folder_address + "/patch_{}_{}.npy".format(l, m)
-
-            # load patch
-            patch_holder = np.load(patch_file)
-            # Check if the dimension is correct
-            if patch_holder.shape[0] != data_source.batch_size_list[l] or patch_holder.shape[1] != \
-                    data_source.batch_size_list[m]:
-
-                print(patch_holder.shape, data_source.batch_size_list[l], data_source.batch_size_list[m])
-                raise Exception("The size of the ({},{}) patch does not match that in the record.\n"
-                                "Please check if the distance patch is correct.".format(l, m))
-            else:
-
-                end_dim_1 = start_dim_1 + data_source.batch_size_list[m]
-                holder[start_dim_0:end_dim_0, start_dim_1:end_dim_1] = patch_holder
-                start_dim_1 = end_dim_1
-
-        # update the starting position of the outer loop.
-        start_dim_0 = end_dim_0
-
-    return holder
-
-
-##################################################################
-#
-#       Assemble
-#
-##################################################################
-
-##################################################################
-#
 #       Sampling
 #
 ##################################################################
@@ -579,9 +476,9 @@ def get_sampled_pattern_batch(global_index_array, global_index_map, data_dict):
         global_index = global_index_array[l]
 
         # Decipher the global index
-        file_index = global_index_map[ 0,global_index]
-        dataset_index = global_index_map[1,global_index]
-        local_index = global_index_map[2,global_index]
+        file_index = global_index_map[0, global_index]
+        dataset_index = global_index_map[1, global_index]
+        local_index = global_index_map[2, global_index]
 
         # Get file name and dataset name
         file_name = data_dict["Files"][file_index]
@@ -592,3 +489,98 @@ def get_sampled_pattern_batch(global_index_array, global_index_map, data_dict):
             pattern_holder[l] = np.array(h5file[dataset_name][local_index])
 
     return pattern_holder
+
+
+##################################################################
+#
+#       Assemble
+#
+##################################################################
+
+def save_correlation_values_and_positions(values, index_dim0, index_dim1, output_address):
+    """
+    Save the arrays that can be converted into the Laplacian matrix into a hdf5 file.
+    As I imagine, no one would want to calculate the correlation matrix a lot of times,
+    therefore I don't need a timestamp to automatically distinguish different calculations.
+
+    :param values: The values to save. Notice that this is a 2D numpy array. Dimension 0 represent
+                    the index of the sample. Dimension 1 represent the nearest neighbors. The values
+                    along each row decrease. i.e. values[i,j] >= values[i,j+1] holds for any i and j.
+    :param index_dim0: The index along dimension 0 for each value.
+    :param index_dim1: The index along dimension 1 for each value.
+    :param output_address: The output folder to save the result.
+    :return: None
+    """
+    with h5py.File(output_address + "/partial_correlation_matrix.h5", 'w') as h5file:
+        h5file.create_dataset('values', data=values, dtype=np.float64)
+        h5file.create_dataset('index_dim0', data=index_dim0, dtype=np.int64)
+        h5file.create_dataset('index_dim1', data=index_dim1, dtype=np.int64)
+        h5file.create_dataset('matrix_shape', data=np.array([values.shape[0], values.shape[0]], dtype=np.int),
+                              dtype=np.int)
+
+
+def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau, keep_diagonal=False):
+    """
+    Assemble the Laplacian matrix from the weight matrix.
+
+    :param laplacian_type: The type of Laplacian matrix to construct.
+    :param correlation_matrix_file: The hdf5 file containing the information of the weight matrix.
+    :param neighbor_number: The number of neighbors to keep in the Laplacian matrix
+    :param tau: The casting parameter: correlation np.exp(correlation/tau)
+    :param keep_diagonal: Whether to keep the diagonal term.
+    :return: The csr sparse Laplacian matrix, and the shape of this matrix.
+    """
+
+    """
+    This is a dirty trick. In previous calculation, when you have set the keep_diagonal to be false,
+    I did not through away the diagonal terms directly for some reasons. Instead, I kept it and simply
+    increase the the neighbor_number_similarity_matrix by one in the actual calculation. Therefore,
+    you would find the shape of values to be 
+        [total data number, neighbor_number_similarity_matrix + 1]
+    
+    Then when I construct the Laplacian matrix, I would simply set the diagonal values to be 0 after the casting.
+    """
+
+    with h5py.File(correlation_matrix_file, 'r') as h5file:
+        values = np.array(h5file['values'])[:, :neighbor_number]
+        idx_dim0 = np.array(h5file['index_dim0'])[:, :neighbor_number]
+        idx_dim1 = np.array(h5file['index_dim1'])[:, :neighbor_number]
+        matrix_shape = np.array(h5file['matrix_shape'])
+
+    site_number = np.prod(values.shape)
+    values = values.reshape(site_number)
+    idx_dim0 = idx_dim0.reshape(site_number)
+    idx_dim1 = idx_dim1.reshape(site_number)
+
+    # Cast the values to positive
+    np.exp(values / tau, out=values)
+
+    # Construct a sparse weight matrix
+    matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
+                                     shape=tuple(matrix_shape))
+
+    # Convert the weight matrix in to a Laplacian matrix
+    if laplacian_type == "symmetric normalized laplacian":
+        # Cast the weight matrix to a symmetric format.
+        matrix_trans = matrix.transpose(copy=True)
+        matrix_sym = (matrix + matrix_trans) / 2.
+        matrix_asym = (matrix - matrix_trans) / 2.
+        np.absolute(matrix_asym.data, out=matrix_asym.data)
+        matrix_sym += matrix_asym
+        # Remove the diagonal term
+        if not keep_diagonal:
+            matrix_sym.setdiag(values=0, k=0)
+        # Calculate the degree matrix for normalization
+        degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix_sym)
+        # Calculate the laplacian matrix
+        csr_matrix = Graph.symmetrized_normalized_laplacian(degree_matrix=degree, weight_matrix=matrix_sym)
+        csr_matrix.tocsr()
+    else:
+        raise Exception("Currently, the only available Laplacian matrix type is \"symmetric normalized laplacian\".")
+
+    return csr_matrix, matrix_shape
+
+
+def save_Laplacian_matrix_and_eigensystem():
+    pass
+    stamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d_%H_%M_%S')

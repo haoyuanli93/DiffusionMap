@@ -3,7 +3,7 @@ import sys
 sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
 
 import time, h5py, numpy as np, dask.array as da
-import scipy.sparse, DataSource, Graph
+import scipy.sparse, DataSource, Graph, util
 from mpi4py import MPI
 
 try:
@@ -21,7 +21,7 @@ comm_size = comm.Get_size()
 batch_num_dim0 = comm_size - 1
 
 # Check if the configuration information is valid and compatible with the MPI setup
-Config.check(comm_size=comm_size)
+Config.check()
 
 # Parse
 batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
@@ -30,11 +30,11 @@ output_folder = Config.CONFIGURATIONS["output_folder"]
 mask_file = Config.CONFIGURATIONS["mask_file"]
 
 if Config.CONFIGURATIONS["keep_diagonal"]:
-    neighbor_number = Config.CONFIGURATIONS["neighbor_number"]
+    neighbor_number = Config.CONFIGURATIONS["neighbor_number_similarity_matrix"]
 else:
     # If one does not want to keep the diagonal value, then just calculate for one more value and then
     # remove the diagonal value.
-    neighbor_number = Config.CONFIGURATIONS["neighbor_number"] + 1
+    neighbor_number = Config.CONFIGURATIONS["neighbor_number_similarity_matrix"] + 1
 
 """
 Step One: Initialization
@@ -72,6 +72,7 @@ comm.Barrier()  # Synchronize
 """
 Step Two: Calculate mean and std for each diffraction pattern
 """
+# Global timer
 tic = time.time()
 if comm_rank != 0:
 
@@ -196,6 +197,10 @@ if comm_rank != 0:
     ####################################################################################################################
 
     for batch_idx_dim1 in range(batch_num_dim1):
+        print("Node {} begins to process batch {}. There are {} more batches to process.".format(comm_rank,
+                                                                                                 batch_idx_dim1,
+                                                                                                 batch_num_dim1 -
+                                                                                                 batch_idx_dim1 - 1))
 
         # Data number for this patch along dimension 1
         data_num_dim1 = data_source.batch_num_list_dim1[batch_idx_dim1]
@@ -227,7 +232,6 @@ if comm_rank != 0:
 
         # Create dask arrays based on these h5 files
         dataset_dim1 = da.reshape(da.concatenate(dataset_holder_dim1, axis=0), (data_num_dim1, np.prod(data_shape)))
-        print("Finishes loading data.")
 
         # Calculate the correlation matrix.
         inner_prod_matrix = da.dot(dataset_dim0, da.transpose(dataset_dim1)) / float(np.prod(data_shape))
@@ -306,22 +310,10 @@ if comm_rank == 0:
     idx_dim0_all = np.outer(np.arange(data_source.data_num_total, dtype=np.int),
                             np.ones(neighbor_number, dtype=np.int))
 
-    # Convert 1-D array to construct the sparse matrix
-    size_num = data_source.data_num_total * neighbor_number
-    values_all = values_all.reshape(size_num)
-    idx_dim0_all = idx_dim0_all.reshape(size_num)
-    idx_dim1_all = idx_dim1_all.reshape(size_num)
-
-    # Calculate the time to construct the correlation matrix
-    toc_0 = time.time()
-
-    # Construct a sparse matrix
-    matrix = scipy.sparse.coo_matrix((values_all, (idx_dim0_all, idx_dim1_all)),
-                                     shape=(data_source.data_num_total, data_source.data_num_total))
-
-    # Save the matrix
-    scipy.sparse.save_npz(file=output_folder + "/partial_weight_matrix.npz", matrix=matrix, compressed=True)
-
+    util.save_correlation_values_and_positions(values=values_all,
+                                               index_dim0=idx_dim0_all,
+                                               index_dim1=idx_dim1_all,
+                                               output_address=output_folder)
     # Finishes the calculation.
-    toc_1 = time.time()
-    print("Time to construct the partial weight matrix is {}".format(toc_1 - toc_0))
+    toc = time.time()
+    print("The total calculation time is {} seconds".format(toc - tic))
