@@ -497,7 +497,8 @@ def get_sampled_pattern_batch(global_index_array, global_index_map, data_dict):
 #
 ##################################################################
 
-def save_correlation_values_and_positions(values, index_dim0, index_dim1, output_address):
+def save_correlation_values_and_positions(values, index_dim0, index_dim1,
+                                          means, std, mask, output_address):
     """
     Save the arrays that can be converted into the Laplacian matrix into a hdf5 file.
     As I imagine, no one would want to calculate the correlation matrix a lot of times,
@@ -508,6 +509,9 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1, output
                     along each row decrease. i.e. values[i,j] >= values[i,j+1] holds for any i and j.
     :param index_dim0: The index along dimension 0 for each value.
     :param index_dim1: The index along dimension 1 for each value.
+    :param means: The mean value of each data pattern.
+    :param std: The standard deviation for each data pattern
+    :param mask: The mask utilized here.
     :param output_address: The output folder to save the result.
     :return: None
     """
@@ -515,8 +519,11 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1, output
         h5file.create_dataset('values', data=values, dtype=np.float64)
         h5file.create_dataset('index_dim0', data=index_dim0, dtype=np.int64)
         h5file.create_dataset('index_dim1', data=index_dim1, dtype=np.int64)
-        h5file.create_dataset('matrix_shape', data=np.array([values.shape[0], values.shape[0]], dtype=np.int),
-                              dtype=np.int)
+        h5file.create_dataset('matrix_shape', data=np.array([values.shape[0], values.shape[0]], dtype=np.int64),
+                              dtype=np.int64)
+        h5file.create_dataset('means', data=means, dtype=np.float64)
+        h5file.create_dataset('mask', data=mask, dtype=np.int64)
+        h5file.create_dataset('std', data=std, dtype=np.float64)
 
 
 def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau, keep_diagonal=False):
@@ -581,6 +588,23 @@ def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_
     return csr_matrix, matrix_shape
 
 
-def save_Laplacian_matrix_and_eigensystem():
-    pass
+def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, config):
+    """
+    Save the eigensystem and the parameters used to obtain this result. Use a timestamp to distinguish
+    different calculations.
+
+    :param eigenvectors: The obtained eigenvectors.
+    :param eigenvalues: The eigenvalue for each eigenvector.
+    :param config: The configuration dictionary.
+    :return: None
+    """
+    # Create a time stamp
     stamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d_%H_%M_%S')
+
+    with h5py.File(config["output_folder"] + "/eigensystem_{}.h5".format(stamp), 'w') as h5file:
+        h5file.create_dataset("eigenvalues", data=eigenvalues, dtype=np.float64)
+        h5file.create_dataset("eigenvectors", data=eigenvectors, dtype=np.float64)
+        h5file.create_dataset("neighbor_number", data=config["neighbor_number_Laplacian_matrix"],
+                              dtype=np.int64)
+        h5file.create_dataset("tau", data=config["tau"], dtype=np.float64)
+        h5file.create_dataset("keep_diagonal", data=config["keep_diagonal"], dtype=np.float64)

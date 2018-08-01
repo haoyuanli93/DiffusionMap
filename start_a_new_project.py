@@ -67,6 +67,9 @@ for l in range(1000):
     # Copy the EigensSlepc.py file
     shutil.copyfile(src='./EigensSlepc.py', dst=project_dir + '/src/EigensSlepc.py')
 
+    # Copy the Visualization_Example.ipynb file
+    shutil.copyfile(src='./Visualization_Example.ipynb', dst=project_dir + '/src/Visualization_Example.ipynb')
+
     # Only create one new project folder
     break
 

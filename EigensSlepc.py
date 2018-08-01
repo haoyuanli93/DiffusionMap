@@ -2,26 +2,27 @@ import sys
 
 sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
 
-from mpi4py import MPI
-import time, scipy.sparse, numpy
-import util
+import time, numpy, util
 from petsc4py import PETSc
 from slepc4py import SLEPc
+from mpi4py import MPI
 
 try:
     import Config
 except ImportError:
     raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
-                    "script to get a folder \'proj_****\'. Move this folder to a desirable address and modify"
-                    "the Config.py file in the folder \'proj_****/src\' and execute DiffusionMap calculation"
+                    "script to get a folder \'proj_***\'. Move this folder to a desirable address and modify"
+                    "the Config.py file in the folder \'proj_***/src\' and execute DiffusionMap calculation"
                     "in this folder.")
+# Check if the configuration information is valid and compatible with the MPI setup
+Config.check()
 
 # Parse
-sparse_matrix_npz = Config.CONFIGURATIONS["sparse_matrix_npz"]
-neighbor_number = Config.CONFIGURATIONS["neighbor_number"]
+neighbor_number = Config.CONFIGURATIONS["neighbor_number_Laplacian_matrix"]
 eig_num = Config.CONFIGURATIONS["eig_num"]
 output_folder = Config.CONFIGURATIONS["output_folder"]
 laplacian_type = Config.CONFIGURATIONS['Laplacian_matrix']
+
 # Initialize the MPI
 comm = MPI.COMM_WORLD
 comm_rank = comm.Get_rank()
@@ -30,14 +31,17 @@ comm_size = comm.Get_size()
 """
 Step One: Load the partial weight matrix and construct the Laplacian matrix
 """
-if comm_rank == 0:
-    print("Begin loading the data", flush=True)
-    tic = time.time()
-comm.Barrier()  # Synchronize
+print("Begin loading the data", flush=True)
+tic = time.time()
 
 # Load the matrix
-csr_matrix, mat_size = util.assemble_laplacian_matrix(laplacian_type=)
-
+csr_matrix, mat_size = util.assemble_laplacian_matrix(laplacian_type=laplacian_type,
+                                                      correlation_matrix_file=str(output_folder +
+                                                                                  "/partial_correlation_matrix.h5"),
+                                                      neighbor_number=neighbor_number,
+                                                      tau=Config.CONFIGURATIONS["tau"],
+                                                      keep_diagonal=Config.CONFIGURATIONS["keep_diagonal"])
+comm.Barrier()  # Synchronize
 """
 Step Two: Initialize the petsc matrix
 """
@@ -124,13 +128,15 @@ comm.Barrier()  # Synchronize
 eigenvector_pieces = comm.gather(local_eigenvector_holder, root=0)
 
 if comm_rank == 0:
-    # Save the eigenvalues
+    # Get the eigenvalues
     vals = numpy.asarray(eigen_values)
-    numpy.save(output_folder + "/Eigenvalues.npy", vals)
-
-    # Assemble the eigenvectors and save them
+    # Assemble the eigenvectors
     eigenvectors = numpy.concatenate(eigenvector_pieces, axis=1)
-    numpy.save(output_folder + "/Eigenvectors.npy", eigenvectors)
+
+    # Save the result
+    util.save_eigensystem_and_calculation_parameters(eigenvalues=vals,
+                                                     eigenvectors=eigenvectors,
+                                                     config=Config.CONFIGURATIONS)
 
     # Finishes everything.
     print("Finishes all calculation.", flush=True)

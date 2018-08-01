@@ -10,18 +10,17 @@ try:
     import Config
 except ImportError:
     raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
-                    "script to get a folder \'proj_****\'. Move this folder to a desirable address and modify"
-                    "the Config.py file in the folder \'proj_****/src\' and execute DiffusionMap calculation"
+                    "script to get a folder \'proj_***\'. Move this folder to a desirable address and modify"
+                    "the Config.py file in the folder \'proj_***/src\' and execute DiffusionMap calculation"
                     "in this folder.")
+# Check if the configuration information is valid and compatible with the MPI setup
+Config.check()
 
 # Initialize the MPI
 comm = MPI.COMM_WORLD
 comm_rank = comm.Get_rank()
 comm_size = comm.Get_size()
 batch_num_dim0 = comm_size - 1
-
-# Check if the configuration information is valid and compatible with the MPI setup
-Config.check()
 
 # Parse
 batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
@@ -313,7 +312,8 @@ if comm_rank == 0:
     util.save_correlation_values_and_positions(values=values_all,
                                                index_dim0=idx_dim0_all,
                                                index_dim1=idx_dim1_all,
-                                               output_address=output_folder)
+                                               output_address=output_folder,
+                                               mask=mask, means=mean_all, std=std_all)
     # Finishes the calculation.
     toc = time.time()
     print("The total calculation time is {} seconds".format(toc - tic))

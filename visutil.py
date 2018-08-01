@@ -3,14 +3,8 @@ import holoviews as hv
 import matplotlib.path as mpltPath
 import pandas as pd
 
-import datashader as ds
-from functools import partial
-from datashader.utils import export_image
-from datashader.colors import colormap_select, Greys9, Hot, inferno
-from datashader import transfer_functions as tf
 
-
-def assemble_patterns(data_holder, row_num, col_num, index, pattern_shape):
+def assemble_patterns(data_holder, row_num, col_num, index, range, pattern_shape):
     """
     After the program has obtained the index of the patterns in the selected region,
     this function randomly choose several of the patterns to show in a grid-space.
@@ -19,6 +13,7 @@ def assemble_patterns(data_holder, row_num, col_num, index, pattern_shape):
     :param row_num: The row number of the grid space
     :param col_num: The column number of the grid space
     :param index: The index of all the data in the selected region
+    :param range: The range of values to show a numpy array as RGB image.
     :param pattern_shape: The pattern shape
     :return: hv.GridSpace
     """
@@ -29,16 +24,19 @@ def assemble_patterns(data_holder, row_num, col_num, index, pattern_shape):
         sampled_index = index[:row_num * col_num]
         sampled_index = sampled_index.reshape((row_num, col_num))
 
-        image_holder = {(x, y): hv.Image(data_holder[sampled_index[x, y]], label="Sample patterns")
+        image_holder = {(x, y): hv.Image(data_holder[sampled_index[x, y]],
+                                         label="Sample patterns").redim.range(z=(range[0], range[1]))
                         for x in range(row_num) for y in range(col_num)}
     else:
         # When we do not have so many patterns, first layout
         # all the patterns available and then fill the other
         # positions with patterns of zeros.
         index_list = [(x, y) for x in range(row_num) for y in range(col_num)]
-        image_holder = {index_list[l]: hv.Image(data_holder[index[l]], label="Sample patterns")
+        image_holder = {index_list[l]: hv.Image(data_holder[index[l]],
+                                                label="Sample patterns").redim.range(z=(range[0], range[1]))
                         for l in range(index_num)}
-        image_holder.update({index_list[l]: hv.Image(np.zeros(pattern_shape, dtype=np.float64), label="Sample patterns")
+        image_holder.update({index_list[l]: hv.Image(np.zeros(pattern_shape,
+                                                              dtype=np.float64), label="Sample patterns")
                              for l in range(index_num, row_num * col_num)})
 
     return hv.GridSpace(image_holder)
