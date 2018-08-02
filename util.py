@@ -501,7 +501,10 @@ def get_sampled_pattern_batch_efficient(global_index_array, global_index_map, da
     :return: A numpy array containing all patterns of interests to us .
     """
 
-    pattern_holder = []
+    holder_shape = tuple([global_index_array.shape[0], ] + list(data_dict['shape']))
+    pattern_holder = np.zeros(holder_shape)
+
+    counter = 0
 
     """
     Adopt the method in data source here.
@@ -528,10 +531,11 @@ def get_sampled_pattern_batch_efficient(global_index_array, global_index_map, da
                 # Get all the pattern local index
                 local_index = data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]
 
-                # Load the corresponding patterns
-                pattern_holder.append(np.array(h5file[dataset_name][local_index]))
+                for l in local_index:
+                    pattern_holder[counter] = np.array(h5file[dataset_name][l])
+                    counter += 1
 
-    return np.concatenate(pattern_holder, axis=0)
+    return pattern_holder
 
 
 ##################################################################
