@@ -4,7 +4,7 @@ import matplotlib.path as mpltPath
 import pandas as pd
 
 
-def assemble_patterns(data_holder, row_num, col_num, index, range, pattern_shape):
+def assemble_patterns(data_holder, row_num, col_num, index, value_range, pattern_shape):
     """
     After the program has obtained the index of the patterns in the selected region,
     this function randomly choose several of the patterns to show in a grid-space.
@@ -25,7 +25,7 @@ def assemble_patterns(data_holder, row_num, col_num, index, range, pattern_shape
         sampled_index = sampled_index.reshape((row_num, col_num))
 
         image_holder = {(x, y): hv.Image(data_holder[sampled_index[x, y]],
-                                         label="Sample patterns").redim.range(z=(range[0], range[1]))
+                                         label="Sample patterns").redim.range(z=(value_range[0], value_range[1]))
                         for x in range(row_num) for y in range(col_num)}
     else:
         # When we do not have so many patterns, first layout
@@ -33,7 +33,7 @@ def assemble_patterns(data_holder, row_num, col_num, index, range, pattern_shape
         # positions with patterns of zeros.
         index_list = [(x, y) for x in range(row_num) for y in range(col_num)]
         image_holder = {index_list[l]: hv.Image(data_holder[index[l]],
-                                                label="Sample patterns").redim.range(z=(range[0], range[1]))
+                                                label="Sample patterns").redim.range(z=(value_range[0], value_range[1]))
                         for l in range(index_num)}
         image_holder.update({index_list[l]: hv.Image(np.zeros(pattern_shape,
                                                               dtype=np.float64), label="Sample patterns")

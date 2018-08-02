@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append('/reg/neh/home5/haoyuan/Documents/my_repos/DiffusionMap')
+sys.path.append('This is a path_holder. Please use setup.py to initialize this value.')
 
 import time, h5py, numpy as np, dask.array as da
 import scipy.sparse, DataSource, Graph, util
