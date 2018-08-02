@@ -491,6 +491,41 @@ def get_sampled_pattern_batch(global_index_array, global_index_map, data_dict):
     return pattern_holder
 
 
+def get_sampled_pattern_batch_more_efficient(global_index_array, global_index_map, data_dict):
+    """
+    This function return the data with the corresponding global index
+
+    :param global_index_array: The array containing all global indexes of interests to us.
+    :param global_index_map: The global_index_map which is defined in  get_global_index_map
+    :param data_dict: The source_dict in data_source object
+    :return: A numpy array containing all patterns of interests to us .
+    """
+
+    holder_shape = tuple([global_index_array.shape[0], ] + list(data_dict['shape']))
+    pattern_holder = np.zeros(holder_shape)
+
+    """
+    Step 1: Build a nested array containing the following information.
+    """
+    for l in range(global_index_array.shape[0]):
+        global_index = global_index_array[l]
+
+        # Decipher the global index
+        file_index = global_index_map[0, global_index]
+        dataset_index = global_index_map[1, global_index]
+        local_index = global_index_map[2, global_index]
+
+        # Get file name and dataset name
+        file_name = data_dict["Files"][file_index]
+        dataset_name = data_dict[file_name]["Datasets"][dataset_index]
+
+        # Get the pattern
+        with h5py.File(file_name, 'r') as h5file:
+            pattern_holder[l] = np.array(h5file[dataset_name][local_index])
+
+    return pattern_holder
+
+
 ##################################################################
 #
 #       Assemble
