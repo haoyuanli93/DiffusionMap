@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EigensSlepc.py" beforeDir="false" afterPath="$PROJECT_DIR$/EigensSlepc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Visualization_Example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Visualization_Example.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/visutil.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
