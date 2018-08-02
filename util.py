@@ -491,7 +491,7 @@ def get_sampled_pattern_batch(global_index_array, global_index_map, data_dict):
     return pattern_holder
 
 
-def get_sampled_pattern_batch_more_efficient(global_index_array, global_index_map, data_dict):
+def get_sampled_pattern_batch_efficient(global_index_array, global_index_map, data_dict):
     """
     This function return the data with the corresponding global index
 
@@ -501,29 +501,37 @@ def get_sampled_pattern_batch_more_efficient(global_index_array, global_index_ma
     :return: A numpy array containing all patterns of interests to us .
     """
 
-    holder_shape = tuple([global_index_array.shape[0], ] + list(data_dict['shape']))
-    pattern_holder = np.zeros(holder_shape)
+    pattern_holder = []
 
     """
-    Step 1: Build a nested array containing the following information.
+    Adopt the method in data source here.
     """
-    for l in range(global_index_array.shape[0]):
-        global_index = global_index_array[l]
+    file_pos_holder = global_index_map[0, global_index_array]
+    dataset_pos_holder = global_index_map[1, global_index_array]
+    data_pos_holder = global_index_map[2, global_index_array]
 
-        # Decipher the global index
-        file_index = global_index_map[0, global_index]
-        dataset_index = global_index_map[1, global_index]
-        local_index = global_index_map[2, global_index]
+    # Get all the files
+    file_range = np.unique(file_pos_holder)
 
-        # Get file name and dataset name
-        file_name = data_dict["Files"][file_index]
-        dataset_name = data_dict[file_name]["Datasets"][dataset_index]
+    # Create the entry for the batch
+    for file_idx in file_range:
 
-        # Get the pattern
+        # Directly open this h5file
+        file_name = data_dict["Files"][file_idx]
         with h5py.File(file_name, 'r') as h5file:
-            pattern_holder[l] = np.array(h5file[dataset_name][local_index])
 
-    return pattern_holder
+            # Get all the dataset within this file
+            dataset_range = np.unique(dataset_pos_holder[file_pos_holder == file_idx])
+            # Load each dataset
+            for dataset_idx in dataset_range:
+                dataset_name = data_dict[file_name]["Datasets"][dataset_idx]
+                # Get all the pattern local index
+                local_index = data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]
+
+                # Load the corresponding patterns
+                pattern_holder.append(np.array(h5file[dataset_name][local_index]))
+
+    return np.concatenate(pattern_holder, axis=0)
 
 
 ##################################################################

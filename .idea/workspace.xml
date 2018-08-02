@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,35 +16,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Visualization_Example.ipynb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Visualization_Example.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="0" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/visutil.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="704">
-              <caret line="32" column="43" lean-forward="true" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="519">
-              <caret line="507" column="70" selection-start-line="507" selection-start-column="70" selection-end-line="507" selection-end-column="70" />
+            <state relative-caret-position="494">
+              <caret line="493" column="29" lean-forward="true" selection-start-line="493" selection-start-column="29" selection-end-line="493" selection-end-column="29" />
               <folding>
                 <element signature="e#71#80#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DataSource.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2755">
+              <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -186,7 +173,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -199,15 +185,11 @@
               <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
               <item name="asset" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
-              <item name="Test" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -379,13 +361,6 @@
     <entry file="file://$PROJECT_DIR$/manifoldROI.py" />
     <entry file="file://$PROJECT_DIR$/visualization-dev/qt/layout.py" />
     <entry file="file://$PROJECT_DIR$/visualization-dev/qt/main.py" />
-    <entry file="file://$PROJECT_DIR$/DataSource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1195">
-          <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -434,16 +409,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Visualization_Example.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -461,10 +426,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DataSource.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2755">
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="507" column="70" selection-start-line="507" selection-start-column="70" selection-end-line="507" selection-end-column="70" />
+        <state relative-caret-position="494">
+          <caret line="493" column="29" lean-forward="true" selection-start-line="493" selection-start-column="29" selection-end-line="493" selection-end-column="29" />
           <folding>
             <element signature="e#71#80#0" expanded="true" />
           </folding>
