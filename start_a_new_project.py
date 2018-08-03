@@ -67,8 +67,8 @@ for l in range(1000):
     # Copy the EigensSlepc.py file
     shutil.copyfile(src='./EigensSlepc.py', dst=project_dir + '/src/EigensSlepc.py')
 
-    # Copy the Visualization_Example.ipynb file
-    shutil.copyfile(src='./Visualization_Example.ipynb', dst=project_dir + '/src/Visualization_Example.ipynb')
+    # Copy the Manifold_Browser1.ipynb file
+    shutil.copyfile(src='./Manifold_Browser1.ipynb', dst=project_dir + '/src/Manifold_Browser1.ipynb')
 
     # Only create one new project folder
     break

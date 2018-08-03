@@ -24,19 +24,19 @@ def assemble_patterns(data_holder, row_num, col_num, index, value_range, pattern
         sampled_index = index[:row_num * col_num]
         sampled_index = sampled_index.reshape((row_num, col_num))
 
-        image_holder = {(x, y): hv.Image(data_holder[sampled_index[x, y]],
-                                         label="Sample patterns").redim.range(z=(value_range[0], value_range[1]))
+        image_holder = {(x, y): hv.Image(data_holder[sampled_index[x, y]]).redim.range(z=(value_range[0],
+                                                                                          value_range[1]))
                         for x in range(row_num) for y in range(col_num)}
     else:
         # When we do not have so many patterns, first layout
         # all the patterns available and then fill the other
         # positions with patterns of zeros.
         index_list = [(x, y) for x in range(row_num) for y in range(col_num)]
-        image_holder = {index_list[l]: hv.Image(data_holder[index[l]],
-                                                label="Sample patterns").redim.range(z=(value_range[0], value_range[1]))
+        image_holder = {index_list[l]: hv.Image(data_holder[index[l]]).redim.range(z=(value_range[0],
+                                                                                      value_range[1]))
                         for l in range(index_num)}
         image_holder.update({index_list[l]: hv.Image(np.zeros(pattern_shape,
-                                                              dtype=np.float64), label="Sample patterns")
+                                                              dtype=np.float64))
                              for l in range(index_num, row_num * col_num)})
 
     return hv.GridSpace(image_holder)
