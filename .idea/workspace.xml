@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/DiffusionMap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DiffusionMap.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Visualization_Example.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Visualization_Example.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/visutil.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,11 +19,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Visualization_Example.ipynb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Visualization_Example.ipynb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Visualization_Example.ipynb">
           <provider selected="true" editor-type-id="ipnb-editor">
             <state>
-              <selected id="6" />
+              <selected id="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/visutil.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="35" column="86" selection-start-line="35" selection-start-column="86" selection-end-line="35" selection-end-column="86" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -29,8 +43,8 @@
       <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="523" column="49" lean-forward="true" selection-start-line="523" selection-start-column="49" selection-end-line="523" selection-end-column="49" />
+            <state relative-caret-position="7695">
+              <caret line="523" column="49" selection-start-line="523" selection-start-column="49" selection-end-line="523" selection-end-column="49" />
               <folding>
                 <element signature="e#71#80#0" expanded="true" />
               </folding>
@@ -41,7 +55,7 @@
       <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataSource.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2755">
+            <state relative-caret-position="915">
               <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
             </state>
           </provider>
@@ -155,13 +169,13 @@
         <option value="$PROJECT_DIR$/Example_AMO86615.ipynb" />
         <option value="$PROJECT_DIR$/asset/Config.py" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
-        <option value="$PROJECT_DIR$/visutil.py" />
         <option value="$PROJECT_DIR$/Test/setup.py" />
         <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/Visualization_Example.ipynb" />
+        <option value="$PROJECT_DIR$/visutil.py" />
       </list>
     </option>
   </component>
@@ -174,9 +188,9 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -277,7 +291,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -287,7 +301,7 @@
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32943678" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.109375" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.1953125" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -385,9 +399,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1474">
           <caret line="67" column="93" lean-forward="true" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="93" />
-          <folding>
-            <element signature="e#230#248#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -419,16 +430,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/visutil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="32" column="43" lean-forward="true" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -441,15 +442,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DataSource.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2755">
+        <state relative-caret-position="915">
           <caret line="63" column="28" selection-start-line="63" selection-start-column="17" selection-end-line="63" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="523" column="49" lean-forward="true" selection-start-line="523" selection-start-column="49" selection-end-line="523" selection-end-column="49" />
+        <state relative-caret-position="7695">
+          <caret line="523" column="49" selection-start-line="523" selection-start-column="49" selection-end-line="523" selection-end-column="49" />
           <folding>
             <element signature="e#71#80#0" expanded="true" />
           </folding>
@@ -459,7 +460,17 @@
     <entry file="file://$PROJECT_DIR$/Visualization_Example.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="6" />
+          <selected id="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visutil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="86" selection-start-line="35" selection-start-column="86" selection-end-line="35" selection-end-column="86" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
