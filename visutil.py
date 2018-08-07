@@ -2,6 +2,10 @@ import numpy as np
 import holoviews as hv
 import matplotlib.path as mpltPath
 import pandas as pd
+from holoviews.operation.datashader import datashade, rasterize
+import datashader as ds
+import bokeh.palettes as bp
+import h5py
 
 
 def assemble_patterns(data_holder, row_num, col_num, index, value_range, pattern_shape):
@@ -124,3 +128,140 @@ def get_random_samples(eigvec_holder, dim0, dim1, sample_num):
                         "y": np.array(eigvec_holder[dim1][index])})
 
     return pd.DataFrame(dict_holder)
+
+
+def construct_dataframe(dim0, dim1, eigensystem, variance, mean, attribute, category):
+    """
+    Load the eigensystem and some other useful stuff and then construct some
+    dataframe for visualization
+    :param dim0: The index of the eigenvector to be used as the x-coordinate
+    :param dim1: The index of the eigenvector to be used as the y-coordinate
+    :param eigensystem: The h5file containing the eigensystem to be visualized.
+    :param variance: The address to the numpy file containing the variance for each pattern.
+    :param mean: The address to the numpy file containing the mean for each pattern
+    :param attribute: The address to the numpy file containing the interesting attribute
+    :param category: The address to the numpy file containing the classification based on the attribute.
+    :return: dataframe, dataframe sorted along dim0, dataframe sorted along dim1
+    """
+    data_dict = {}
+    with h5py.File(eigensystem) as h5file:
+        data_dict.update({"x": np.array(h5file['eigenvectors'][dim0]),
+                          "y": np.array(h5file['eigenvectors'][dim1])})
+    data_dict.update({"variance": np.load(variance),
+                      "mean": np.load(mean),
+                      "attribute": np.load(attribute),
+                      "category": np.load(category)})
+
+    # Construct a dataframe object
+    dataframe = pd.DataFrame(data_dict)
+
+    # Sort along x axis
+    index = np.argsort(data_dict['x'])
+    # Create a new datafrme
+    dataframe_sort_along_x = pd.DataFrame({key: data_dict[key][index] for key in list(data_dict.keys())})
+
+    # Sort along y axis
+    index = np.argsort(data_dict['y'])
+    dataframe_sort_along_y = pd.DataFrame({key: data_dict[key][index] for key in list(data_dict.keys())})
+
+    return dataframe, dataframe_sort_along_x, dataframe_sort_along_y
+
+
+def show_manifold_and_attribute(dataframe, dataframex, dataframey):
+    """
+    Show the manifold with some adjoint diagrams showing the distribution of the attribute
+    :param dataframe: The raw dataframe.
+    :param dataframex: The dataframe sorted along dimension x
+    :param dataframey: The dataframe sorted along dimension y
+    :return: The manifold and the distribution of the attribute along the two axis
+    """
+    density_x = hv.Curve(dataframex, kdims=['x', 'attribute'])
+    density_y = hv.Curve(dataframey, kdims=['y', 'attribute'])
+
+    density_curve_x = hv.operation.timeseries.rolling(density_x, rolling_window=50)
+    density_curve_y = hv.operation.timeseries.rolling(density_y, rolling_window=50)
+
+    density = hv.Points(data=dataframe,
+                        kdims=["x", "y"],
+                        vdims=['attribute', 'category']).options(color_index="attribute",
+                                                                 width=600, height=400, colorbar=True,
+                                                                 colorbar_position='left')
+    return (density << density_curve_y.options(width=200,
+                                               height=400) << density_curve_x.options(width=400, height=200))
+
+
+def show_manifold_and_category(dataframe, dataframex, dataframey):
+    """
+    Show the manifold with some adjoint diagrams showing the distribution of the category
+    :param dataframe: The raw dataframe.
+    :param dataframex: The dataframe sorted along dimension x
+    :param dataframey: The dataframe sorted along dimension y
+    :return: The manifold and the distribution of the category along the two axis
+    """
+    density_x = hv.Curve(dataframex, kdims=['x', 'category'])
+    density_y = hv.Curve(dataframey, kdims=['y', 'category'])
+
+    density_curve_x = hv.operation.timeseries.rolling(density_x, rolling_window=50)
+    density_curve_y = hv.operation.timeseries.rolling(density_y, rolling_window=50)
+
+    density = hv.Points(data=dataframe,
+                        kdims=["x", "y"],
+                        vdims=['attribute', 'category']).options(color_index="category",
+                                                                 width=600, height=400, colorbar=True,
+                                                                 colorbar_position='left')
+    return (density << density_curve_y.options(width=200,
+                                               height=400) << density_curve_x.options(width=400, height=200))
+
+
+def datashade_manifold_and_attribute(dataframe, dataframex, dataframey):
+    """
+    Show the manifold with some adjoint diagrams showing the distribution of the attribute
+    :param dataframe: The raw dataframe.
+    :param dataframex: The dataframe sorted along dimension x
+    :param dataframey: The dataframe sorted along dimension y
+    :return: The manifold and the distribution of the attribute along the two axis
+    """
+    density_x = hv.Curve(dataframex, kdims=['x', 'attribute'])
+    density_y = hv.Curve(dataframey, kdims=['y', 'attribute'])
+
+    density_curve_x = hv.operation.timeseries.rolling(density_x, rolling_window=50)
+    density_curve_y = hv.operation.timeseries.rolling(density_y, rolling_window=50)
+
+    density = hv.Points(data=dataframe,
+                        kdims=["x", "y"],
+                        vdims=['attribute', 'category'])
+
+    shade = rasterize(density, aggregator=ds.mean('attribute')).options(width=600,
+                                                                        height=400,
+                                                                        colorbar=True,
+                                                                        colorbar_position='left')
+
+    return (shade << density_curve_y.options(width=200,
+                                             height=400) << density_curve_x.options(width=400, height=200))
+
+
+def datashade_manifold_and_category(dataframe, dataframex, dataframey):
+    """
+    Show the manifold with some adjoint diagrams showing the distribution of the category
+    :param dataframe: The raw dataframe.
+    :param dataframex: The dataframe sorted along dimension x
+    :param dataframey: The dataframe sorted along dimension y
+    :return: The manifold and the distribution of the category along the two axis
+    """
+    density_x = hv.Curve(dataframex, kdims=['x', 'category'])
+    density_y = hv.Curve(dataframey, kdims=['y', 'attribute'])
+
+    density_curve_x = hv.operation.timeseries.rolling(density_x, rolling_window=50)
+    density_curve_y = hv.operation.timeseries.rolling(density_y, rolling_window=50)
+
+    density = hv.Points(data=dataframe,
+                        kdims=["x", "y"],
+                        vdims=['attribute', 'category'])
+
+    shade = rasterize(density, aggregator=ds.mean('category')).options(width=600,
+                                                                       height=400,
+                                                                       colorbar=True,
+                                                                       colorbar_position='left')
+
+    return (shade << density_curve_y.options(width=200,
+                                             height=400) << density_curve_x.options(width=400, height=200))
