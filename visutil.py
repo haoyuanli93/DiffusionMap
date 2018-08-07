@@ -130,7 +130,7 @@ def get_random_samples(eigvec_holder, dim0, dim1, sample_num):
     return pd.DataFrame(dict_holder)
 
 
-def construct_dataframe(dim0, dim1, eigensystem, variance, mean, attribute, category):
+def construct_dataframe(dim0, dim1, eigensystem, attribute, category):
     """
     Load the eigensystem and some other useful stuff and then construct some
     dataframe for visualization
@@ -146,10 +146,11 @@ def construct_dataframe(dim0, dim1, eigensystem, variance, mean, attribute, cate
     data_dict = {}
     with h5py.File(eigensystem) as h5file:
         data_dict.update({"x": np.array(h5file['eigenvectors'][dim0]),
-                          "y": np.array(h5file['eigenvectors'][dim1])})
-    data_dict.update({"variance": np.load(variance),
-                      "mean": np.load(mean),
-                      "attribute": np.load(attribute),
+                          "y": np.array(h5file['eigenvectors'][dim1]),
+                          "variance": np.array(h5file['std']),
+                          "mean": np.array(h5file['means'])}
+                         )
+    data_dict.update({"attribute": np.load(attribute),
                       "category": np.load(category)})
 
     # Construct a dataframe object
