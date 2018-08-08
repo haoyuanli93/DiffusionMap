@@ -20,7 +20,7 @@ for l in range(1000):
     # Create standard folder in this project folder
     os.makedirs(project_dir + '/input')
     os.makedirs(project_dir + '/output')
-    os.makedirs(project_dir + '/pDiffusionMap')
+    os.makedirs(project_dir + '/src')
 
     # Create useful files for the user
     with open(project_dir + '/input/file_list.txt', 'w') as txtfile:

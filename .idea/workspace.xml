@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/pDiffusionMap/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_a_new_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_a_new_project.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="setup.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+            <state relative-caret-position="176">
+              <caret line="8" column="88" selection-start-line="8" selection-start-column="88" selection-end-line="8" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -39,35 +39,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1606">
-              <caret line="73" column="100" selection-start-line="73" selection-start-column="100" selection-end-line="73" selection-end-column="100" />
+            <state relative-caret-position="233">
+              <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
               <folding>
                 <element signature="e#74#83#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="abbr.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-968">
-              <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Manifold_Browser2.ipynb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="1" />
             </state>
           </provider>
         </entry>
@@ -187,10 +166,10 @@
         <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/Manifold_Browser1.ipynb" />
-        <option value="$PROJECT_DIR$/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/pDiffusionMap/abbr.py" />
         <option value="$PROJECT_DIR$/pDiffusionMap/__init__.py" />
         <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/start_a_new_project.py" />
       </list>
     </option>
   </component>
@@ -493,29 +472,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-968">
           <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1606">
-          <caret line="73" column="100" selection-start-line="73" selection-start-column="100" selection-end-line="73" selection-end-column="100" />
-          <folding>
-            <element signature="e#74#83#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -532,8 +494,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+        <state relative-caret-position="176">
+          <caret line="8" column="88" selection-start-line="8" selection-start-column="88" selection-end-line="8" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+          <folding>
+            <element signature="e#74#83#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
