@@ -149,7 +149,8 @@ if comm_rank == 0:
     holder_size = (data_source.data_num_total, neighbor_number)
     idx_dim0_all = np.outer(np.arange(data_source.data_num_total, dtype=np.int),
                             np.ones(neighbor_number, dtype=np.int))
-
+    # Load the mask
+    mask = np.load(mask_file)
     util.save_correlation_values_and_positions(values=values_all,
                                                index_dim0=idx_dim0_all,
                                                index_dim1=idx_dim1_all,
