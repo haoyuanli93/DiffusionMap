@@ -667,7 +667,7 @@ def h5_dataloader(batch_dict, pattern_number, pattern_shape):
     """
     Use this function to load the data
     :param batch_dict: The dictionary specifying which dataset to read and how many patterns to read from each dataset.
-    :param batch_number: The number of patterns in this batch
+    :param pattern_number: The number of patterns in this batch
     :param pattern_shape: The shape of each pattern.
     :return: A numpy array containing the corresponding patterns.
     """

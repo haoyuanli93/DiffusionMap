@@ -98,7 +98,7 @@ def get_data_and_stat(batch_info, maskfile, data_num, data_shape):
     """
     # Load data
     dataset = util.h5_dataloader(batch_dict=batch_info,
-                                 batch_number=data_num,
+                                 pattern_number=data_num,
                                  pattern_shape=data_shape)
     dataset = dataset.reshape((data_num, np.prod(data_shape)))
 
