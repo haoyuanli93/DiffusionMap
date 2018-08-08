@@ -18,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/visutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="132" column="68" selection-start-line="132" selection-start-column="60" selection-end-line="132" selection-end-column="68" />
+            <state relative-caret-position="865">
+              <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -30,23 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Manifold_Browser2.ipynb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Manifold_Browser2.ipynb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Manifold_Browser2.ipynb">
           <provider selected="true" editor-type-id="ipnb-editor">
             <state>
-              <selected id="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/util.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="708">
-              <caret line="572" column="34" selection-start-line="572" selection-start-column="31" selection-end-line="572" selection-end-column="34" />
-              <folding>
-                <element signature="e#71#80#0" expanded="true" />
-              </folding>
+              <selected id="0" />
             </state>
           </provider>
         </entry>
@@ -166,8 +154,8 @@
         <option value="$PROJECT_DIR$/util.py" />
         <option value="$PROJECT_DIR$/Visualization_Example.ipynb" />
         <option value="$PROJECT_DIR$/Manifold_Browser1.ipynb" />
-        <option value="$PROJECT_DIR$/visutil.py" />
         <option value="$PROJECT_DIR$/Manifold_Browser2.ipynb" />
+        <option value="$PROJECT_DIR$/visutil.py" />
       </list>
     </option>
   </component>
@@ -180,7 +168,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
     <option name="width" value="1920" />
     <option name="height" value="1080" />
   </component>
@@ -283,7 +271,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -293,7 +281,7 @@
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32943678" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.1985294" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.196875" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -447,20 +435,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="708">
-          <caret line="572" column="34" selection-start-line="572" selection-start-column="31" selection-end-line="572" selection-end-column="34" />
+        <state relative-caret-position="100">
+          <caret line="572" column="64" lean-forward="true" selection-start-line="572" selection-start-column="64" selection-end-line="572" selection-end-column="64" />
           <folding>
             <element signature="e#71#80#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visutil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="132" column="68" selection-start-line="132" selection-start-column="60" selection-end-line="132" selection-end-column="68" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -468,7 +446,17 @@
     <entry file="file://$PROJECT_DIR$/Manifold_Browser2.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="1" />
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visutil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="865">
+          <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
