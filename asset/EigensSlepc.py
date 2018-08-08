@@ -1,4 +1,5 @@
-import time, numpy, util
+import time, numpy
+from pDiffusionMap import util
 from petsc4py import PETSc
 from slepc4py import SLEPc
 from mpi4py import MPI
@@ -8,7 +9,7 @@ try:
 except ImportError:
     raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
                     "script to get a folder \'proj_***\'. Move this folder to a desirable address and modify"
-                    "the Config.py file in the folder \'proj_***/src\' and execute DiffusionMap calculation"
+                    "the Config.py file in the folder \'proj_***/pDiffusionMap\' and execute DiffusionMap calculation"
                     "in this folder.")
 # Check if the configuration information is valid and compatible with the MPI setup
 Config.check()

@@ -34,7 +34,7 @@ Tips:
 
 import numpy as np
 
-import util
+from pDiffusionMap import util
 
 
 class DataSourceFromH5pyList:

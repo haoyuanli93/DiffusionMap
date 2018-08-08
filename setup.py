@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='pDiffusionMap',
@@ -10,7 +10,7 @@ setup(
     maintainer='Haoyuan Li',
     maintainer_email='hyli16@stanford.edu',
     license='BSD License',
-    packages=["abbr", "DataSource", "Graph", "util", "visutil"],
+    packages=["pDiffusionMap"],
     platforms=["Linux"],
     url='https://github.com/haoyuanli93/DiffusionMap',
     classifiers=[

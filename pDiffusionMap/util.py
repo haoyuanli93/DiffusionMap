@@ -1,7 +1,6 @@
 """
 This module contains functions that I don't know where to put.
 """
-import os
 import time
 import datetime
 
@@ -9,9 +8,7 @@ import h5py
 import numpy as np
 import scipy
 import scipy.sparse
-import Graph
-
-from numba import jit, int64
+from pDiffusionMap import Graph
 
 
 ##################################################################

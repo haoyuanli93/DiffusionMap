@@ -20,7 +20,7 @@ for l in range(1000):
     # Create standard folder in this project folder
     os.makedirs(project_dir + '/input')
     os.makedirs(project_dir + '/output')
-    os.makedirs(project_dir + '/src')
+    os.makedirs(project_dir + '/pDiffusionMap')
 
     # Create useful files for the user
     with open(project_dir + '/input/file_list.txt', 'w') as txtfile:
@@ -62,13 +62,16 @@ for l in range(1000):
     shutil.copyfile(src='./asset/Config.py', dst=project_dir + '/src/Config.py')
 
     # Copy the WeightMat.py file
-    shutil.copyfile(src='./WeightMat.py', dst=project_dir + '/src/WeightMat.py')
+    shutil.copyfile(src='./asset/WeightMat.py', dst=project_dir + '/src/WeightMat.py')
 
     # Copy the EigensSlepc.py file
-    shutil.copyfile(src='./EigensSlepc.py', dst=project_dir + '/src/EigensSlepc.py')
+    shutil.copyfile(src='./asset/EigensSlepc.py', dst=project_dir + '/src/EigensSlepc.py')
 
     # Copy the Manifold_Browser1.ipynb file
-    shutil.copyfile(src='./Manifold_Browser1.ipynb', dst=project_dir + '/src/Manifold_Browser1.ipynb')
+    shutil.copyfile(src='./asset/Manifold_Browser1.ipynb', dst=project_dir + '/src/Manifold_Browser1.ipynb')
+
+    # Copy the Manifold_Browser2.ipynb file
+    shutil.copyfile(src='./asset/Manifold_Browser2.ipynb', dst=project_dir + '/src/Manifold_Browser2.ipynb')
 
     # Only create one new project folder
     break

@@ -1,6 +1,5 @@
 import numpy as np
-import util
-import Graph
+from pDiffusionMap import Graph, util
 
 
 def update_nearest_neighbors(data_source, dataset_dim0, data_num,

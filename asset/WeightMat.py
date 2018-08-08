@@ -1,16 +1,14 @@
 import time
 import numpy as np
-import DataSource
-import util
+from pDiffusionMap import util, abbr, DataSource
 from mpi4py import MPI
-import abbr
 
 try:
     import Config
 except ImportError:
     raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
                     "script to get a folder \'proj_***\'. Move this folder to a desirable address and modify"
-                    "the Config.py file in the folder \'proj_***/src\' and execute DiffusionMap calculation"
+                    "the Config.py file in the folder \'proj_***/pDiffusionMap\' and execute DiffusionMap calculation"
                     "in this folder.")
 # Check if the configuration information is valid and compatible with the MPI setup
 Config.check()
