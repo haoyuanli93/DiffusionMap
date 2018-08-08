@@ -1,13 +1,9 @@
-import sys
-
-sys.path.append('This is a path_holder. Please use setup.py to initialize this value.')
-
 import time
 import numpy as np
 import DataSource
 import util
 from mpi4py import MPI
-import abbreviation
+import abbr
 
 try:
     import Config
@@ -42,11 +38,10 @@ else:
 Step One: Initialization
 """
 if comm_rank == 0:
-
     data_source = DataSource.DataSourceFromH5pyList(source_list_file=input_file_list)
 
-    tic_local = time.time()
     # Build the batches
+    tic_local = time.time()
     data_source.make_batches(batch_num_dim0=batch_num_dim0, batch_num_dim1=batch_num_dim1)
     toc_local = time.time()
     print("It takes {} seconds to construct the batches.".format(toc_local - tic_local))
@@ -55,14 +50,13 @@ else:
     data_source = None
 
 comm.Barrier()  # Synchronize
-print("Sharing the datasource and job list info.")
 data_source = comm.bcast(obj=data_source, root=0)
 print("Process {} receives the datasource."
       "There are totally {} jobs for this process.".format(comm_rank, len(data_source.batch_ends_local_dim1)))
 comm.Barrier()  # Synchronize
 
 """
-Step Two: Calculate mean and std for each diffraction pattern
+Step Two: Calculate mean and std
 """
 # Global timer
 tic = time.time()
@@ -76,42 +70,23 @@ if comm_rank != 0:
     # Construct the data for diagonal patch
     info_holder_dim0 = data_source.batch_ends_local_dim0[comm_rank - 1]
 
-    ####################################################################################################################
-    #   Calculate the diagonal term.
-    ####################################################################################################################
-    # Load data
-    dataset_dim0 = util.h5_dataloader(batch_dict=info_holder_dim0,
-                                      batch_number=data_num,
-                                      pattern_shape=data_shape)
-    dataset_dim0 = dataset_dim0.reshape((data_num, np.prod(data_shape)))
+    # Load data and calculate the mean and std
+    [dataset_dim0, data_mean_dim0,
+     data_std_dim0, bool_mask_1d, mask] = abbr.get_data_and_stat(batch_info=info_holder_dim0,
+                                                                 maskfile=mask_file,
+                                                                 data_num=data_num,
+                                                                 data_shape=data_shape)
 
-    # Load the mask
-    mask = np.load(mask_file)
-    bool_mask_1d = util.get_bool_mask_1d(mask=mask)
-    # Apply the mask to the dataset_dim0
-    dataset_dim0 = dataset_dim0[:, bool_mask_1d]
-    print("Finishes loading data.")
-
-    # Calculate the mean value of each pattern of the vector
-    data_mean_dim0 = np.mean(a=dataset_dim0, axis=-1)
-    # Calculate the standard deviation of each pattern of the vector
-    data_std_dim0 = np.std(dataset_dim0, axis=-1)
-    print("Finishes calculating the mean, the standard variation and the inner product matrix.")
-
-    ####################################################################################################################
-    #   Finish the calculation of the diagonal term. Now Clean things up
-    ####################################################################################################################
     # Create a holder for all standard variations and means
     std_all = np.empty(data_source.data_num_total, dtype=np.float64)
     mean_all = np.empty(data_source.data_num_total, dtype=np.float64)
     print("Process {} finishes the first stage.".format(comm_rank))
 
 else:
-    # Create several holders in the master node.
+    # Auxiliary variables.
     data_std_dim0 = None
     data_mean_dim0 = None
 
-comm.Barrier()  # Synchronize
 # Let the master node to gather and assemble all the norms.
 std_data = comm.gather(data_std_dim0, root=0)
 mean_data = comm.gather(data_mean_dim0, root=0)
@@ -146,13 +121,13 @@ if comm_rank != 0:
                                                                                                  batch_idx_dim1,
                                                                                                  batch_num_dim1 -
                                                                                                  batch_idx_dim1 - 1))
-        abbreviation.update_nearest_neighbors(data_source=data_source, dataset_dim0=dataset_dim0,
-                                              data_num=data_num, std_all=std_all, mean_all=mean_all,
-                                              neighbor_number=neighbor_number, data_shape=data_shape,
-                                              batch_idx_dim1=batch_idx_dim1, bool_mask_1d=bool_mask_1d,
-                                              data_std_dim0=data_std_dim0, data_mean_dim0=data_mean_dim0,
-                                              holder_size=holder_size, idx_to_keep_dim1=idx_to_keep_dim1,
-                                              val_to_keep=val_to_keep)
+        abbr.update_nearest_neighbors(data_source=data_source, dataset_dim0=dataset_dim0,
+                                      data_num=data_num, std_all=std_all, mean_all=mean_all,
+                                      neighbor_number=neighbor_number, data_shape=data_shape,
+                                      batch_idx_dim1=batch_idx_dim1, bool_mask_1d=bool_mask_1d,
+                                      data_std_dim0=data_std_dim0, data_mean_dim0=data_mean_dim0,
+                                      holder_size=holder_size, idx_to_keep_dim1=idx_to_keep_dim1,
+                                      val_to_keep=val_to_keep)
 
 else:
     # Auxiliary variables.
@@ -181,7 +156,9 @@ if comm_rank == 0:
                                                index_dim0=idx_dim0_all,
                                                index_dim1=idx_dim1_all,
                                                output_address=output_folder,
-                                               mask=mask, means=mean_all, std=std_all)
+                                               mask=mask,
+                                               means=mean_all,
+                                               std=std_all)
     # Finishes the calculation.
     toc = time.time()
     print("The total calculation time is {} seconds".format(toc - tic))

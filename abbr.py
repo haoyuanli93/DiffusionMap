@@ -85,3 +85,33 @@ def update_nearest_neighbors(data_source, dataset_dim0, data_num,
                            indexes=idx_pre_dim1,
                            holder=val_to_keep,
                            holder_size=holder_size)
+
+
+def get_data_and_stat(batch_info, maskfile, data_num, data_shape):
+    """
+    Use the batch_info to load the data along dimension 0 and calculate the mean value and standard deviation
+    of each pattern.
+    :param batch_info: The dictionary containing the info to extract pattern in this batch.
+    :param maskfile: A string containing the address of the numpy array
+    :param data_num: Number of patterns in this batch.
+    :param data_shape: Shape of each pattern
+    :return: reshaped_data_of_this_batch, data_mean, data_std, bool_mask_1d
+    """
+    # Load data
+    dataset = util.h5_dataloader(batch_dict=batch_info,
+                                 batch_number=data_num,
+                                 pattern_shape=data_shape)
+    dataset = dataset.reshape((data_num, np.prod(data_shape)))
+
+    # Load the mask
+    mask = np.load(maskfile)
+    bool_mask_1d = util.get_bool_mask_1d(mask=mask)
+    # Apply the mask to the dataset_dim0
+    dataset = dataset[:, bool_mask_1d]
+
+    # Calculate the mean value of each pattern of the vector
+    data_mean = np.mean(dataset, axis=-1)
+    # Calculate the standard deviation of each pattern of the vector
+    data_std = np.std(dataset, axis=-1)
+
+    return dataset, data_mean, data_std, bool_mask_1d, mask

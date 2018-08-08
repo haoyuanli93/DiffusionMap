@@ -1,7 +1,3 @@
-import sys
-
-sys.path.append('This is a path_holder. Please use setup.py to initialize this value.')
-
 import time, numpy, util
 from petsc4py import PETSc
 from slepc4py import SLEPc

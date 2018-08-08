@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/abbreviation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EigensSlepc.py" beforeDir="false" afterPath="$PROJECT_DIR$/EigensSlepc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Manifold_Browser1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Manifold_Browser1.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Manifold_Browser2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Manifold_Browser2.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/WeightMat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/abbreviation.py" beforeDir="false" afterPath="$PROJECT_DIR$/abbr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/visutil.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,41 +25,69 @@
       <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-36">
-              <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/util.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13604">
-              <caret line="716" column="65" selection-start-line="716" selection-start-column="65" selection-end-line="716" selection-end-column="65" />
+            <state>
               <folding>
-                <element signature="e#71#80#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="abbreviation.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/abbreviation.py">
+      <file leaf-file-name="Manifold_Browser1.ipynb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Manifold_Browser1.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="0" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Manifold_Browser2.ipynb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Manifold_Browser2.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="0" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="setup.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1653">
-              <caret line="87" selection-start-line="87" selection-end-line="87" />
+            <state relative-caret-position="550">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="718">
+              <caret line="70" column="102" lean-forward="true" selection-start-line="70" selection-start-column="102" selection-end-line="70" selection-end-column="102" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EigensSlepc.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="abbr.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/abbr.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="761">
+              <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataSource.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DataSource.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-302">
-              <caret line="189" column="32" selection-start-line="189" selection-start-column="13" selection-end-line="189" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -173,16 +200,17 @@
         <option value="$PROJECT_DIR$/Example_AMO86615.ipynb" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/Test/setup.py" />
-        <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/Visualization_Example.ipynb" />
-        <option value="$PROJECT_DIR$/Manifold_Browser1.ipynb" />
         <option value="$PROJECT_DIR$/visutil.py" />
         <option value="$PROJECT_DIR$/Manifold_Browser2.ipynb" />
-        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/asset/Config.py" />
         <option value="$PROJECT_DIR$/util.py" />
-        <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/abbreviation.py" />
+        <option value="$PROJECT_DIR$/abbr.py" />
+        <option value="$PROJECT_DIR$/WeightMat.py" />
+        <option value="$PROJECT_DIR$/EigensSlepc.py" />
+        <option value="$PROJECT_DIR$/Manifold_Browser1.ipynb" />
+        <option value="$PROJECT_DIR$/setup.py" />
       </list>
     </option>
   </component>
@@ -299,6 +327,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
@@ -310,6 +339,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.196875" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32837406" />
       <window_info anchor="right" id="SciView" order="4" />
       <window_info id="Structure" order="1" sideWeight="0.50048685" side_tool="true" weight="0.18229167" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -320,7 +350,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32911393" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -405,38 +434,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="718">
-          <caret line="70" column="108" selection-start-line="70" selection-start-column="108" selection-end-line="70" selection-end-column="108" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="86" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Visualization_Example.ipynb" />
-    <entry file="file://$PROJECT_DIR$/Manifold_Browser1.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="56" lean-forward="true" selection-start-line="13" selection-start-column="56" selection-end-line="13" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/visutil.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="998">
@@ -447,20 +445,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Manifold_Browser2.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DataSource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-302">
-          <caret line="189" column="32" selection-start-line="189" selection-start-column="13" selection-end-line="189" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/asset/Config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
@@ -468,30 +452,76 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WeightMat.py">
+    <entry file="file://$PROJECT_DIR$/DataSource.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-36">
-          <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
+        <state relative-caret-position="22">
+          <caret line="189" column="32" selection-start-line="189" selection-start-column="13" selection-end-line="189" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/abbreviation.py">
+    <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1653">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        <state relative-caret-position="849">
+          <caret line="727" selection-start-line="727" selection-end-line="727" />
+          <folding>
+            <element signature="e#71#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/abbr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="761">
+          <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util.py">
+    <entry file="file://$PROJECT_DIR$/WeightMat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13604">
-          <caret line="716" column="65" selection-start-line="716" selection-start-column="65" selection-end-line="716" selection-end-column="65" />
+        <state>
           <folding>
-            <element signature="e#71#80#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="718">
+          <caret line="70" column="102" lean-forward="true" selection-start-line="70" selection-start-column="102" selection-end-line="70" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EigensSlepc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Manifold_Browser1.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Manifold_Browser2.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
