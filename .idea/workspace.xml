@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataSource.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/DataSource.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EigensSlepc.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/EigensSlepc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/Graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Manifold_Browser1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Manifold_Browser2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/WeightMat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/abbr.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/abbr.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start_a_new_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_a_new_project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/visutil.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="setup.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+            <state relative-caret-position="330">
+              <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -48,10 +37,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="abbr.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="abbr.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
+            <state relative-caret-position="-968">
               <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -185,9 +174,9 @@
         <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/Manifold_Browser1.ipynb" />
-        <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/pDiffusionMap/abbr.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
       </list>
     </option>
   </component>
@@ -498,10 +487,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
+    <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+        <state relative-caret-position="-968">
+          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -515,13 +507,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
+    <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="330">
+          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
         </state>
       </provider>
     </entry>
