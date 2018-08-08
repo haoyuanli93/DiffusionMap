@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='pDiffusionMap',
-    version=0.2,
+    version='0.2.1',
     description=(
         'This package aims to do Diffusion Map in a parallel way. '),
     long_description=("This package calculate the diffusion map in a parallel manner."
@@ -15,6 +15,5 @@ setup(
     license='BSD License',
     packages=["pDiffusionMap"],
     platforms=["Linux"],
-    url='https://github.com/haoyuanli93/DiffusionMap',
-    classifiers=[],
+    url='https://github.com/haoyuanli93/DiffusionMap'
 )
