@@ -19,11 +19,13 @@ CONFIGURATIONS = {
     "keep_diagonal": bool(False),  # Whether to keep the diagonal terms or not.
     # The total number of nearest neighbors to calculate when one calculate the similarity matrix.
     "neighbor_number_similarity_matrix": int(50),
+    "zeros_mean_shift": True,  # shift the pattern so that the mean is 0.
+    "normalize_by_std": True,  # normalize the pattern so that the standard deviation is 1
+
 
     ###############################################################################################
     # Specify parameters to construct and solve the Laplacian matrix
     ###############################################################################################
-
     # Specify the Laplacian matrix type
     "Laplacian_matrix": str("symmetric normalized laplacian"),
     # The neighbor to use when one convert the similarity matrix into the Laplacian matrix

@@ -562,6 +562,9 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1,
     :param output_address: The output folder to save the result.
     :return: None
     """
+    # Create a time stamp
+    stamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d_%H_%M_%S')
+
     with h5py.File(output_address + "/partial_correlation_matrix.h5", 'w') as h5file:
         h5file.create_dataset('values', data=values, dtype=np.float64)
         h5file.create_dataset('index_dim0', data=index_dim0, dtype=np.int64)
@@ -571,6 +574,7 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1,
         h5file.create_dataset('means', data=means, dtype=np.float64)
         h5file.create_dataset('mask', data=mask, dtype=np.int64)
         h5file.create_dataset('std', data=std, dtype=np.float64)
+        h5file.create_dataset('time_stamp', data=stamp)
 
 
 def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau, keep_diagonal=False):
@@ -655,3 +659,69 @@ def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, confi
                               dtype=np.int64)
         h5file.create_dataset("tau", data=config["tau"], dtype=np.float64)
         h5file.create_dataset("keep_diagonal", data=config["keep_diagonal"], dtype=np.float64)
+
+
+##################################################################
+#
+#       Data Loader
+#
+##################################################################
+def h5_dataloader(batch_dict, batch_number, pattern_shape):
+    """
+    Use this function to load the data
+    :param batch_dict: The dictionary specifying which dataset to read and how many patterns to read from each dataset.
+    :param batch_number: The number of patterns in this batch
+    :param pattern_shape: The shape of each pattern.
+    :return: A numpy array containing the corresponding patterns.
+    """
+    # First, create a holder for the data
+    holder = np.empty((batch_number,) + tuple(pattern_shape), dtype=np.float64)
+    # Get a counter to remember where we are when loading the patterns
+    counter = 0
+
+    # Second, iteratively open each file and load the dataset
+    for file_name in batch_dict["files"]:
+        with h5py.File(file_name, 'r') as h5file:
+            # Get the dataset names and the range in that dataset
+            data_name_list = batch_dict[file_name]["Datasets"]
+            data_ends_list = batch_dict[file_name]["Ends"]
+
+            for data_idx in range(len(data_name_list)):
+                data_name = data_name_list[data_idx]
+
+                # Obtain a holder for this dataset
+                tmp_data_holder = h5file[file_name][data_name]
+                # Calculate the patter number
+                p_num = data_ends_list[data_idx][1] - data_ends_list[data_idx][1]
+
+                # Load the range of patterns into memory
+                holder[counter:counter + p_num] = np.array(tmp_data_holder[data_ends_list[data_idx][0]:
+                                                                           data_ends_list[data_idx][1]])
+
+                # update the counter
+                counter += p_num
+
+    return holder
+
+
+##################################################################
+#
+#       Get Bool mask
+#
+##################################################################
+
+def get_bool_mask_1d(mask):
+    """
+    Turn the numpy mask into a boolean mask.
+
+    In the numpy array, 1 represents good while 0 represents bad.
+
+    :param mask: numpy array mask.
+    :return: The 1D boolean mask
+    """
+
+    bool_mask_holder = np.ones(mask.shape, dtype=np.bool)
+    bool_mask_holder[mask > 0.5] = True
+    bool_mask_holder[mask <= 0.5] = False
+
+    return bool_mask_holder.reshape(np.prod(mask.shape))

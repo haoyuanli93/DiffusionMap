@@ -214,4 +214,6 @@ def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="a
                                           height=main_panel_width)
 
         return density << density_curve_y << density_curve_x
-    
+
+    else:
+        raise Exception("At present, the value dimension has to be either attribute or catetory.")
