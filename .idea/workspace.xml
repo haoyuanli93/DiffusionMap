@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/pDiffusionMap/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pDiffusionMap/abbr.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/abbr.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,8 +28,8 @@
       <file leaf-file-name="util.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="678" column="41" selection-start-line="678" selection-start-column="41" selection-end-line="678" selection-end-column="41" />
+            <state relative-caret-position="124">
+              <caret line="669" column="25" selection-start-line="669" selection-start-column="25" selection-end-line="669" selection-end-column="25" />
               <folding>
                 <element signature="e#71#82#0" expanded="true" />
               </folding>
@@ -37,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="abbr.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="abbr.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="42" column="48" lean-forward="true" selection-start-line="42" selection-start-column="48" selection-end-line="42" selection-end-column="48" />
+            <state relative-caret-position="506">
+              <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -49,7 +49,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pDiffusionMap/__init__.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
@@ -181,10 +181,10 @@
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/Manifold_Browser1.ipynb" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
-        <option value="$PROJECT_DIR$/pDiffusionMap/util.py" />
-        <option value="$PROJECT_DIR$/pDiffusionMap/abbr.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/pDiffusionMap/__init__.py" />
+        <option value="$PROJECT_DIR$/pDiffusionMap/util.py" />
+        <option value="$PROJECT_DIR$/pDiffusionMap/abbr.py" />
       </list>
     </option>
   </component>
@@ -494,26 +494,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="678" column="41" selection-start-line="678" selection-start-column="41" selection-end-line="678" selection-end-column="41" />
-          <folding>
-            <element signature="e#71#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="42" column="48" lean-forward="true" selection-start-line="42" selection-start-column="48" selection-end-line="42" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -521,8 +501,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="669" column="25" selection-start-line="669" selection-start-column="25" selection-end-line="669" selection-end-column="25" />
+          <folding>
+            <element signature="e#71#82#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pDiffusionMap/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pDiffusionMap/abbr.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
