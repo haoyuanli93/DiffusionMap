@@ -6,7 +6,8 @@ def update_nearest_neighbors(data_source, dataset_dim0, data_num,
                              std_all, mean_all, neighbor_number, data_shape,
                              batch_idx_dim1, bool_mask_1d, data_std_dim0,
                              data_mean_dim0, holder_size,
-                             idx_to_keep_dim1, val_to_keep):
+                             idx_to_keep_dim1, val_to_keep,
+                             zeros_mean_shift, normalize_by_std):
     """
     This is an abbreviation of the original flow for to find the nearest neighbors.
 
@@ -24,6 +25,10 @@ def update_nearest_neighbors(data_source, dataset_dim0, data_num,
     :param holder_size: The size of the following two holders.
     :param idx_to_keep_dim1: The holder for the indexes
     :param val_to_keep: The holder for the values.
+    :param zeros_mean_shift: Boolean value. Whether to shift the pattern in general so that after the shift,
+                             the mean value becomes zero
+    :param normalize_by_std: Boolean value. Whether to normalize the pattern so that after the normalization,
+                             the standard deviation becomes 1.
     :return: None
     """
     # Data number for this patch along dimension 1
@@ -49,23 +54,40 @@ def update_nearest_neighbors(data_source, dataset_dim0, data_num,
     #   Finish the calculation of a non diagonal term. Clean things up
     ################################################################################################################
 
-    # prepare some auxiliary variables for later process
-    data_std_dim1 = std_all[global_idx_start:global_idx_end]
-    data_mean_dim1 = mean_all[global_idx_start:global_idx_end]
-
     # Construct the global index for each entry along dimension 1
     aux_dim1_index = np.outer(np.ones(data_num, dtype=np.int64), np.arange(global_idx_start - neighbor_number,
                                                                            global_idx_end, dtype=np.int64))
     # Store the index for the entry from the last iteration
     aux_dim1_index[:, :neighbor_number] = idx_to_keep_dim1
 
-    # Normalize the inner product matrix
-    Graph.normalization(matrix=inner_prod_matrix,
-                        std_dim0=data_std_dim0,
-                        std_dim1=data_std_dim1,
+    # prepare some auxiliary variables for later process
+    data_std_dim1 = std_all[global_idx_start:global_idx_end]
+    data_mean_dim1 = mean_all[global_idx_start:global_idx_end]
+
+    if zeros_mean_shift:
+        if normalize_by_std:
+            # Shift and normalize the inner product matrix
+            Graph.shift_and_normalization(matrix=inner_prod_matrix,
+                                          std_dim0=data_std_dim0,
+                                          std_dim1=data_std_dim1,
+                                          mean_dim0=data_mean_dim0,
+                                          mean_dim1=data_mean_dim1,
+                                          matrix_shape=np.array([data_num, data_num_dim1]))
+        else:
+            # Shift the inner product matrix
+            Graph.shift(matrix=inner_prod_matrix,
                         mean_dim0=data_mean_dim0,
                         mean_dim1=data_mean_dim1,
                         matrix_shape=np.array([data_num, data_num_dim1]))
+    else:
+        if normalize_by_std:
+            # Normalize the inner product matrix
+            Graph.normalization(matrix=inner_prod_matrix,
+                                std_dim0=data_std_dim0,
+                                std_dim1=data_std_dim1,
+                                matrix_shape=np.array([data_num, data_num_dim1]))
+        else:
+            pass
 
     # Put previously selected values together with the new value and do the sort
     inner_prod_matrix = np.concatenate((val_to_keep, inner_prod_matrix), axis=1)

@@ -24,6 +24,8 @@ batch_num_dim1 = Config.CONFIGURATIONS["batch_num_dim1"]
 input_file_list = Config.CONFIGURATIONS["input_file_list"]
 output_folder = Config.CONFIGURATIONS["output_folder"]
 mask_file = Config.CONFIGURATIONS["mask_file"]
+zeros_mean_shift = Config.CONFIGURATIONS["zeros_mean_shift"]
+normalize_by_std = Config.CONFIGURATIONS["normalize_by_std"]
 
 if Config.CONFIGURATIONS["keep_diagonal"]:
     neighbor_number = Config.CONFIGURATIONS["neighbor_number_similarity_matrix"]
@@ -104,14 +106,14 @@ comm.Bcast(mean_all, root=0)
 comm.Barrier()  # Synchronize
 
 """
-Step Four: Calculate the sparse correlation matrix
+Step Four: Calculate the sparse weight matrix
 """
 if comm_rank != 0:
 
     # Create holders to store the largest values and the corresponding indexes of the correlation matrix
     holder_size = np.array([data_num, neighbor_number], dtype=np.int64)  # Auxiliary variable
     idx_to_keep_dim1 = np.zeros((data_num, neighbor_number), dtype=np.int64)
-    val_to_keep = -10. * np.ones((data_num, neighbor_number), dtype=np.float64)
+    val_to_keep = (-2e+100) * np.ones((data_num, neighbor_number), dtype=np.float64)
 
     #  Loop through each rows.
     for batch_idx_dim1 in range(batch_num_dim1):
@@ -125,7 +127,8 @@ if comm_rank != 0:
                                       batch_idx_dim1=batch_idx_dim1, bool_mask_1d=bool_mask_1d,
                                       data_std_dim0=data_std_dim0, data_mean_dim0=data_mean_dim0,
                                       holder_size=holder_size, idx_to_keep_dim1=idx_to_keep_dim1,
-                                      val_to_keep=val_to_keep)
+                                      val_to_keep=val_to_keep, normalize_by_std=normalize_by_std,
+                                      zeros_mean_shift=zeros_mean_shift)
 
 else:
     # Auxiliary variables.

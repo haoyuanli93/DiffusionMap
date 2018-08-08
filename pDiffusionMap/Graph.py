@@ -116,25 +116,46 @@ def symmetrized_normalized_laplacian(degree_matrix, weight_matrix):
 #
 ##################################################################
 @jit(["void(float64[:, :], float64[:], float64[:], int64[2])"], nopython=True, parallel=True)
-def scaling(matrix, scaling_dim0, scaling_dim1, matrix_shape):
+def normalization(matrix, std_dim0, std_dim1, matrix_shape):
     """
-    Scale each row in the matrix by a corresponding value in scaling_dim0.
-    Scale each col in the matrix by a corresponding value in scaling_dim1.
+    Convert the inner product matrix to Pearson correlation coefficient matrix.
+    i.e.
+    E[XY] ->  (E[XY] - E[X]E[Y])/Var(X)Var(Y)
 
     :param matrix: The matrix to scale.
-    :param scaling_dim0: Scaling factors for each row.
-    :param scaling_dim1: Scaling factors for each column.
+    :param std_dim0: standard deviation for each element along dimension 0.
+    :param std_dim1: standard deviation for each element along dimension 1.
     :param matrix_shape: The shape of the matrix
+    :return: The normalized matrix
     """
 
     for l in range(matrix_shape[0]):
-        matrix[l, :] *= scaling_dim0[l]
+        matrix[l, :] /= std_dim0[l]
+
     for m in range(matrix_shape[1]):
-        matrix[:, m] *= scaling_dim1[m]
+        matrix[:, m] /= std_dim1[m]
+
+
+@jit(["void(float64[:, :], float64[:], float64[:], int64[2])"], nopython=True, parallel=True)
+def shift(matrix, mean_dim0, mean_dim1, matrix_shape):
+    """
+    Convert the inner product matrix to Pearson correlation coefficient matrix.
+    i.e.
+    E[XY] ->  (E[XY] - E[X]E[Y])/Var(X)Var(Y)
+
+    :param matrix: The matrix to scale.
+    :param mean_dim0: mean value for each element along dimension 0.
+    :param mean_dim1: mean value for each element along dimension 1.
+    :param matrix_shape: The shape of the matrix
+    :return: The normalized matrix
+    """
+
+    for l in range(matrix_shape[0]):
+        matrix[l, :] -= mean_dim0[l] * mean_dim1
 
 
 @jit(["void(float64[:, :], float64[:], float64[:],  float64[:], float64[:], int64[2])"], nopython=True, parallel=True)
-def normalization(matrix, std_dim0, std_dim1, mean_dim0, mean_dim1, matrix_shape):
+def shift_and_normalization(matrix, std_dim0, std_dim1, mean_dim0, mean_dim1, matrix_shape):
     """
     Convert the inner product matrix to Pearson correlation coefficient matrix.
     i.e.
