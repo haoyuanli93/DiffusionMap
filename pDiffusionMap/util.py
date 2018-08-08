@@ -687,7 +687,7 @@ def h5_dataloader(batch_dict, batch_number, pattern_shape):
                 data_name = data_name_list[data_idx]
 
                 # Obtain a holder for this dataset
-                tmp_data_holder = h5file[file_name][data_name]
+                tmp_data_holder = h5file[data_name]
                 # Calculate the patter number
                 p_num = data_ends_list[data_idx][1] - data_ends_list[data_idx][1]
 

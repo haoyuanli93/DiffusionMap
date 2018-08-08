@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start_a_new_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_a_new_project.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pDiffusionMap/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,6 +25,18 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="util.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="366">
+              <caret line="689" column="40" selection-start-line="689" selection-start-column="40" selection-end-line="689" selection-end-column="40" />
+              <folding>
+                <element signature="e#71#82#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pDiffusionMap/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -39,7 +49,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="233">
@@ -119,7 +129,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/GenerateSamples.py" />
         <option value="$PROJECT_DIR$/OutPut.py" />
         <option value="$PROJECT_DIR$/DistanceMPI.py" />
         <option value="$PROJECT_DIR$/Parser.py" />
@@ -170,6 +179,7 @@
         <option value="$PROJECT_DIR$/pDiffusionMap/__init__.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/start_a_new_project.py" />
+        <option value="$PROJECT_DIR$/pDiffusionMap/util.py" />
       </list>
     </option>
   </component>
@@ -418,16 +428,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15928">
-          <caret line="724" selection-start-line="724" selection-end-line="724" />
-          <folding>
-            <element signature="e#71#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/asset/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -512,6 +512,16 @@
           <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
           <folding>
             <element signature="e#74#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="689" column="40" selection-start-line="689" selection-start-column="40" selection-end-line="689" selection-end-column="40" />
+          <folding>
+            <element signature="e#71#82#0" expanded="true" />
           </folding>
         </state>
       </provider>
