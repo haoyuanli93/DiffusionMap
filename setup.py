@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='pDiffusionMap',
-    version='0.2.2',
+    version='0.2.4',
     description=(
         'This package aims to do Diffusion Map in a parallel way. '),
     long_description=("This package calculate the diffusion map in a parallel manner.\n "

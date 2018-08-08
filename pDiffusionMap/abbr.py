@@ -36,7 +36,7 @@ def update_nearest_neighbors(data_source, dataset_dim0, data_num,
 
     # Create dask arrays based on these h5 files
     dataset_dim1 = np.reshape(util.h5_dataloader(batch_dict=info_holder_dim1,
-                                                 batch_number=batch_idx_dim1,
+                                                 pattern_number=data_num,
                                                  pattern_shape=data_shape),
                               (data_num_dim1, np.prod(data_shape)))
     # Apply the mask

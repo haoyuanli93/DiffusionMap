@@ -663,7 +663,7 @@ def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, confi
 #       Data Loader
 #
 ##################################################################
-def h5_dataloader(batch_dict, batch_number, pattern_shape):
+def h5_dataloader(batch_dict, pattern_number, pattern_shape):
     """
     Use this function to load the data
     :param batch_dict: The dictionary specifying which dataset to read and how many patterns to read from each dataset.
@@ -672,7 +672,7 @@ def h5_dataloader(batch_dict, batch_number, pattern_shape):
     :return: A numpy array containing the corresponding patterns.
     """
     # First, create a holder for the data
-    holder = np.empty((batch_number,) + tuple(pattern_shape), dtype=np.float64)
+    holder = np.empty((pattern_number,) + tuple(pattern_shape), dtype=np.float64)
     # Get a counter to remember where we are when loading the patterns
     counter = 0
 
@@ -689,7 +689,7 @@ def h5_dataloader(batch_dict, batch_number, pattern_shape):
                 # Obtain a holder for this dataset
                 tmp_data_holder = h5file[data_name]
                 # Calculate the patter number
-                p_num = data_ends_list[data_idx][1] - data_ends_list[data_idx][1]
+                p_num = data_ends_list[data_idx][1] - data_ends_list[data_idx][0]
 
                 # Load the range of patterns into memory
                 holder[counter:counter + p_num] = np.array(tmp_data_holder[data_ends_list[data_idx][0]:
