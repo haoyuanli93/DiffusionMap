@@ -4,7 +4,6 @@
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pDiffusionMap/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/visutil.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,7 +33,7 @@
         <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
           <provider selected="true" editor-type-id="ipnb-editor">
             <state>
-              <selected id="6" />
+              <selected id="7" />
             </state>
           </provider>
         </entry>
@@ -504,7 +503,7 @@
     <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="6" />
+          <selected id="7" />
         </state>
       </provider>
     </entry>
