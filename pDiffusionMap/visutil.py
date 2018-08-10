@@ -167,7 +167,11 @@ def construct_dataframe(dim0, dim1, eigensystem, correlation_matrix, attribute, 
     index = np.argsort(data_dict['y'])
     dataframe_sort_along_y = pd.DataFrame({key: data_dict[key][index] for key in list(data_dict.keys())})
 
-    return dataframe, dataframe_sort_along_x, dataframe_sort_along_y
+    data_all_coor = np.zeros((data_dict['x'].shape[0], 2))
+    data_all_coor[:, 0] = np.array(data_dict['x'])
+    data_all_coor[:, 1] = np.array(data_dict['y'])
+
+    return dataframe, dataframe_sort_along_x, dataframe_sort_along_y, data_all_coor
 
 
 def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="attribute",
@@ -185,6 +189,10 @@ def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="a
     :param side_panel_width: The width of the side panel.
     :return: The manifold and the distribution of the attribute along the two axis
     """
+
+    # Define a stream
+    select = hv.Polygons([]).options(line_width=5, line_color='green', line_alpha=1, fill_alpha=0.6)
+    path_stream = hv.streams.PolyDraw(source=select)
 
     if value_dimension in ["attribute", "category"]:
         density_x = hv.Curve(dataframex, kdims=['x', value_dimension])
@@ -213,7 +221,7 @@ def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="a
                                           width=main_panel_width,
                                           height=main_panel_width)
 
-        return density << density_curve_y << density_curve_x
+        return density * select << density_curve_y << density_curve_x, path_stream
 
     else:
         raise Exception("At present, the value dimension has to be either attribute or catetory.")
