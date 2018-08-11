@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/asset/Manifold_Browser3.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/DiffusionMap.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DiffusionMap.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_a_new_project.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_a_new_project.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,48 +17,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/DiffusionMap$DiffusionMap.coverage" NAME="DiffusionMap Coverage Results" MODIFIED="1533871918275" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/DiffusionMap$DiffusionMap.coverage" NAME="DiffusionMap Coverage Results" MODIFIED="1533938133988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WeightMat.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asset/WeightMat.py">
+      <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="81">
-              <caret line="79" column="59" selection-start-line="79" selection-start-column="59" selection-end-line="79" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Manifold_Browser2.ipynb" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="visutil.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="779">
-              <caret line="173" column="83" selection-start-line="173" selection-start-column="83" selection-end-line="173" selection-end-column="83" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Manifold_Browser1.ipynb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser1.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="12" />
+            <state relative-caret-position="722">
+              <caret line="76" column="100" selection-start-line="76" selection-start-column="100" selection-end-line="76" selection-end-column="100" />
             </state>
           </provider>
         </entry>
@@ -64,8 +35,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jupyter Notebook" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -127,7 +98,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/DistanceDaskMPI-dev.py" />
         <option value="$PROJECT_DIR$/DataSourceBK.py" />
         <option value="$PROJECT_DIR$/EigenDaskSlepcMPI.py" />
         <option value="$PROJECT_DIR$/src_backup/EigenDaskSlepcMPI-bk.py" />
@@ -168,7 +138,6 @@
         <option value="$PROJECT_DIR$/WeightMat.py" />
         <option value="$PROJECT_DIR$/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/Manifold_Browser1.ipynb" />
-        <option value="$PROJECT_DIR$/start_a_new_project.py" />
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/pDiffusionMap/__init__.py" />
         <option value="$PROJECT_DIR$/pDiffusionMap/util.py" />
@@ -178,6 +147,8 @@
         <option value="$PROJECT_DIR$/pDiffusionMap/visutil.py" />
         <option value="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" />
         <option value="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" />
+        <option value="$PROJECT_DIR$/asset/Manifold_Browser3.ipynb" />
+        <option value="$PROJECT_DIR$/start_a_new_project.py" />
       </list>
     </option>
   </component>
@@ -199,6 +170,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -216,17 +188,20 @@
               <item name="DiffusionMap" type="462c0819:PsiDirectoryNode" />
               <item name="pDiffusionMap" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="DiffusionMap" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ToolWindowEvent Log.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pysingfel" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/数学笔记/Complex Analysis" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -299,7 +274,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
@@ -308,7 +282,7 @@
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.32943678" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32943678" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.196875" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49951315" visible="true" weight="0.196875" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" />
@@ -340,7 +314,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src_backup/DataSourceBK.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DataSource-tmp.py" />
     <entry file="file://$PROJECT_DIR$/Parser.py" />
     <entry file="file://$PROJECT_DIR$/src_backup/DistanceDaskMPI-bk.py" />
@@ -409,30 +382,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="554">
           <caret line="34" selection-start-line="34" selection-end-line="34" />
-          <folding>
-            <element signature="e#1316#1334#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Manifold_Browser2.ipynb" />
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="669" column="25" selection-start-line="669" selection-start-column="25" selection-end-line="669" selection-end-column="25" />
-          <folding>
-            <element signature="e#71#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pDiffusionMap/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -447,9 +400,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1748">
           <caret line="93" selection-start-line="93" selection-end-line="93" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -457,38 +407,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="146">
           <caret line="118" column="17" selection-start-line="118" selection-start-column="4" selection-end-line="118" selection-end-column="17" />
-          <folding>
-            <element signature="e#230#248#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
-          <folding>
-            <element signature="e#74#83#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/asset/WeightMat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
+        <state relative-caret-position="1444">
           <caret line="79" column="59" selection-start-line="79" selection-start-column="59" selection-end-line="79" selection-end-column="59" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="779">
-          <caret line="173" column="83" selection-start-line="173" selection-start-column="83" selection-end-line="173" selection-end-column="83" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -504,6 +431,44 @@
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
           <selected id="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="189" column="82" selection-start-line="189" selection-start-column="82" selection-end-line="189" selection-end-column="82" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pDiffusionMap/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="669" column="25" selection-start-line="669" selection-start-column="25" selection-end-line="669" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser3.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="722">
+          <caret line="76" column="100" selection-start-line="76" selection-start-column="100" selection-end-line="76" selection-end-column="100" />
         </state>
       </provider>
     </entry>

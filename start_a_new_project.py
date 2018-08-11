@@ -73,6 +73,9 @@ for l in range(1000):
     # Copy the Manifold_Browser2.ipynb file
     shutil.copyfile(src='./asset/Manifold_Browser2.ipynb', dst=project_dir + '/src/Manifold_Browser2.ipynb')
 
+    # Copy the Manifold_Browser3.ipynb file
+    shutil.copyfile(src='./asset/Manifold_Browser3.ipynb', dst=project_dir + '/src/Manifold_Browser3.ipynb')
+
     # Only create one new project folder
     break
 
