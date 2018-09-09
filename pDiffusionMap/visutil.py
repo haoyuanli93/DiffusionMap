@@ -18,7 +18,7 @@ def assemble_patterns(data_holder, row_num, col_num, index, value_range, pattern
     :param row_num: The row number of the grid space
     :param col_num: The column number of the grid space
     :param index: The index of all the data in the selected region
-    :param range: The range of values to show a numpy array as RGB image.
+    :param value_range: The range of values to show a numpy array as RGB image.
     :param pattern_shape: The pattern shape
     :return: hv.GridSpace
     """
