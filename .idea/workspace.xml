@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/asset/Manifold_Browser2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pDiffusionMap/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/visutil.py" afterDir="false" />
-    </list>
+    <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,7 +17,7 @@
       <file leaf-file-name="start_a_new_project.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1650">
+            <state relative-caret-position="1425">
               <caret line="76" column="100" selection-start-line="76" selection-start-column="100" selection-end-line="76" selection-end-column="100" />
             </state>
           </provider>
@@ -40,7 +35,7 @@
       <file leaf-file-name="visutil.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3560">
+            <state relative-caret-position="418">
               <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -198,7 +193,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -220,6 +214,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -298,6 +293,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1874" height="1096" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
@@ -455,7 +451,7 @@
     <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser3.ipynb" />
     <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1650">
+        <state relative-caret-position="1425">
           <caret line="76" column="100" selection-start-line="76" selection-start-column="100" selection-end-line="76" selection-end-column="100" />
         </state>
       </provider>
@@ -465,7 +461,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3560">
+        <state relative-caret-position="418">
           <caret line="30" selection-start-line="30" selection-end-line="30" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -476,14 +472,14 @@
     <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="4" />
+          <selected id="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser1.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="10" />
+          <selected id="8" />
         </state>
       </provider>
     </entry>
