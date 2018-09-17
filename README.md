@@ -48,7 +48,7 @@ Attention!
 This script only avoid the same id under this repo folder. When you copy this project
 folder to your own address, you might want to track the id number more carefully.
 
-### Specify the parameters
+### 3. Specify the parameters and construct the file_list.txt and mask.npy files
 Assume that the experiment folder is `/experiment/scratch` and that 
 the username is `username`. Then one might want to move this project folder to this
 scratch folder  
@@ -63,11 +63,11 @@ One would find three folders under this folder.
     output
     src
     
-The input folder contains `file_list.txt` and `mask.npy`. One can specify which hdf5 
+The input folder contains `file_list.txt`. One can specify which hdf5 
 files to process or which datasets in which hdf5 files to process. More detailed 
-explanations are given in the `file_list.txt`. The `mask.npy` is only a test file which
-is most likely useless. You can specify your own mask file in a way which I'll explain
-immediately.
+explanations are given in the `file_list.txt`. One also need a mask file `mask.npy`.
+This mask should be of the shape as that of the experiment pattern. In this mask, 1 
+represents good pixels while 0 represents bad pixels.
 
 By default, the `output` folder contains the results from this project. You can of
 course change the output address in a way which I'll explain
@@ -84,7 +84,7 @@ There are detailed explanations in the `Config.py` file about the function of ea
 parameters. By changing the `mask_file` and `output_folder` values, you can easily 
 switch to a new mask and new output folder.
 
-### Calculate the similarity matrix.
+### 4. Calculate the similarity matrix.
 Stay in the `/experiment/scratch/username/src` folder.
 Activate my conda environment `/reg/neh/home/haoyuan/.conda/envs/mypython3`.
 This package only support python3.
@@ -95,13 +95,13 @@ conda activate /reg/neh/home/haoyuan/.conda/envs/mypython3
 bsub -q psfehq -n 48 -R"span[ptile=1]" -o %J.out mpirun python WeightMat.py
 ```
 
-### Calculate the Laplacian matrix.
+### 5. Calculate the Laplacian matrix.
 Stay in the `/experiment/scratch/username/src` folder, run
 ```bash
 bsub -q psanaq -n 8 -R"span[ptile=1]" -o %J.out mpirun python EigensSlepc.py
 ```
 
-### Visualization
+### 6. Visualization
 Stay in the `/experiment/scratch/username/src` folder. Stay in my environment.
 
 Open the jupyter notebook and have a look at the three notebooks.
