@@ -8,7 +8,7 @@ is written in python with almost standard python package dependence.
 Currently this package can handle input from hdf5 files.
 
 ## Usage
-This package is developed to use at SLAC and some other supercomputers. Since this is 
+This package is developed for SLAC and some other supercomputers. Since this is 
 only at a starting stage, I will only write down the usage of this package at the SLAC 
 psana server.
 
@@ -21,13 +21,21 @@ corresponding values of a specific sample in each eigenvectors as the embedded
 coordinate of the sample in a low dimensional space and visually inspect this 
 embedded manifold.
 
-With this package, this is finished in this following way.
+With this package, this is done in this following way.
 
-### Start a new project
+### 1. Clone this repo
+To use this package, first one should clone this repo.
+```bash
+ssh pslogin
+cd /reg/neh/home5/username/my_repo/
+git clone https://github.com/haoyuanli93/DiffusionMap.git
+```
+
+### 2. Start a new project
 This package organize each different applications with a specified project folder.
 ```bash
 ssh psana
-cd /reg/neh/home5/haoyuan/Documents/my_repo/DiffusionMap
+cd /reg/neh/home5/username/my_repo/DiffusionMap
 python start_a_new_project.py
 ```
 If is this is the first time you execute these command lines, then you would see a
@@ -42,12 +50,12 @@ folder to your own address, you might want to track the id number more carefully
 
 ### Specify the parameters
 Assume that the experiment folder is `/experiment/scratch` and that 
-the username is `hahaha`. Then one might want to move this project folder to this
+the username is `username`. Then one might want to move this project folder to this
 scratch folder  
 
 ```bash
 mv /reg/neh/home5/haoyuan/Documents/my_repo/DiffusionMap/proj_000 /experiment/scratch/hahaha/
-cd /experiment/scratch/hahaha/ 
+cd /experiment/scratch/username/ 
 ```
 One would find three folders under this folder.
 
@@ -77,35 +85,27 @@ parameters. By changing the `mask_file` and `output_folder` values, you can easi
 switch to a new mask and new output folder.
 
 ### Calculate the similarity matrix.
-Stay in the `/experiment/scratch/hahaha/src` folder.
-Activate the official conda environment `ana-1.3.54`.
-Acutally, any current `ana` environment should work.
-Also, I would recommend `ana-1.3.54-py3` since officially
-this package only support python3.
+Stay in the `/experiment/scratch/username/src` folder.
+Activate my conda environment `/reg/neh/home/haoyuan/.conda/envs/mypython3`.
+This package only support python3.
+When you have acitvated my environment for this package, run
 
 ```bash
-bsub -q psfehq -n 48 -R"span[ptile=1]" -o %J.out mpirun --mca btl ^openib python WeightMat.py
+conda activate /reg/neh/home/haoyuan/.conda/envs/mypython3
+bsub -q psfehq -n 48 -R"span[ptile=1]" -o %J.out mpirun python WeightMat.py
 ```
 
 ### Calculate the Laplacian matrix.
-Stay in the `/experiment/scratch/hahaha/src` folder.
-Activate the my personal conda environment.
-```bash
-conda activate /reg/neh/home/haoyuan/.conda/envs/mypython3
-```
-Due to a mismatch between the mpi4py in the official environment 
-and the mpi4py required by packages `slec4py` and `petsc4py`, I have 
-to use both the official environment to calculate the similarity matrix.
-
-When you have acitvated my environment for this package, run
+Stay in the `/experiment/scratch/username/src` folder, run
 ```bash
 bsub -q psanaq -n 8 -R"span[ptile=1]" -o %J.out mpirun python EigensSlepc.py
 ```
 
 ### Visualization
-Go to repo folder. Stay in my conda environment.
-Open the jupyter notebook and have a look at the `Example_AMO86615.ipynb`.
-There are detailed explanations in the notebook as to how to do the visualization.
+Stay in the `/experiment/scratch/username/src` folder. Stay in my environment.
+
+Open the jupyter notebook and have a look at the three notebooks.
+There are detailed explanations in these notebooks as to how to do the visualization.
 
 To select a small region and see several randomly sampled patterns from that
 region, use the box selection tool.
@@ -119,7 +119,6 @@ This package depends on the following packages
     python=3.6
     numpy
     hdf5
-    dask
     scipy
     mpi4py
     holoviews
@@ -133,7 +132,7 @@ This package has been tested only for python 3.6.
 There's no guarantee on the result on the other python version. 
 
 ## Installation
-This package has not been released at pip or conda yet. One has to first 
+This package has been released at pip or conda yet. Still one has to first 
 install all the dependence manually and then clone this repo. There
 are several things to notice.
 
@@ -152,11 +151,8 @@ are several things to notice.
 ## TODO
 Things to do
 
-    1. Remove the dependence with dask. I am currely using dask to control the IO.
-       when applying masks or doing some other complicated modifications, dask can
-       becomes clumsy.
-    2. Improve the visualization.
-    3. To enable the user to tune the normalization methods when constructing
+    1. Improve the visualization.
+    2. To enable the user to tune the normalization methods when constructing
        the Laplacian matrix
        
 

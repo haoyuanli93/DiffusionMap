@@ -5,7 +5,6 @@ import pandas as pd
 from holoviews.operation.datashader import datashade, rasterize
 from holoviews.operation import timeseries
 import datashader as ds
-import bokeh.palettes as bp
 import h5py
 
 
