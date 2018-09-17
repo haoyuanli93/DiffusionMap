@@ -54,7 +54,7 @@ the username is `username`. Then one might want to move this project folder to t
 scratch folder  
 
 ```bash
-mv /reg/neh/home5/haoyuan/Documents/my_repo/DiffusionMap/proj_000 /experiment/scratch/hahaha/
+mv /reg/neh/home5/username/my_repo/DiffusionMap/proj_000 /experiment/scratch/username/
 cd /experiment/scratch/username/ 
 ```
 One would find three folders under this folder.
