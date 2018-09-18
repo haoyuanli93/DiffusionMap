@@ -1,3 +1,7 @@
+# Warning
+1. Core number has to be strictly smaller than pattern number.
+2. There can not be any blankspace in the dataset list.
+
 # DiffusionMap
 
 ## Introduction
