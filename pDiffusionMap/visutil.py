@@ -1,8 +1,9 @@
 import numpy as np
 import holoviews as hv
-import matplotlib.path as mpltPath
+from holoviews import streams
+import matplotlib.path as mpath
 import pandas as pd
-from holoviews.operation.datashader import datashade, rasterize
+from holoviews.operation.datashader import rasterize
 from holoviews.operation import timeseries
 import datashader as ds
 import h5py
@@ -85,7 +86,7 @@ def save_selected_region(stream_holder, data_holder, output='./selected_index.np
     path_holder = [(x_coor[l], y_coor[l]) for l in range(len(x_coor))]
 
     # Construct the matplotlib path object
-    poly_path = mpltPath.Path(path_holder)
+    poly_path = mpath.Path(path_holder)
 
     # Use the poly_path object to find the index of the particles that are going to be saved
     decision = poly_path.contains_points(data_holder)
@@ -191,8 +192,8 @@ def construct_dataframe(dim0, dim1, eigensystem, correlation_matrix, attribute, 
     return dataframe, dataframe_sort_along_x, dataframe_sort_along_y, data_all_coor
 
 
-def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="attribute",
-                           datashade=False, main_panel_width=400, side_panel_width=200):
+def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="attribute", use_datashader=False,
+                           main_panel_width=400, side_panel_width=200):
     """
     Show the manifold with some adjoint diagrams showing the distribution of the attribute
     :param dataframe: The raw dataframe.
@@ -201,7 +202,7 @@ def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="a
     :param dataframey: The dataframe sorted along dimension y
     :param value_dimension: The dimension of data that can be used to color the manifold and show the statistical
                             properties.
-    :param datashade: Whether to use datashader or not. Boolean value
+    :param use_datashader: Whether to use datashader or not. Boolean value
     :param main_panel_width: The width of the main panel.
     :param side_panel_width: The width of the side panel.
     :return: The manifold and the distribution of the attribute along the two axis
@@ -225,7 +226,7 @@ def show_manifold_and_stat(dataframe, dataframex, dataframey, value_dimension="a
         raw_density = hv.Points(data=dataframe,
                                 kdims=["x", "y"],
                                 vdims=['attribute', 'category'])
-        if datashade:
+        if use_datashader:
             density = rasterize(raw_density,
                                 aggregator=ds.mean('attribute')).options(width=main_panel_width,
                                                                          height=main_panel_width,
