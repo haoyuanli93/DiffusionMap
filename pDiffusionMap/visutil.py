@@ -8,7 +8,7 @@ import datashader as ds
 import h5py
 
 
-def assemble_patterns(data_holder, row_num, col_num, index, value_range, pattern_shape):
+def assemble_patterns(data_holder, data_shape, row_num, col_num, index, value_range, height, width):
     """
     After the program has obtained the index of the patterns in the selected region,
     this function randomly choose several of the patterns to show in a grid-space.
@@ -18,35 +18,53 @@ def assemble_patterns(data_holder, row_num, col_num, index, value_range, pattern
     :param col_num: The column number of the grid space
     :param index: The index of all the data in the selected region
     :param value_range: The range of values to show a numpy array as RGB image.
-    :param pattern_shape: The pattern shape
+    :param data_shape: The pattern shape
+    :param height: The height of the samples in the sample panel
+    :param width: The width of the samples in the sample panel.
     :return: hv.GridSpace
     """
     index = np.array(index)
     index_num = index.shape[0]
-    if index_num >= row_num * col_num:
-        np.random.shuffle(index)
-        sampled_index = index[:row_num * col_num]
-        sampled_index = sampled_index.reshape((row_num, col_num))
 
-        image_holder = {(x, y): hv.Image(data_holder[sampled_index[x, y]]).redim.range(z=(value_range[0],
-                                                                                          value_range[1]))
-                        for x in range(row_num) for y in range(col_num)}
+    if index_num >= row_num * col_num:
+
+        # Randomly choose some index
+        np.random.shuffle(index)
+        # idxes: indexes for the chosen patterns
+        idxes = index[:row_num * col_num]
+        idxes = idxes.reshape((row_num, col_num))
+
+        # Create a holder
+        image_holder = {}
+        for x in range(row_num):
+            for y in range(col_num):
+                tmp_image = hv.Image(data_holder[idxes[x, y]]).options(height=height,
+                                                                       width=width).redim.range(z=(value_range[0],
+                                                                                                   value_range[1]))
+
+                image_holder.update({(x, y): tmp_image})
+
     else:
-        # When we do not have so many patterns, first layout
-        # all the patterns available and then fill the other
-        # positions with patterns of zeros.
+        # When we do not have so many patterns, first show all the patterns available
         index_list = [(x, y) for x in range(row_num) for y in range(col_num)]
-        image_holder = {index_list[l]: hv.Image(data_holder[index[l]]).redim.range(z=(value_range[0],
-                                                                                      value_range[1]))
-                        for l in range(index_num)}
-        image_holder.update({index_list[l]: hv.Image(np.zeros(pattern_shape,
+        image_holder = {}
+        for l in range(index_num):
+            tmp_image = hv.Image(data_holder[index[l]]).options(height=height,
+                                                                width=width
+                                                                ).redim.range(z=(value_range[0],
+                                                                                 value_range[1]))
+            image_holder.update({index_list[l]: tmp_image})
+
+        # Use blank image to fill in the other spaces
+        image_holder.update({index_list[l]: hv.Image(np.zeros(data_shape,
                                                               dtype=np.float64))
                              for l in range(index_num, row_num * col_num)})
 
     return hv.GridSpace(image_holder)
 
 
-def save_selected_region(stream_holder, data_holder, output='./selected_index.npy', return_selected_region=False):
+def save_selected_region(stream_holder, data_holder, output='./selected_index.npy',
+                         return_selected_region=False):
     """
     Use this function to parse the stream and find the index of the points contained in the specified region.
     This function also returns the index of the selected
