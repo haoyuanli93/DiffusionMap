@@ -96,7 +96,7 @@ def normalized_laplacian(degree_matrix, weight_matrix):
                             format="csr") - degree_matrix * weight_matrix
 
 
-def symmetrized_normalized_laplacian(degree_matrix, weight_matrix):
+def get_symmetric_normalized_laplacian(degree_matrix, weight_matrix):
     """
     Construct the normalized symmetric laplacian matrix.
 

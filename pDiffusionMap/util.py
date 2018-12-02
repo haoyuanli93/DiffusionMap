@@ -45,14 +45,14 @@ def parse_data_list(txt_file, file_type="h5"):
 
 def _parse_h5_data_list(txt_file):
     """
-    Exam each h5 files listed in the txt_file. It returns a dictionary contains the addresses to each
-    h5 files and the datasets to process and the pattern number of each data sets.
+    Exam each h5 files listed in the txt_file. It returns a dictionary contains the addresses to
+    each h5 files and the datasets to process and the pattern number of each data sets.
     It also checks the shape of each data set.
 
     Notice that, the order of the file is strictly the order given by the user. If the user
-    has specified the order the dataset, then the order of the dataset is strictly that specified by the user.
-    If the user has not specified the order of the dataset. The it's ordered according to lexicographical order.
-    i.e.
+    has specified the order the dataset, then the order of the dataset is strictly that specified
+    by the user. If the user has not specified the order of the dataset. The it's ordered
+    according to lexicographical order. i.e.
 
     keys = list(file.keys())
     keys = keys.sort(key = str.lower)
@@ -124,7 +124,8 @@ def _parse_h5_data_list(txt_file):
                                 "before launching this program.")
 
     file_list = dict_holder["Files"]
-    # Check if all the files are different. Because I am using the absolute path, this can be done easily
+    # Check if all the files are different.
+    # Because I am using the absolute path, this can be done easily
     if len(set(file_list)) != len(file_list):
         raise Exception("There are duplicated h5 files specified in the list." +
                         "Please make sure that all the h5 files listed in {} ".format(txt_file) +
@@ -134,7 +135,8 @@ def _parse_h5_data_list(txt_file):
     Second loop, check for user specified data sets
     """
     file_num_total = len(file_list)
-    file_pos.append(len(lines))  # To specify the range of lines to search, for the last file in the list.
+    file_pos.append(
+        len(lines))  # To specify the range of lines to search, for the last file in the list.
 
     # First check all the other files except the last one.
     for file_idx in range(file_num_total):
@@ -150,7 +152,8 @@ def _parse_h5_data_list(txt_file):
             line = lines[line_idx]
             # Check if this line begins with "Dataset:"
             if line[:8] == "Dataset:":
-                # If user specifies data sets, set this flag to zero to disable the default behavior.
+                # If user specifies data sets, set this flag
+                # to zero to disable the default behavior.
                 default_flag = 0
                 dict_holder[file_list[file_idx]]["Datasets"].append(line[8:])
 
@@ -228,8 +231,8 @@ def get_global_index_map(data_num_total,
                          dataset_num_per_file,
                          data_num_per_dataset):
     """
-    Return an array containing the map from the global index to file index, dataset index and the local
-    index for the specific pattern.
+    Return an array containing the map from the global index to file index,
+    dataset index and the local index for the specific pattern.
 
     :param data_num_total: The total number of data points.
     :param file_num: The number of files.
@@ -262,7 +265,8 @@ def get_global_index_map(data_num_total,
         global_idx_dataset_start = global_idx_file_start
         for dataset_idx in range(dataset_num_per_file[file_idx]):
             # End point of the global index for different dataset
-            global_idx_dataset_end = global_idx_dataset_start + data_num_per_dataset[file_idx][dataset_idx]
+            global_idx_dataset_end = global_idx_dataset_start + data_num_per_dataset[file_idx][
+                dataset_idx]
             # Assign the dataset index
             holder[1, global_idx_dataset_start: global_idx_dataset_end] = dataset_idx
             # Assign the local index within each dataset
@@ -305,8 +309,9 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
         The first layer is a list ----->   [
                                         " This is for the first batch"
         The second layer is a dic ----->     {
-                                              files :[ A list containing the addresses for files in this
-                                                       folder. Notice that this list has the same order
+                                              files :[ A list containing the addresses for files
+                                                       in this folder. Notice that this list has
+                                                       the same order
                                                        as that listed in the input file list.]
 
                                               file name 1:
@@ -314,7 +319,8 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
         The forth layer is a list ----->                     [A list of the dataset names],
 
                                                              Ends:
-                                                             [A list of the ends in the dataset. Each is a
+                                                             [A list of the ends in the dataset.
+                                                             Each is a
                                                               small list: [start,end]]}
                                                              ,
                                               file name 2:
@@ -322,7 +328,8 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
         The forth layer is a list ----->                     [A list of the dataset names],
 
                                                              Ends:
-                                                             [A list of the ends in the dataset. Each is a
+                                                             [A list of the ends in the dataset.
+                                                             Each is a
                                                               small list: [start,end]]}
                                                              , ... }
 
@@ -379,9 +386,11 @@ def get_batch_ends(index_map, global_index_range_list, file_list, source_dict):
                 index plus 1.
                 """
                 tmp_start = np.min(
-                    data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)])
+                    data_pos_holder[
+                        (file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)])
                 tmp_end = np.max(
-                    data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]) + 1
+                    data_pos_holder[
+                        (file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]) + 1
                 # Attach this dataset range
                 batch_ends_local[-1][file_list[file_idx]]["Ends"].append([tmp_start, tmp_end])
 
@@ -526,7 +535,8 @@ def get_sampled_pattern_batch_efficient(global_index_array, global_index_map, da
             for dataset_idx in dataset_range:
                 dataset_name = data_dict[file_name]["Datasets"][dataset_idx]
                 # Get all the pattern local index
-                local_index = data_pos_holder[(file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]
+                local_index = data_pos_holder[
+                    (file_pos_holder == file_idx) & (dataset_pos_holder == dataset_idx)]
 
                 for l in local_index:
                     pattern_holder[counter] = np.array(h5file[dataset_name][l])
@@ -550,7 +560,8 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1,
 
     :param values: The values to save. Notice that this is a 2D numpy array. Dimension 0 represent
                     the index of the sample. Dimension 1 represent the nearest neighbors. The values
-                    along each row decrease. i.e. values[i,j] >= values[i,j+1] holds for any i and j.
+                    along each row decrease. i.e. values[i,j] >= values[i,j+1] holds for any i
+                    and j.
     :param index_dim0: The index along dimension 0 for each value.
     :param index_dim1: The index along dimension 1 for each value.
     :param means: The mean value of each data pattern.
@@ -566,7 +577,8 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1,
         h5file.create_dataset('values', data=values, dtype=np.float64)
         h5file.create_dataset('index_dim0', data=index_dim0, dtype=np.int64)
         h5file.create_dataset('index_dim1', data=index_dim1, dtype=np.int64)
-        h5file.create_dataset('matrix_shape', data=np.array([values.shape[0], values.shape[0]], dtype=np.int64),
+        h5file.create_dataset('matrix_shape',
+                              data=np.array([values.shape[0], values.shape[0]], dtype=np.int64),
                               dtype=np.int64)
         h5file.create_dataset('means', data=means, dtype=np.float64)
         h5file.create_dataset('mask', data=mask, dtype=np.int64)
@@ -574,7 +586,70 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1,
         h5file.create_dataset('time_stamp', data=stamp)
 
 
-def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau, keep_diagonal=False):
+def assemble_matrix(correlation_matrix_file, neighbor_number,
+                    symmetric=True, keep_diagonal=False):
+    """
+    Assemble the matrix from data in the specified h5 file.
+    :param correlation_matrix_file:
+    :param neighbor_number:
+    :param symmetric:
+    :param keep_diagonal:
+    :return:
+    """
+    # Load the data first
+    with h5py.File(correlation_matrix_file, 'r') as h5file:
+        values = np.array(h5file['values'])[:, :neighbor_number]
+        idx_dim0 = np.array(h5file['index_dim0'])[:, :neighbor_number]
+        idx_dim1 = np.array(h5file['index_dim1'])[:, :neighbor_number]
+        matrix_shape = np.array(h5file['matrix_shape'])
+
+    # Extract some meta data
+    site_number = np.prod(values.shape)
+    values = values.reshape(site_number)
+    idx_dim0 = idx_dim0.reshape(site_number)
+    idx_dim1 = idx_dim1.reshape(site_number)
+
+    # Construct a sparse weight matrix
+    matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
+                                     shape=tuple(matrix_shape))
+
+    # Convert the weight matrix in to a Laplacian matrix
+    if symmetric:
+        # Cast the weight matrix to a symmetric format.
+        matrix_trans = matrix.transpose(copy=True)
+        matrix_sym = (matrix + matrix_trans) / 2.
+        matrix_asym = (matrix - matrix_trans) / 2.
+        np.absolute(matrix_asym.data, out=matrix_asym.data)
+        matrix_sym += matrix_asym
+        # Remove the diagonal term
+        if not keep_diagonal:
+            matrix_sym.setdiag(values=0, k=0)
+
+        # Turn into a csr sparse matrix
+        matrix_sym.tocsr()
+        return matrix_sym
+    else:
+        matrix.tocsr()
+        return matrix
+
+
+def get_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau,
+                              keep_diagonal=False ):
+    """
+        Assemble the Laplacian matrix from the weight matrix.
+
+        :param laplacian_type: The type of Laplacian matrix to construct.
+        :param correlation_matrix_file: The hdf5 file containing the information of the weight matrix.
+        :param neighbor_number: The number of neighbors to keep in the Laplacian matrix
+        :param tau: The casting parameter: correlation np.exp(correlation/tau)
+        :param keep_diagonal: Whether to keep the diagonal term.
+        :return: The csr sparse Laplacian matrix, and the shape of this matrix.
+    """
+    
+
+
+def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau,
+                              keep_diagonal=False):
     """
     Assemble the Laplacian matrix from the weight matrix.
 
@@ -588,12 +663,13 @@ def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_
 
     """
     This is a dirty trick. In previous calculation, when you have set the keep_diagonal to be false,
-    I did not through away the diagonal terms directly for some reasons. Instead, I kept it and simply
-    increase the the neighbor_number_similarity_matrix by one in the actual calculation. Therefore,
-    you would find the shape of values to be 
+    I did not through away the diagonal terms directly for some reasons. Instead, I kept it 
+    and simply increase the the neighbor_number_similarity_matrix by one in the actual calculation. 
+    Therefore, you would find the shape of values to be 
         [total data number, neighbor_number_similarity_matrix + 1]
     
-    Then when I construct the Laplacian matrix, I would simply set the diagonal values to be 0 after the casting.
+    Then when I construct the Laplacian matrix, I would simply set the diagonal values to 
+    be 0 after the casting.
     """
 
     with h5py.File(correlation_matrix_file, 'r') as h5file:
@@ -628,18 +704,21 @@ def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_
         # Calculate the degree matrix for normalization
         degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix_sym)
         # Calculate the laplacian matrix
-        csr_matrix = Graph.symmetrized_normalized_laplacian(degree_matrix=degree, weight_matrix=matrix_sym)
+        csr_matrix = Graph.get_symmetric_normalized_laplacian(degree_matrix=degree,
+                                                              weight_matrix=matrix_sym)
         csr_matrix.tocsr()
     else:
-        raise Exception("Currently, the only available Laplacian matrix type is \"symmetric normalized laplacian\".")
+        raise Exception(
+            "Currently, the only available Laplacian matrix " +
+            "type is \"symmetric normalized laplacian\".")
 
     return csr_matrix, matrix_shape
 
 
 def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, config):
     """
-    Save the eigensystem and the parameters used to obtain this result. Use a timestamp to distinguish
-    different calculations.
+    Save the eigensystem and the parameters used to obtain this result.
+    Use a timestamp to distinguish different calculations.
 
     :param eigenvectors: The obtained eigenvectors.
     :param eigenvalues: The eigenvalue for each eigenvector.
@@ -666,7 +745,8 @@ def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, confi
 def h5_dataloader(batch_dict, pattern_number, pattern_shape):
     """
     Use this function to load the data
-    :param batch_dict: The dictionary specifying which dataset to read and how many patterns to read from each dataset.
+    :param batch_dict: The dictionary specifying which dataset to read and how many
+                        patterns to read from each dataset.
     :param pattern_number: The number of patterns in this batch
     :param pattern_shape: The shape of each pattern.
     :return: A numpy array containing the corresponding patterns.
@@ -692,8 +772,9 @@ def h5_dataloader(batch_dict, pattern_number, pattern_shape):
                 p_num = data_ends_list[data_idx][1] - data_ends_list[data_idx][0]
 
                 # Load the range of patterns into memory
-                holder[counter:counter + p_num] = np.array(tmp_data_holder[data_ends_list[data_idx][0]:
-                                                                           data_ends_list[data_idx][1]])
+                holder[counter:counter + p_num] = np.array(
+                    tmp_data_holder[data_ends_list[data_idx][0]:
+                                    data_ends_list[data_idx][1]])
 
                 # update the counter
                 counter += p_num
@@ -722,3 +803,64 @@ def get_bool_mask_1d(mask):
     bool_mask_holder[mask <= 0.5] = False
 
     return bool_mask_holder.reshape(np.prod(mask.shape))
+
+
+##################################################################
+#
+#       Find the optimal sigma
+#
+##################################################################
+
+def find_sigma(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, search_num=20):
+    """
+    Search through the space to find the optimal sigma to calculate the diffusion map.
+
+    :param mat_data: The distance data.
+    :param target_value: The
+    :param log_eps_min:
+    :param log_eps_max:
+    :param search_num:
+    :return:
+    """
+    log_eps = np.linspace(log_eps_min, log_eps_max, num=search_num)
+    eps = np.exp(log_eps)
+    log_sample_distance = log_eps[1] - log_eps[0]
+
+    # This variable contains the constructed global density function
+    density = np.zeros(search_num)
+    for i, e in enumerate(eps):
+        kernel = np.exp(-np.square(mat_data) / (2 * e))  # kernel
+        density[i] = np.log(np.sum(kernel) + 1e-10)
+
+    # Normalize the curve
+    normlized_density = density - np.min(density)  # min is 0
+    normlized_density /= np.max(normlized_density)  # max is 1
+    print("$$$ density curve: ", density)
+    print("$$$ normlized_density curve: ", normlized_density)
+
+    # Calculate the quasi gradient since one needs the gradient with respect to the log sigma
+    # Rather than the numerical index.
+    quasi_gradients = np.gradient(normlized_density)
+    max_idx = np.argmax(quasi_gradients)
+
+    if max_idx < search_num - 1:
+
+        # Calculate the true gradient
+        gradient = (normlized_density[max_idx + 1] + normlized_density[max_idx - 1]
+                    - 2 * normlized_density[max_idx]) / log_sample_distance / 2
+
+        # TODO: I do not understand this formulation
+        # deltaX = deltaY/gradient + startingX
+        sigma_kernel = np.exp((target_value - normlized_density[max_idx]) / gradient
+                              + log_eps[max_idx])  # gradient is in log space
+
+        print("$$$ optimum sigma_kernel: ", sigma_kernel)
+
+    else:
+        print("Warning: Within the searching region, the program did not find the optimal sigma.")
+        print("Please increase the search region through arguments  ")
+        print("log_eps_min=-10.0, log_eps_max=10.0")
+
+        sigma_kernel = eps[max_idx]
+
+    return sigma_kernel

@@ -7,9 +7,12 @@ from mpi4py import MPI
 try:
     import Config
 except ImportError:
-    raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
-                    "script to get a folder \'proj_***\'. Move this folder to a desirable address and modify"
-                    "the Config.py file in the folder \'proj_***/pDiffusionMap\' and execute DiffusionMap calculation"
+    raise Exception("This package use Config.py file to set parameters. "
+                    "Please use the start_a_new_project.py "
+                    "script to get a folder \'proj_***\'. Move "
+                    "this folder to a desirable address and modify"
+                    "the Config.py file in the folder \'proj_***/pDiffusionMap\' and "
+                    "execute DiffusionMap calculation"
                     "in this folder.")
 # Check if the configuration information is valid and compatible with the MPI setup
 Config.check()
@@ -32,12 +35,13 @@ print("Begin loading the data", flush=True)
 tic = time.time()
 
 # Load the matrix
-csr_matrix, mat_size = util.assemble_laplacian_matrix(laplacian_type=laplacian_type,
-                                                      correlation_matrix_file=str(output_folder +
-                                                                                  "/partial_correlation_matrix.h5"),
-                                                      neighbor_number=neighbor_number,
-                                                      tau=Config.CONFIGURATIONS["tau"],
-                                                      keep_diagonal=Config.CONFIGURATIONS["keep_diagonal"])
+(csr_matrix,
+ mat_size) = util.assemble_laplacian_matrix(laplacian_type=laplacian_type,
+                                            correlation_matrix_file=str(
+                                                output_folder + "/partial_correlation_matrix.h5"),
+                                            neighbor_number=neighbor_number,
+                                            tau=Config.CONFIGURATIONS["tau"],
+                                            keep_diagonal=Config.CONFIGURATIONS["keep_diagonal"])
 comm.Barrier()  # Synchronize
 """
 Step Two: Initialize the petsc matrix
