@@ -23,6 +23,12 @@ eig_num = Config.CONFIGURATIONS["eig_num"]
 output_folder = Config.CONFIGURATIONS["output_folder"]
 laplacian_type = Config.CONFIGURATIONS['Laplacian_matrix']
 
+# Get the tau value
+if Config.CONFIGURATIONS["tau"] == "auto":
+    auto_tau = True
+else:
+    auto_tau = False
+
 # Initialize the MPI
 comm = MPI.COMM_WORLD
 comm_rank = comm.Get_rank()
@@ -34,14 +40,39 @@ Step One: Load the partial weight matrix and construct the Laplacian matrix
 print("Begin loading the data", flush=True)
 tic = time.time()
 
+# The node 0 handle all the data IO first and then pass the data to the other nodes.
+if comm_rank == 0:
+    matrix, mat_size = util.load_distance_matrix(
+        correlation_matrix_file=str(output_folder + "/partial_correlation_matrix.h5"),
+        neighbor_number=neighbor_number,
+        symmetric=True,
+        keep_diagonal=False)
+
+    # TODO: Later, I'll add these parameters to the configuration file
+    # The Node 0 calculate the optimal sigma and the matrix to solve
+    if auto_tau:
+        # Get tau
+        tau = util.find_tau(mat_data=matrix.data,
+                            target_value=0.5,
+                            log_eps_min=-10.0,
+                            log_eps_max=10.0,
+                            search_num=20)
+        # Get the laplacian matrix
+        csr_matrix = util.convert_to_laplacian_matrix(laplacian_type=laplacian_type,
+                                                      distance_matrix=matrix,
+                                                      tau=tau)
+    else:
+        # Get the laplacian matrix
+        csr_matrix = util.convert_to_laplacian_matrix(laplacian_type=laplacian_type,
+                                                      distance_matrix=matrix,
+                                                      tau=Config.CONFIGURATIONS["tau"])
+else:
+    csr_matrix = None
+    mat_size = None
+
 # Load the matrix
-(csr_matrix,
- mat_size) = util.assemble_laplacian_matrix(laplacian_type=laplacian_type,
-                                            correlation_matrix_file=str(
-                                                output_folder + "/partial_correlation_matrix.h5"),
-                                            neighbor_number=neighbor_number,
-                                            tau=Config.CONFIGURATIONS["tau"],
-                                            keep_diagonal=Config.CONFIGURATIONS["keep_diagonal"])
+csr_matrix = comm.bcast(obj=csr_matrix, root=0)
+mat_size = comm.bcast(obj=mat_size, root=0)
 comm.Barrier()  # Synchronize
 """
 Step Two: Initialize the petsc matrix

@@ -154,7 +154,8 @@ def shift(matrix, mean_dim0, mean_dim1, matrix_shape):
         matrix[l, :] -= mean_dim0[l] * mean_dim1
 
 
-@jit(["void(float64[:, :], float64[:], float64[:],  float64[:], float64[:], int64[2])"], nopython=True, parallel=True)
+@jit(["void(float64[:, :], float64[:], float64[:],  float64[:], float64[:], int64[2])"],
+     nopython=True, parallel=True)
 def shift_and_normalization(matrix, std_dim0, std_dim1, mean_dim0, mean_dim1, matrix_shape):
     """
     Convert the inner product matrix to Pearson correlation coefficient matrix.

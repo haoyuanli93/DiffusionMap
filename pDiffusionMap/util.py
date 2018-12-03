@@ -586,15 +586,15 @@ def save_correlation_values_and_positions(values, index_dim0, index_dim1,
         h5file.create_dataset('time_stamp', data=stamp)
 
 
-def assemble_matrix(correlation_matrix_file, neighbor_number,
-                    symmetric=True, keep_diagonal=False):
+def load_distance_matrix(correlation_matrix_file, neighbor_number,
+                         symmetric=True, keep_diagonal=False):
     """
     Assemble the matrix from data in the specified h5 file.
     :param correlation_matrix_file:
     :param neighbor_number:
     :param symmetric:
     :param keep_diagonal:
-    :return:
+    :return: The correlation matrix in coo sparse format.
     """
     # Load the data first
     with h5py.File(correlation_matrix_file, 'r') as h5file:
@@ -613,7 +613,7 @@ def assemble_matrix(correlation_matrix_file, neighbor_number,
     matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
                                      shape=tuple(matrix_shape))
 
-    # Convert the weight matrix in to a Laplacian matrix
+    # Depending on the parameter, decide whether to symmetrize the matrix or not.
     if symmetric:
         # Cast the weight matrix to a symmetric format.
         matrix_trans = matrix.transpose(copy=True)
@@ -625,94 +625,41 @@ def assemble_matrix(correlation_matrix_file, neighbor_number,
         if not keep_diagonal:
             matrix_sym.setdiag(values=0, k=0)
 
-        # Turn into a csr sparse matrix
-        matrix_sym.tocsr()
-        return matrix_sym
+        return matrix_sym, matrix_shape
     else:
-        matrix.tocsr()
-        return matrix
+        return matrix, matrix_shape
 
 
-def get_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau,
-                              keep_diagonal=False ):
-    """
-        Assemble the Laplacian matrix from the weight matrix.
-
-        :param laplacian_type: The type of Laplacian matrix to construct.
-        :param correlation_matrix_file: The hdf5 file containing the information of the weight matrix.
-        :param neighbor_number: The number of neighbors to keep in the Laplacian matrix
-        :param tau: The casting parameter: correlation np.exp(correlation/tau)
-        :param keep_diagonal: Whether to keep the diagonal term.
-        :return: The csr sparse Laplacian matrix, and the shape of this matrix.
-    """
-    
-
-
-def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau,
-                              keep_diagonal=False):
+def convert_to_laplacian_matrix(laplacian_type,
+                                distance_matrix,
+                                tau):
     """
     Assemble the Laplacian matrix from the weight matrix.
 
     :param laplacian_type: The type of Laplacian matrix to construct.
-    :param correlation_matrix_file: The hdf5 file containing the information of the weight matrix.
-    :param neighbor_number: The number of neighbors to keep in the Laplacian matrix
+    :param distance_matrix: a coo sparse matrix from which the laplacian matrix
+                            is constructed
     :param tau: The casting parameter: correlation np.exp(correlation/tau)
-    :param keep_diagonal: Whether to keep the diagonal term.
     :return: The csr sparse Laplacian matrix, and the shape of this matrix.
     """
-
-    """
-    This is a dirty trick. In previous calculation, when you have set the keep_diagonal to be false,
-    I did not through away the diagonal terms directly for some reasons. Instead, I kept it 
-    and simply increase the the neighbor_number_similarity_matrix by one in the actual calculation. 
-    Therefore, you would find the shape of values to be 
-        [total data number, neighbor_number_similarity_matrix + 1]
-    
-    Then when I construct the Laplacian matrix, I would simply set the diagonal values to 
-    be 0 after the casting.
-    """
-
-    with h5py.File(correlation_matrix_file, 'r') as h5file:
-        values = np.array(h5file['values'])[:, :neighbor_number]
-        idx_dim0 = np.array(h5file['index_dim0'])[:, :neighbor_number]
-        idx_dim1 = np.array(h5file['index_dim1'])[:, :neighbor_number]
-        matrix_shape = np.array(h5file['matrix_shape'])
-
-    site_number = np.prod(values.shape)
-    values = values.reshape(site_number)
-    idx_dim0 = idx_dim0.reshape(site_number)
-    idx_dim1 = idx_dim1.reshape(site_number)
-
-    # Cast the values to positive
-    np.exp(values / tau, out=values)
-
-    # Construct a sparse weight matrix
-    matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
-                                     shape=tuple(matrix_shape))
-
-    # Convert the weight matrix in to a Laplacian matrix
     if laplacian_type == "symmetric normalized laplacian":
-        # Cast the weight matrix to a symmetric format.
-        matrix_trans = matrix.transpose(copy=True)
-        matrix_sym = (matrix + matrix_trans) / 2.
-        matrix_asym = (matrix - matrix_trans) / 2.
-        np.absolute(matrix_asym.data, out=matrix_asym.data)
-        matrix_sym += matrix_asym
-        # Remove the diagonal term
-        if not keep_diagonal:
-            matrix_sym.setdiag(values=0, k=0)
-        # Calculate the degree matrix for normalization
-        degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix_sym)
+
+        # Add the exponential to get connection matrix
+        np.exp(-distance_matrix.data / tau, out=distance_matrix.data)
+
+        # Get the degree matrix
+        degree = Graph.inverse_sqrt_degree_mat(weight_matrix=distance_matrix)
+
         # Calculate the laplacian matrix
         csr_matrix = Graph.get_symmetric_normalized_laplacian(degree_matrix=degree,
-                                                              weight_matrix=matrix_sym)
+                                                              weight_matrix=distance_matrix)
         csr_matrix.tocsr()
     else:
         raise Exception(
             "Currently, the only available Laplacian matrix " +
             "type is \"symmetric normalized laplacian\".")
 
-    return csr_matrix, matrix_shape
+    return csr_matrix
 
 
 def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, config):
@@ -807,13 +754,13 @@ def get_bool_mask_1d(mask):
 
 ##################################################################
 #
-#       Find the optimal sigma
+#       Find the optimal tau
 #
 ##################################################################
 
-def find_sigma(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, search_num=20):
+def find_tau(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, search_num=20):
     """
-    Search through the space to find the optimal sigma to calculate the diffusion map.
+    Search through the space to find the optimal tau to calculate the diffusion map.
 
     :param mat_data: The distance data.
     :param target_value: The
@@ -838,7 +785,7 @@ def find_sigma(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, 
     print("$$$ density curve: ", density)
     print("$$$ normlized_density curve: ", normlized_density)
 
-    # Calculate the quasi gradient since one needs the gradient with respect to the log sigma
+    # Calculate the quasi gradient since one needs the gradient with respect to the log tau
     # Rather than the numerical index.
     quasi_gradients = np.gradient(normlized_density)
     max_idx = np.argmax(quasi_gradients)
@@ -851,16 +798,131 @@ def find_sigma(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, 
 
         # TODO: I do not understand this formulation
         # deltaX = deltaY/gradient + startingX
-        sigma_kernel = np.exp((target_value - normlized_density[max_idx]) / gradient
-                              + log_eps[max_idx])  # gradient is in log space
+        tau_kernel = np.exp((target_value - normlized_density[max_idx]) / gradient
+                            + log_eps[max_idx])  # gradient is in log space
 
-        print("$$$ optimum sigma_kernel: ", sigma_kernel)
+        print("$$$ optimum tau_kernel: ", tau_kernel)
 
     else:
-        print("Warning: Within the searching region, the program did not find the optimal sigma.")
+        print("Warning: Within the searching region, the program did not find the optimal tau.")
         print("Please increase the search region through arguments  ")
         print("log_eps_min=-10.0, log_eps_max=10.0")
 
-        sigma_kernel = eps[max_idx]
+        tau_kernel = eps[max_idx]
 
-    return sigma_kernel
+    return tau_kernel
+
+
+##################################################################
+#
+#       Obselete functions
+#
+# These functions are abandoned
+#
+##################################################################
+
+
+def assemble_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau,
+                              keep_diagonal=False):
+    """
+    Assemble the Laplacian matrix from the weight matrix.
+
+    :param laplacian_type: The type of Laplacian matrix to construct.
+    :param correlation_matrix_file: The hdf5 file containing the information of the weight matrix.
+    :param neighbor_number: The number of neighbors to keep in the Laplacian matrix
+    :param tau: The casting parameter: correlation np.exp(correlation/tau)
+    :param keep_diagonal: Whether to keep the diagonal term.
+    :return: The csr sparse Laplacian matrix, and the shape of this matrix.
+    """
+
+    """
+    This is a dirty trick. In previous calculation, when you have set the keep_diagonal to be false,
+    I did not through away the diagonal terms directly for some reasons. Instead, I kept it 
+    and simply increase the the neighbor_number_similarity_matrix by one in the actual calculation. 
+    Therefore, you would find the shape of values to be 
+        [total data number, neighbor_number_similarity_matrix + 1]
+
+    Then when I construct the Laplacian matrix, I would simply set the diagonal values to 
+    be 0 after the casting.
+    """
+
+    with h5py.File(correlation_matrix_file, 'r') as h5file:
+        values = np.array(h5file['values'])[:, :neighbor_number]
+        idx_dim0 = np.array(h5file['index_dim0'])[:, :neighbor_number]
+        idx_dim1 = np.array(h5file['index_dim1'])[:, :neighbor_number]
+        matrix_shape = np.array(h5file['matrix_shape'])
+
+    site_number = np.prod(values.shape)
+    values = values.reshape(site_number)
+    idx_dim0 = idx_dim0.reshape(site_number)
+    idx_dim1 = idx_dim1.reshape(site_number)
+
+    # Cast the values to positive
+    np.exp(values / tau, out=values)
+
+    # Construct a sparse weight matrix
+    matrix = scipy.sparse.coo_matrix((values, (idx_dim0, idx_dim1)),
+                                     shape=tuple(matrix_shape))
+
+    # Convert the weight matrix in to a Laplacian matrix
+    if laplacian_type == "symmetric normalized laplacian":
+        # Cast the weight matrix to a symmetric format.
+        matrix_trans = matrix.transpose(copy=True)
+        matrix_sym = (matrix + matrix_trans) / 2.
+        matrix_asym = (matrix - matrix_trans) / 2.
+        np.absolute(matrix_asym.data, out=matrix_asym.data)
+        matrix_sym += matrix_asym
+        # Remove the diagonal term
+        if not keep_diagonal:
+            matrix_sym.setdiag(values=0, k=0)
+        # Calculate the degree matrix for normalization
+        degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix_sym)
+        # Calculate the laplacian matrix
+        csr_matrix = Graph.get_symmetric_normalized_laplacian(degree_matrix=degree,
+                                                              weight_matrix=matrix_sym)
+        csr_matrix.tocsr()
+    else:
+        raise Exception(
+            "Currently, the only available Laplacian matrix " +
+            "type is \"symmetric normalized laplacian\".")
+
+    return csr_matrix, matrix_shape
+
+
+def get_laplacian_matrix(laplacian_type, correlation_matrix_file, neighbor_number, tau,
+                         keep_diagonal=False):
+    """
+    Assemble the Laplacian matrix from the weight matrix.
+
+    :param laplacian_type: The type of Laplacian matrix to construct.
+    :param correlation_matrix_file: The hdf5 file containing the information of the weight matrix.
+    :param neighbor_number: The number of neighbors to keep in the Laplacian matrix
+    :param tau: The casting parameter: correlation np.exp(correlation/tau)
+    :param keep_diagonal: Whether to keep the diagonal term.
+    :return: The csr sparse Laplacian matrix, and the shape of this matrix.
+    """
+
+    if laplacian_type == "symmetric normalized laplacian":
+
+        # Get the correlation matrix
+        matrix, matrix_shape = load_distance_matrix(correlation_matrix_file=correlation_matrix_file,
+                                                    neighbor_number=neighbor_number,
+                                                    symmetric=True,
+                                                    keep_diagonal=keep_diagonal)
+        # Add the exponential function
+        np.exp(- matrix.data / tau, out=matrix.data)
+
+        # Get the degree matrix
+        degree = Graph.inverse_sqrt_degree_mat(weight_matrix=matrix)
+
+        # Calculate the laplacian matrix
+        csr_matrix = Graph.get_symmetric_normalized_laplacian(degree_matrix=degree,
+                                                              weight_matrix=matrix)
+        csr_matrix.tocsr()
+
+    else:
+        raise Exception(
+            "Currently, the only available Laplacian matrix " +
+            "type is \"symmetric normalized laplacian\".")
+
+    return csr_matrix, matrix_shape

@@ -6,9 +6,12 @@ from mpi4py import MPI
 try:
     import Config
 except ImportError:
-    raise Exception("This package use Config.py file to set parameters. Please use the start_a_new_project.py "
-                    "script to get a folder \'proj_***\'. Move this folder to a desirable address and modify"
-                    "the Config.py file in the folder \'proj_***/pDiffusionMap\' and execute DiffusionMap calculation"
+    raise Exception("This package use Config.py file to set parameters. "
+                    "Please use the start_a_new_project.py "
+                    "script to get a folder \'proj_***\'. Move this folder"
+                    " to a desirable address and modify"
+                    "the Config.py file in the folder \'proj_***/pDiffusionMap\' "
+                    "and execute DiffusionMap calculation"
                     "in this folder.")
 # Check if the configuration information is valid and compatible with the MPI setup
 Config.check()
@@ -30,7 +33,8 @@ normalize_by_std = Config.CONFIGURATIONS["normalize_by_std"]
 if Config.CONFIGURATIONS["keep_diagonal"]:
     neighbor_number = Config.CONFIGURATIONS["neighbor_number_similarity_matrix"]
 else:
-    # If one does not want to keep the diagonal value, then just calculate for one more value and then
+    # If one does not want to keep the diagonal value,
+    # then just calculate for one more value and then
     # remove the diagonal value.
     neighbor_number = Config.CONFIGURATIONS["neighbor_number_similarity_matrix"] + 1
 
@@ -52,7 +56,8 @@ else:
 comm.Barrier()  # Synchronize
 data_source = comm.bcast(obj=data_source, root=0)
 print("Process {} receives the datasource."
-      "There are totally {} jobs for this process.".format(comm_rank, len(data_source.batch_ends_local_dim1)))
+      "There are totally {} jobs for this process.".format(comm_rank,
+                                                           len(data_source.batch_ends_local_dim1)))
 comm.Barrier()  # Synchronize
 
 """
@@ -110,17 +115,18 @@ Step Four: Calculate the sparse weight matrix
 """
 if comm_rank != 0:
 
-    # Create holders to store the largest values and the corresponding indexes of the correlation matrix
+    # Create holders to store the largest values and the
+    #  corresponding indexes of the correlation matrix
     holder_size = np.array([data_num, neighbor_number], dtype=np.int64)  # Auxiliary variable
     idx_to_keep_dim1 = np.zeros((data_num, neighbor_number), dtype=np.int64)
     val_to_keep = (-2e+100) * np.ones((data_num, neighbor_number), dtype=np.float64)
 
     #  Loop through each rows.
     for batch_idx_dim1 in range(batch_num_dim1):
-        print("Node {} begins to process batch {}. There are {} more batches to process.".format(comm_rank,
-                                                                                                 batch_idx_dim1,
-                                                                                                 batch_num_dim1 -
-                                                                                                 batch_idx_dim1 - 1))
+        print("Node {} begins to process batch {}.".format(comm_rank, batch_idx_dim1, ) +
+              " There are {} more batches to process.".format(batch_num_dim1 -
+                                                              batch_idx_dim1 - 1))
+
         abbr.update_nearest_neighbors(data_source=data_source, dataset_dim0=dataset_dim0,
                                       data_num=data_num, std_all=std_all, mean_all=mean_all,
                                       neighbor_number=neighbor_number, data_shape=data_shape,
