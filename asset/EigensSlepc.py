@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("/reg/neh/home/haoyuan/Documents/my_repos/DiffusionMap")
 
 import time, numpy
@@ -53,22 +54,23 @@ if comm_rank == 0:
 
     # TODO: Later, I'll add these parameters to the configuration file
     # The Node 0 calculate the optimal sigma and the matrix to solve
+
+    # Get tau
     if auto_tau:
-        # Get tau
         tau = util.find_tau(mat_data=matrix.data,
                             target_value=0.5,
                             log_eps_min=-10.0,
                             log_eps_max=10.0,
                             search_num=20)
-        # Get the laplacian matrix
-        csr_matrix = util.convert_to_laplacian_matrix(laplacian_type=laplacian_type,
-                                                      distance_matrix=matrix,
-                                                      tau=tau)
+
     else:
-        # Get the laplacian matrix
-        csr_matrix = util.convert_to_laplacian_matrix(laplacian_type=laplacian_type,
-                                                      distance_matrix=matrix,
-                                                      tau=Config.CONFIGURATIONS["tau"])
+        tau = float(Config.CONFIGURATIONS["tau"])
+
+    # Get the laplacian matrix
+    csr_matrix = util.convert_to_laplacian_matrix(laplacian_type=laplacian_type,
+                                                  distance_matrix=matrix,
+                                                  tau=tau)
+
 else:
     csr_matrix = None
     mat_size = None
@@ -171,6 +173,7 @@ if comm_rank == 0:
     # Save the result
     util.save_eigensystem_and_calculation_parameters(eigenvalues=vals,
                                                      eigenvectors=eigenvectors,
+                                                     tau=tau,
                                                      config=Config.CONFIGURATIONS)
 
     # Finishes everything.

@@ -662,7 +662,7 @@ def convert_to_laplacian_matrix(laplacian_type,
     return csr_matrix
 
 
-def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, config):
+def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, tau, config):
     """
     Save the eigensystem and the parameters used to obtain this result.
     Use a timestamp to distinguish different calculations.
@@ -670,6 +670,7 @@ def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, confi
     :param eigenvectors: The obtained eigenvectors.
     :param eigenvalues: The eigenvalue for each eigenvector.
     :param config: The configuration dictionary.
+    :param tau: The calculated sigma value
     :return: None
     """
     # Create a time stamp
@@ -680,7 +681,7 @@ def save_eigensystem_and_calculation_parameters(eigenvectors, eigenvalues, confi
         h5file.create_dataset("eigenvectors", data=eigenvectors, dtype=np.float64)
         h5file.create_dataset("neighbor_number", data=config["neighbor_number_Laplacian_matrix"],
                               dtype=np.int64)
-        h5file.create_dataset("tau", data=config["tau"], dtype=np.float64)
+        h5file.create_dataset("tau", data=tau, dtype=np.float64)
         h5file.create_dataset("keep_diagonal", data=config["keep_diagonal"], dtype=np.float64)
 
 
