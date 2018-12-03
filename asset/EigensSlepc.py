@@ -61,7 +61,7 @@ if comm_rank == 0:
                             target_value=0.5,
                             log_eps_min=-10.0,
                             log_eps_max=10.0,
-                            search_num=20)
+                            search_num=200)
 
     else:
         tau = float(Config.CONFIGURATIONS["tau"])
