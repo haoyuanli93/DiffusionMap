@@ -777,7 +777,7 @@ def find_tau(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, se
     # This variable contains the constructed global density function
     density = np.zeros(search_num)
     for i, e in enumerate(eps):
-        kernel = np.exp(-np.square(mat_data) / (2 * e))  # kernel
+        kernel = np.exp(-mat_data / e)  # kernel
         density[i] = np.log(np.sum(kernel) + 1e-10)
 
     # Normalize the curve
@@ -804,7 +804,7 @@ def find_tau(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, se
                             + log_eps[max_idx])  # gradient is in log space
         """
         tau_kernel = eps[max_idx]
-        
+
         print("The optimum tau_kernel: ", tau_kernel)
 
     else:
