@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/reg/neh/home/haoyuan/Documents/my_repos/DiffusionMap")
+
 import time, numpy
 from pDiffusionMap import util
 from petsc4py import PETSc

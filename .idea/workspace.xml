@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/asset/EigensSlepc.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/EigensSlepc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/asset/WeightMat.py" beforeDir="false" afterPath="$PROJECT_DIR$/asset/WeightMat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pDiffusionMap/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/Graph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pDiffusionMap/util.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/util.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,22 +24,22 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="2827" />
+          <entry key="py" value="2864" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="2827" />
+          <entry key="Python" value="2864" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="3" />
+          <entry key="py" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="3" />
+          <entry key="Python" value="4" />
         </counts>
       </usages-collector>
     </session>
@@ -73,20 +70,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/asset/EigensSlepc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="22">
+              <caret line="1" column="17" lean-forward="true" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pDiffusionMap/DataSource.py">
+        <entry file="file://$PROJECT_DIR$/asset/WeightMat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4047">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
+            <state relative-caret-position="506">
+              <caret line="56" column="49" lean-forward="true" selection-start-line="56" selection-end-line="56" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -109,24 +103,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="3630">
               <caret line="167" column="68" lean-forward="true" selection-start-line="167" selection-start-column="68" selection-end-line="167" selection-end-column="68" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="11" column="99" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="99" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -556,13 +532,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asset/WeightMat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pDiffusionMap/DataSource.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4047">
@@ -581,13 +550,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/asset/WeightMat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="56" column="49" lean-forward="true" selection-start-line="56" selection-end-line="56" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/asset/EigensSlepc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="22">
+          <caret line="1" column="17" lean-forward="true" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
         </state>
       </provider>
     </entry>

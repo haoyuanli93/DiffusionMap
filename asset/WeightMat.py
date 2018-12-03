@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/reg/neh/home/haoyuan/Documents/my_repos/DiffusionMap")
+
 import time
 import numpy as np
 from pDiffusionMap import util, abbr, DataSource
