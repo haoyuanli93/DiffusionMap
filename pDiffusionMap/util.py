@@ -793,6 +793,7 @@ def find_tau(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, se
 
     if max_idx < search_num - 1:
 
+        """
         # Calculate the true gradient
         gradient = (normlized_density[max_idx + 1] + normlized_density[max_idx - 1]
                     - 2 * normlized_density[max_idx]) / log_sample_distance / 2
@@ -801,8 +802,10 @@ def find_tau(mat_data, target_value=0.5, log_eps_min=-10.0, log_eps_max=10.0, se
         # deltaX = deltaY/gradient + startingX
         tau_kernel = np.exp((target_value - normlized_density[max_idx]) / gradient
                             + log_eps[max_idx])  # gradient is in log space
-
-        print("$$$ optimum tau_kernel: ", tau_kernel)
+        """
+        tau_kernel = eps[max_idx]
+        
+        print("The optimum tau_kernel: ", tau_kernel)
 
     else:
         print("Warning: Within the searching region, the program did not find the optimal tau.")
