@@ -15,7 +15,8 @@ except ImportError:
                     "Please use the start_a_new_project.py "
                     "script to get a folder \'proj_***\'. Move "
                     "this folder to a desirable address and modify"
-                    "the Config.py file in the folder \'proj_***/pDiffusionMap\' and "
+                    "the Config.py file in"
+                    " the folder \'proj_***/pDiffusionMap\' and "
                     "execute DiffusionMap calculation"
                     "in this folder.")
 # Check if the configuration information is valid and compatible with the MPI setup
@@ -44,10 +45,12 @@ Step One: Load the partial weight matrix and construct the Laplacian matrix
 print("Begin loading the data", flush=True)
 tic = time.time()
 
-# The node 0 handle all the data IO first and then pass the data to the other nodes.
+# The node 0 handle all the data IO first and
+# then pass the data to the other nodes.
 if comm_rank == 0:
     matrix, mat_size = util.load_distance_matrix(
-        correlation_matrix_file=str(output_folder + "/partial_correlation_matrix.h5"),
+        correlation_matrix_file=str(output_folder +
+                                    "/partial_correlation_matrix.h5"),
         neighbor_number=neighbor_number,
         symmetric=True,
         keep_diagonal=False)
@@ -140,7 +143,8 @@ Print("Stopping condition: tol=%.4g, maxit=%d" % (tol, maxit))
 nconv = E.getConverged()
 Print("Number of converged eigenpairs: %d" % nconv)
 if not (nconv > 0):
-    raise Exception(" The weight matrix is too singular, no converged eigen-pair is obtained.")
+    raise Exception(" The weight matrix is too singular, "
+                    "no converged eigen-pair is obtained.")
 
 # Show the error and collect the eigen-pairs
 Print("")
