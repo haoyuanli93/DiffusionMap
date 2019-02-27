@@ -12,15 +12,15 @@ CONFIGURATIONS = {
     # Specify parameters to calculate the similarity matrix
     ###############################################################################################
 
-    "batch_num_dim1": int(40),  # Batch number along dimension 1
+    "batch_num_dim1": int(1),  # Batch number along dimension 1
     "input_file_list": str("../input/file_list.txt"),  # The txt file containing the h5 files to process
     "mask_file": str("../input/mask.npy"),  # The txt file containing the h5 files to process
     "output_folder": str("../output/"),  # The output folder to store the output
     "keep_diagonal": bool(False),  # Whether to keep the diagonal terms or not.
     # The total number of nearest neighbors to calculate when one calculate the similarity matrix.
-    "neighbor_number_similarity_matrix": int(50),
-    "zeros_mean_shift": False,  # shift the pattern so that the mean is 0.
-    "normalize_by_std": False,  # normalize the pattern so that the standard deviation is 1
+    "neighbor_number_similarity_matrix": int(1000),
+    "zeros_mean_shift": True,  # shift the pattern so that the mean is 0.
+    "normalize_by_std": True,  # normalize the pattern so that the standard deviation is 1
 
 
     ###############################################################################################
@@ -29,7 +29,7 @@ CONFIGURATIONS = {
     # Specify the Laplacian matrix type
     "Laplacian_matrix": str("symmetric normalized laplacian"),
     # The neighbor to use when one convert the similarity matrix into the Laplacian matrix
-    "neighbor_number_Laplacian_matrix": int(50),
+    "neighbor_number_Laplacian_matrix": int(1000),
     "eig_num": int(10),  # The number of (eigenvector, eigenvalue) pairs to compute.
 
     # tau: The similarity matrix in the program is essentially the Pearson correlation coefficient
