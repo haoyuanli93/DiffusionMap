@@ -85,8 +85,8 @@ for l in range(1000):
     # Copy the example_array.npy file
     shutil.copyfile(src='./asset/example_array.npy', dst=project_dir + '/input/example_array.npy')
     
-    # Copy the example_mask.npy file
-    shutil.copyfile(src='./asset/example_mask.npy', dst=project_dir + '/input/example_mask.npy')
+    # Copy the mask.npy file
+    shutil.copyfile(src='./asset/mask.npy', dst=project_dir + '/input/mask.npy')
     
     # Only create one new project folder
     break
