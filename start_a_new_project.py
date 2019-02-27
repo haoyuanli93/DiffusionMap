@@ -76,6 +76,18 @@ for l in range(1000):
     # Copy the Manifold_Browser3.ipynb file
     shutil.copyfile(src='./asset/Manifold_Browser3.ipynb', dst=project_dir + '/src/Manifold_Browser3.ipynb')
 
+    ###################################################
+    #  For example
+    ###################################################
+    # Copy the create_example_data.py file
+    shutil.copyfile(src='./asset/create_example_data.py', dst=project_dir + '/src/create_example_data.py')
+    
+    # Copy the example_array.npy file
+    shutil.copyfile(src='./asset/example_array.npy', dst=project_dir + '/input/example_array.npy')
+    
+    # Copy the example_mask.npy file
+    shutil.copyfile(src='./asset/example_mask.npy', dst=project_dir + '/input/example_mask.npy')
+    
     # Only create one new project folder
     break
 
