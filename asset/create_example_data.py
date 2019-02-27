@@ -48,12 +48,12 @@ final_sample = shift_to_center(final_sample_holder)
 # Generate random angles
 random_angles = np.random.rand(file_num * batch_num * 100) * 72
 for l in range(5):
-    random_angles[l * file_num * batch_num:(l + 1) * file_num * batch_num] += 72 * l
+    random_angles[l * 20 * file_num * batch_num:(l + 1) * 20 * file_num * batch_num] += 72 * l
 
 # Generate a category array
 category_array = np.zeros_like(random_angles)
 for l in range(5):
-    category_array[l * file_num * batch_num:(l + 1) * file_num * batch_num] = l
+    category_array[l * 20 * file_num * batch_num:(l + 1) * 20 * file_num * batch_num] = l
 
 np.save("../input/examples_angles.npy", arr=random_angles)
 np.save("../input/examples_category.npy", arr=category_array)
