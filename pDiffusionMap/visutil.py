@@ -356,7 +356,13 @@ def assemble_patterns(data_holder, data_shape, row_num, col_num, index,
 
         # Use blank image to fill in the other spaces
         image_holder.update({index_list[l]: hv.Image(np.zeros(data_shape,
-                                                              dtype=np.float64))
-                             for l in range(index_num, row_num * col_num)})
+                                                              dtype=np.float64)).options(
+            height=height,
+            width=width
+            ).redim.range(
+            z=(value_range[0],
+               value_range[1]))
+
+            for l in range(index_num, row_num * col_num)})
 
     return hv.GridSpace(image_holder)

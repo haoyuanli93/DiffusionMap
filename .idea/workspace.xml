@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="96488464-02ab-4891-9078-76b01b7abe2e" name="Default" comment="change value range">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pDiffusionMap/visutil.py" beforeDir="false" afterPath="$PROJECT_DIR$/pDiffusionMap/visutil.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,20 +46,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="67">
-              <caret line="235" column="70" selection-start-line="235" selection-start-column="56" selection-end-line="235" selection-end-column="70" />
+            <state relative-caret-position="462">
+              <caret line="357" column="8" lean-forward="true" selection-start-line="357" selection-start-column="8" selection-end-line="364" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser1.ipynb">
           <provider selected="true" editor-type-id="ipnb-editor">
             <state>
-              <selected id="6" />
+              <selected id="10" />
             </state>
           </provider>
         </entry>
@@ -228,10 +232,10 @@
         <option value="$PROJECT_DIR$/pDiffusionMap/Graph.py" />
         <option value="$PROJECT_DIR$/asset/WeightMat.py" />
         <option value="$PROJECT_DIR$/pDiffusionMap/util.py" />
-        <option value="$PROJECT_DIR$/pDiffusionMap/visutil.py" />
         <option value="$PROJECT_DIR$/asset/EigensSlepc.py" />
         <option value="$PROJECT_DIR$/asset/create_example_data.py" />
         <option value="$PROJECT_DIR$/asset/Config.py" />
+        <option value="$PROJECT_DIR$/pDiffusionMap/visutil.py" />
       </list>
     </option>
   </component>
@@ -333,7 +337,7 @@
       <option name="presentableId" value="Default" />
       <updated>1525121618857</updated>
       <workItem from="1551240832944" duration="2776000" />
-      <workItem from="1551288233922" duration="4183000" />
+      <workItem from="1551288233922" duration="5910000" />
     </task>
     <task id="LOCAL-00001" summary="Finishes local test.">
       <created>1525233758382</created>
@@ -356,11 +360,32 @@
       <option name="project" value="LOCAL" />
       <updated>1551292421061</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="change value range">
+      <created>1551293030352</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1551293030352</updated>
+    </task>
+    <task id="LOCAL-00005" summary="change value range">
+      <created>1551293083051</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1551293083051</updated>
+    </task>
+    <task id="LOCAL-00006" summary="change value range">
+      <created>1551293763257</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1551293763257</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6959000" />
+    <option name="totallyTimeSpent" value="8686000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1488" height="878" extended-state="6" />
@@ -515,31 +540,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser3.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/start_a_new_project.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1650">
           <caret line="76" column="100" selection-start-line="76" selection-start-column="100" selection-end-line="76" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="235" column="70" selection-start-line="235" selection-start-column="56" selection-end-line="235" selection-end-column="70" />
         </state>
       </provider>
     </entry>
@@ -571,10 +575,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser2.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser3.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/asset/Manifold_Browser1.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
-          <selected id="6" />
+          <selected id="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pDiffusionMap/visutil.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="357" column="8" lean-forward="true" selection-start-line="357" selection-start-column="8" selection-end-line="364" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
