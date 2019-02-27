@@ -46,9 +46,7 @@ final_sample = shift_to_center(final_sample_holder)
 # Create the rotated image and save them to the corresponding h5 file
 
 # Generate random angles
-random_angles = np.random.rand(file_num * batch_num * 100) * 72
-for l in range(5):
-    random_angles[l * 20 * file_num * batch_num:(l + 1) * 20 * file_num * batch_num] += 72 * l
+random_angles = np.linspace(start=0, stop=355, num=file_num * batch_num * 100, endpoint=True)
 
 # Generate a category array
 category_array = np.zeros_like(random_angles)

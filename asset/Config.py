@@ -19,8 +19,8 @@ CONFIGURATIONS = {
     "keep_diagonal": bool(False),  # Whether to keep the diagonal terms or not.
     # The total number of nearest neighbors to calculate when one calculate the similarity matrix.
     "neighbor_number_similarity_matrix": int(50),
-    "zeros_mean_shift": True,  # shift the pattern so that the mean is 0.
-    "normalize_by_std": True,  # normalize the pattern so that the standard deviation is 1
+    "zeros_mean_shift": False,  # shift the pattern so that the mean is 0.
+    "normalize_by_std": False,  # normalize the pattern so that the standard deviation is 1
 
 
     ###############################################################################################
